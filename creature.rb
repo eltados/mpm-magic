@@ -1,6 +1,6 @@
 class Creature
 
-  attr_accessor :name, :owner, :tapped, :blocked, :cost, :strength, :toughness, :dmg, :attack_bonus
+  attr_accessor :name, :owner, :img,:tapped, :blocked, :cost, :strength, :toughness, :dmg, :attack_bonus
 
   DEFAULTS = {
      dmg:  0,
@@ -69,6 +69,14 @@ class Creature
 
   def attack!
     tap!
+  end
+
+  def self.gob
+    Creature.new( name: "Gob" , strength: 2 , toughness: 2 )
+  end
+
+  def self.elf
+     Creature.new( name: "Elf" , strength: 1 , toughness: 1 )
   end
 
 end

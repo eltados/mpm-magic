@@ -1,0 +1,33 @@
+<% creature = locals[:creature] %>
+<div class="creature tapped" style="background-image: url('<%= creature.img %>');">
+  <div class="name"><%= creature.name %></div>
+  <div class="health"><%= creature.attack %>/<%= creature.health %></div>
+</div>
+<style>
+  .creature{
+    background-color: lightblue;
+    width:100px;
+    height:80px;
+    border:1px solid black;
+    border-radius: 15px;
+    display:inline-block;
+  }
+
+  .creature .name{
+      background-color:#black;
+      top:0px;
+      border-bottom:1px solid black;
+      text-align:center;
+      font-weight:bold;
+  }
+  .creature .health{
+      color:green;
+      font-size:55px;
+      top:0px;
+      text-align:center;
+      font-weight:bold;
+  }
+  .tapped{
+    transform: rotate(90deg);
+  }
+</style>

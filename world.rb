@@ -1,9 +1,10 @@
 class World
 
-    attr_accessor :p1, :p2
+    attr_accessor :p1, :p2, :turn
     def initialize(p1 , p2)
       @p1 = p1
       @p2 = p2
+      @turn = Turn.new
     end
 
 
@@ -12,16 +13,6 @@ class World
       @p2.clean!
     end
 
-    def render
-"""
-#{@p1.render}
-
-#{'='* 80}
-
-
-#{@p2.render.to_s.split("\n").reverse.join("\n")}
-"""
-    end
 
 
 

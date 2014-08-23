@@ -1,0 +1,29 @@
+<a href="/next">Next</a>
+<a href="/end">End</a>
+
+<%= erb :_turn ,  locals: {turn: @@world.turn }%>
+
+<%= erb :_player, locals: {player: @@world.p1 }%>
+<hr/>
+
+<% @@world.p1.creatures.each  do |creature| %>
+  <%= erb :_creature, locals: {creature: creature }%>
+<% end %>
+
+<hr/>
+<br/>
+<br/>
+<br/>
+<hr/>
+
+<%= erb :_player, locals: {player: @@world.p2 }%>
+<hr/>
+
+<% @@world.p2.creatures.each  do |creature| %>
+  <%= erb :_creature, locals: {creature: creature }%>
+<% end %>
+
+
+<%= h @@world.p1.deck.draw! %>
+<hr/>
+<%= h @@world.p1.deck.cards.map &:to_s %>

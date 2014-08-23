@@ -1,9 +1,16 @@
+require_relative 'deck'
+require_relative 'hand'
+require_relative 'graveyard'
+
 class Player
-  attr_accessor :name, :health , :creatures
+  attr_accessor :name, :health , :creatures, :deck, :hand, :graveyard
 
   DEFAULTS = {
      name:  "Player",
      health: 20,
+     deck: Deck.new,
+     hand: Hand.new,
+     graveyard: Graveyard.new
   }
 
   def initialize(options={})

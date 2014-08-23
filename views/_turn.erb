@@ -1,0 +1,31 @@
+<% turn = locals[:turn] %>
+<div class="turn">
+  <div class="phase"><%= turn.phase %></div>
+  <div class="number"><%= turn.number %></div>
+</div>
+<style>
+  .turn{
+    background-color:red;
+    width:120px;
+    height:100px;
+    border:1px solid black;
+    border-radius: 15px;
+    display:inline-block;
+  }
+
+  .turn .phase{
+      background-color:#black;
+      top:0px;
+      border-bottom:1px solid black;
+      text-align:center;
+      font-weight:bold;
+  }
+  .turn .number{
+      color:green;
+      font-size:55px;
+      top:0px;
+      border-bottom:1px solid black;
+      text-align:center;
+      font-weight:bold;
+  }
+</style>
