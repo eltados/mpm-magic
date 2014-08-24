@@ -3,20 +3,20 @@ require_relative 'hand'
 require_relative 'graveyard'
 
 class Player
-  attr_accessor :name, :health , :creatures, :deck, :hand, :graveyard
+  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard
 
   DEFAULTS = {
      name:  "Player",
      health: 20,
      deck: Deck.new,
      hand: Hand.new,
-     graveyard: Graveyard.new
+     graveyard: Graveyard.new,
   }
 
   def initialize(options={})
     options = DEFAULTS.merge(options)
     options.each {|k,v| send("#{k}=",v)}
-    @creatures = []
+    @permanents = []
   end
 
   def alive?
@@ -29,7 +29,7 @@ class Player
 
   def summon!(creature)
     creature.owner = self
-    @creatures << creature
+    @permanents << creature
   end
 
   def attack!(player)
@@ -37,31 +37,31 @@ class Player
   end
 
 
+  def draw!
+    raise 'No More Card to Draw'   if deck.size ==0
+    hand << deck.draw!
+  end
+
+  def play!(card)
+    hand.cards.delete card
+    permanents << card
+  end
+
+
   def clean!
-    clean_dead_creatures!
-    @creatures.each do |c|
+    clean_dead_permanents!
+    @permanents.each do |c|
       c.reset!
     end
   end
 
-  def clean_dead_creatures!
-    dead_creatures = []
-    @creatures.each do |c|
-      dead_creatures << c if c.dead?
+  def clean_dead_permanents!
+    dead_permanents = []
+    @permanents.each do |c|
+      dead_permanents << c if c.dead?
     end
-    @creatures -=  dead_creatures
+    @permanents -=  dead_permanents
   end
 
-  def to_s
-    "#{name}#{'*' if dead?} [#{health}]"
-  end
-
-  def render
-"""
-#{to_s}
-#{'-'* 80}
-#{creatures.map(&:render ).join "\n"}
-"""
-  end
 
 end

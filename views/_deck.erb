@@ -1,0 +1,12 @@
+<% deck = locals[:deck] %>
+<% if deck.size >= 2 %>
+<div class="deck">
+<% end %>
+  <div class="deck">
+        <div class="back" >&nbsp;</div>
+        <div class="size" ><%= deck.cards.size %></div>
+      </div>
+  </div>
+<% if deck.size >= 2 %>
+</div>
+<% end %>

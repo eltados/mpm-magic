@@ -1,12 +1,45 @@
+
 <a href="/next">Next</a>
 <a href="/end">End</a>
+<a href="/draw">Draw</a>
 
-<%= erb :_turn ,  locals: {turn: @@world.turn }%>
+<%= erb :_turn ,  locals: {turn: @world.turn }%>
 
-<%= erb :_player, locals: {player: @@world.p1 }%>
+<%= erb :_player, locals: {player: @world.p1 }%>
 <hr/>
 
-<% @@world.p1.creatures.each  do |creature| %>
+<div id="kingdom">
+  <% @world.p1.permanents.each  do |card| %>
+    <a href="/toggle/<%= card.to_param %>">
+      <%= erb :_creature, locals: {creature: card }%>
+    </a>
+  <% end %>
+</div>
+
+
+<div id="deck">
+  <a href="/draw">
+    <%= erb :_deck, locals: {deck: @world.p1.deck }%>
+  </a>
+</div>
+
+<div id="hand">
+<%= erb :_hand, locals: {hand: @world.p1.hand }%>
+</div>
+
+
+
+<% if false %>
+
+
+<hr/>
+
+
+
+
+
+
+<% @world.p1.creatures.each  do |creature| %>
   <%= erb :_creature, locals: {creature: creature }%>
 <% end %>
 
@@ -16,14 +49,16 @@
 <br/>
 <hr/>
 
-<%= erb :_player, locals: {player: @@world.p2 }%>
+<%= erb :_player, locals: {player: @world.p2 }%>
 <hr/>
 
-<% @@world.p2.creatures.each  do |creature| %>
+<% @world.p2.creatures.each  do |creature| %>
   <%= erb :_creature, locals: {creature: creature }%>
 <% end %>
 
 
-<%= h @@world.p1.deck.draw! %>
+<%= h @world.p1.deck.draw! %>
 <hr/>
-<%= h @@world.p1.deck.cards.map &:to_s %>
+<%= h @world.p1.deck.cards.map &:to_s %>
+
+<% end %>
