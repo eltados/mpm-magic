@@ -26,7 +26,8 @@
   -moz-transform:rotate(90deg);
   -o-transform:rotate(90deg);
   -webkit-transform:rotate(90deg);
-  perspective
+  margin-right:16px !important  ;
+  margin-left:16px !important  ;
 }
 
 
