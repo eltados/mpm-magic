@@ -1,7 +1,15 @@
 <html>
 <head>
+ <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="master.css">
+</head>
+<script>
+  var es = new EventSource('/comet');
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="master.css">
+  es.onmessage = function(e) {
+    window.location.href = window.location.href;
+  }
+
+</script>
     <%= yield %>
 </html>
