@@ -36,6 +36,8 @@ class World
 
       mat.deck.suffle!
 
+      7.times do mat.draw! end
+
       world
     end
 
