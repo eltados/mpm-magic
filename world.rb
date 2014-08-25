@@ -7,6 +7,9 @@ class World
       @turn = Turn.new
     end
 
+    def current_player
+      @p1
+    end
 
     def clean!
       @p1.clean!

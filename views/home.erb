@@ -3,16 +3,12 @@
 <a href="/end">End</a>
 <a href="/draw">Draw</a>
 
-<%= erb :_turn ,  locals: {turn: @world.turn }%>
-
 <%= erb :_player, locals: {player: @world.p1 }%>
 <hr/>
 
 <div id="kingdom">
   <% @world.p1.permanents.each  do |card| %>
-    <a href="/toggle/<%= card.to_param %>">
-      <%= erb :_creature, locals: {creature: card }%>
-    </a>
+      <%= erb :_creature, locals: {creature: card , action: "toggle"}%>
   <% end %>
 </div>
 
@@ -24,41 +20,9 @@
 </div>
 
 <div id="hand">
-<%= erb :_hand, locals: {hand: @world.p1.hand }%>
+  <%= erb :_hand, locals: {hand: @world.p1.hand, action: @world.turn.phase.action }%>
 </div>
 
-
-
-<% if false %>
-
-
-<hr/>
-
-
-
-
-
-
-<% @world.p1.creatures.each  do |creature| %>
-  <%= erb :_creature, locals: {creature: creature }%>
-<% end %>
-
-<hr/>
-<br/>
-<br/>
-<br/>
-<hr/>
-
-<%= erb :_player, locals: {player: @world.p2 }%>
-<hr/>
-
-<% @world.p2.creatures.each  do |creature| %>
-  <%= erb :_creature, locals: {creature: creature }%>
-<% end %>
-
-
-<%= h @world.p1.deck.draw! %>
-<hr/>
-<%= h @world.p1.deck.cards.map &:to_s %>
-
-<% end %>
+<div id="turn">
+  <%= erb :_turn, locals: {turn: @world.turn }%>
+</div>

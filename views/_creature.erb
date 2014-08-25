@@ -1,4 +1,10 @@
 <% creature = locals[:creature] %>
+<% action = locals[:action] %>
+<% if action %>
+  <a title='<%= "#{action} #{creature.name}"%>'
+     href="/<%= "#{action}/#{creature.to_param}" %>">
+<% end %>
+
 <div class="card <%= 'tapped' if creature.tapped?  %>  ">
   <div class="header">
     <% if creature.cost %>
@@ -8,14 +14,12 @@
   </div>
 
   <div class="image" style="background-image: url('<%= creature.img %>');">&nbsp;</div>
-<!--
-  <div class="header">
-    <div class="type"><%= creature.type %></div>
-  </div>
 
-  <div class="text">&nbsp;</div>
--->
   <div class="characteristics">
     <span class="attack"><%= creature.attack %></span>/<span class="health"><%= creature.health %></span>
   </div>
 </div>
+
+<% if action %>
+  </a>
+<% end %>

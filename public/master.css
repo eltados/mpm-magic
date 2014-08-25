@@ -187,6 +187,11 @@
   color:#CCC;
 }
 
+.phase .selected {
+  font-size:18px;
+  font-weight:bolder;
+}
+
 #hand{
     position:absolute;
     bottom:0;
@@ -207,6 +212,16 @@
     overflow-x: hidden;
 }
 
+#turn{
+  position:absolute;
+  bottom:0;
+  right:0;
+  padding:5px;
+  width:20%;
+  height:150px;
+  overflow-x: hidden;
+  background:red;
+}
 
 #kingdom{
     border-bottom: 1px solid black;
@@ -221,7 +236,22 @@
 
 }
 
+#next a{
+  color:#DDD;
+}
+#next{
+  font-size:30px;
+  background-color:green;
+  border: 2px solid #DDD;
+  padding:4px;
+  border-radius: 15px;
+  display:inline-block;
+}
+
 body{
   margin:0;
   background-image:url('star.jpg');
+}
+a{
+  text-decoration:none;
 }

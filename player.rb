@@ -47,6 +47,10 @@ class Player
     permanents << card
   end
 
+  def discard!(card)
+    hand.cards.delete card
+    graveyard << card
+  end
 
   def clean!
     clean_dead_permanents!

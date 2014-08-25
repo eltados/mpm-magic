@@ -9,7 +9,6 @@ require_relative 'player'
 require_relative 'world'
 require_relative 'battle'
 require_relative 'turn'
-require_relative 'phase'
 require_relative 'deck'
 
 set :bind, '0.0.0.0'
@@ -41,7 +40,7 @@ get "/reset" do
 end
 
 get "/end" do
-  @@world.turn.end!
+  @@world.turn.end_turn!
   redirect "/"
 end
 
@@ -61,5 +60,11 @@ end
 get "/play/:card_id" do
   card  = Card.find(params[:card_id])
   @@world.p1.play! card
+  redirect "/"
+end
+
+get "/discard/:card_id" do
+  card  = Card.find(params[:card_id])
+  @@world.p1.discard! card
   redirect "/"
 end

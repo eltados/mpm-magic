@@ -1,8 +1,6 @@
 <% hand = locals[:hand] %>
 <div class="hand">
   <% hand.cards.each  do |card| %>
-    <a href="/play/<%= card.to_param %>">
-      <%= erb :_creature, locals: {creature: card }%>
-    </a>
+    <%= erb :_creature, locals: {creature: card , action: locals[:action]  }%>
   <% end %>
 </div>
