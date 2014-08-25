@@ -5,6 +5,7 @@ class Unkeep < Phase
   end
 
   def execute
+    $world.current_player.unkeep!
     $world.current_player.permanents.map &:unkeep!
   end
 

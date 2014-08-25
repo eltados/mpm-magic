@@ -7,8 +7,13 @@
 <hr/>
 
 <div id="kingdom">
-  <% @world.p1.permanents.each  do |card| %>
-      <%= erb :_creature, locals: {creature: card }%>
+  <% @world.current_player.creatures.each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
+  <% end %>
+  <br>
+  <br>
+  <% @world.current_player.lands.sort_by(&:name).each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
   <% end %>
 </div>
 
@@ -20,7 +25,7 @@
 </div>
 
 <div id="hand">
-  <%= erb :_hand, locals: {hand: @world.p1.hand, action: @world.turn.phase.action }%>
+  <%= erb :_hand, locals: {hand: @world.p1.hand }%>
 </div>
 
 <div id="turn">

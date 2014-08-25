@@ -1,10 +1,11 @@
 require_relative 'deck'
 require_relative 'hand'
 require_relative 'graveyard'
+require_relative 'mana_pool'
 require_relative 'abilities/summoning_sickness'
 
 class Player
-  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard
+  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard, :mana_pool, :flags
 
   DEFAULTS = {
      name:  "Player",
@@ -18,6 +19,8 @@ class Player
     @deck = Deck.new
     @hand = Hand.new
     @graveyard =  Graveyard.new
+    @mana_pool =  ManaPool.new(self)
+    @flags =  {}
   end
 
   def alive?
@@ -51,6 +54,12 @@ class Player
     card.play!
   end
 
+
+  def unkeep!
+    @flags = {}
+    @mana_pool.reset!
+  end
+
   def discard!(card)
     hand.cards.delete card
     graveyard << card
@@ -71,5 +80,13 @@ class Player
     @permanents -=  dead_permanents
   end
 
+  def lands
+    permanents.select do |card| card.is_a? Land end
+  end
+
+
+  def creatures
+    permanents.select do |card| card.is_a? Creature end
+  end
 
 end

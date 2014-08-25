@@ -117,16 +117,17 @@
 }
 
 .card .header .cost{
-  background-color:blue;
+  background-color:#333;
   border:1px solid black;
   border-radius: 12px;
   padding:0px;
   min-width:15px;
   font-weight:bold;
-  top:0px;
-  right:0px;
+  top:2px;
+  right:2px;
   text-align:center;
   position: absolute;
+color:white;
 }
 
 .card .characteristics{
@@ -148,8 +149,20 @@
   border:1px solid black;
   border-radius: 5px;
   padding:0px;
-  bottom:3px;
-  left:3px;
+  font-weight:bold;
+  position: absolute;
+  color:white;
+  bottom:23px;
+  right:3px;
+}
+
+.card .actions{
+  background-color:#CCC;
+  border:1px solid black;
+  border-radius: 5px;
+  padding:0px;
+bottom:3px;
+left:3px;
   font-weight:bold;
   position: absolute;
   color:white;
@@ -167,7 +180,7 @@
   height:120px;
   margin-top : 3px;
   margin-bottom :2px;
-  background-size: 115px 120px;
+  background-size: 115px 140px;
   border-radius: 5px;
 }
 
@@ -244,7 +257,7 @@
     position:absolute;
     bottom:171px;
     width:100%;
-    height:170px;
+    height:400px;
     text-align:center;
     overflow-x: hidden;
     background-image:url('battleground.jpg');
@@ -252,11 +265,17 @@
 
 }
 
-#next a{
+#next{
+  position:absolute;
+  right:0px;
+  bottom:0px;
+}
+
+.button a{
   color:#DDD;
 }
 
-#next{
+.button{
   font-size:30px;
   background-color:green;
   border: 2px solid #DDD;
@@ -264,8 +283,6 @@
   border-radius: 15px;
   display:inline-block;
   position:absolute;
-  right:0px;
-  bottom:0px;
   margin : 3px;
 }
 

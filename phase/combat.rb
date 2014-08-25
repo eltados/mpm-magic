@@ -8,4 +8,8 @@ class Combat < Phase
   def execute
   end
 
+  def auto
+    $world.current_player.creatures.select { |c| c.can? (Attack) }.size == 0
+  end
+
 end

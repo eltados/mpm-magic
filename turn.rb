@@ -9,7 +9,7 @@ require_relative 'phase/combat'
 
 class Turn
   attr_accessor :current_phase, :number
-  @@phases = [ Untap.new , Unkeep.new, Draw.new , Pre.new , Combat.new, Post.new , Discard.new]
+  @@phases = [ Untap.new , Unkeep.new, Draw.new , Pre.new , Combat.new, Post.new , DiscardPhase.new]
 
 
   def initialize
@@ -18,13 +18,11 @@ class Turn
   end
 
   def next!
+    return false if !phase.can_pass_to_next?
     @current_phase += 1
     end_turn! if @current_phase >= @@phases.size
-    execute_phase
-  end
-
-  def execute_phase
     phase.execute
+    next! if phase.auto
   end
 
   def self.phases

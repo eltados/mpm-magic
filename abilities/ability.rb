@@ -6,23 +6,8 @@ class Ability
     nil
   end
 
-  def passive?
-    true
-  end
-
   def permanent?
     true
-  end
-
-  def activable?
-    !passive? && @owner.in_play? && !(@owner.has_ability?(SummoningSickness))
-  end
-
-  def activate!
-    @owner.tap!
-  end
-
-  def play!
   end
 
   def to_param
@@ -33,5 +18,12 @@ class Ability
     ObjectSpace._id2ref(id.to_i)
   end
 
+
+  def play!
+  end
+
+  def card
+    @owner
+  end
 
 end

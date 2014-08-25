@@ -1,5 +1,7 @@
 require_relative 'turn'
-class World 
+require_relative 'lands/mountain'
+require_relative 'lands/forest'
+class World
 
     attr_accessor :p1, :p2, :turn
     def initialize(p1 , p2)
@@ -22,6 +24,15 @@ class World
       olive = Player.new( name:"Olivier", health:16)
 
       world = World.new(mat,olive)
+
+      20.times do
+        mat.deck << Mountain.new
+      end
+
+      20.times do
+        mat.deck << Forest.new
+      end
+
 
       20.times do
         mat.deck << Creature.gob

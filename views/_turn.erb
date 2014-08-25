@@ -1,6 +1,6 @@
 <% turn = locals[:turn] %>
 
-<div id="next" >
+<div id="next" class="button" >
   <% if turn.phase.can_pass_to_next? %>
   <a href="/next" accesskey="n">
   Next
@@ -9,6 +9,8 @@
     <%= turn.phase.cannot_pass_to_next_because %>
   <% end %>
 </div>
+
+
   <ul class="phase">
   <% Turn.phases.each do |phase| %>
     <li class="<%= 'selected' if phase == turn.phase %>" ><%= phase %></li>

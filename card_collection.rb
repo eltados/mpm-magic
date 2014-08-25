@@ -17,6 +17,10 @@ class CardCollection
     @cards.size
   end
 
+  def include? card
+    @cards.include? card
+  end
+
   def <<(card)
     @cards << card
   end

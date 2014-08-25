@@ -1,4 +1,4 @@
-class Discard < Phase
+class DiscardPhase < Phase
 
   def initialize(options={})
     @name = "Discard"
@@ -10,7 +10,7 @@ class Discard < Phase
   end
 
   def cannot_pass_to_next_because
-    "You have too many cards. Please discard a card." if $world.current_player.hand.size > 7
+    "You have too many cards. Please discard a card." if $world.current_player.hand.size >= 8
   end
 
 end

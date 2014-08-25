@@ -1,6 +1,6 @@
 <% hand = locals[:hand] %>
 <div class="hand">
-  <% hand.cards.each  do |card| %>
-    <%= erb :_creature, locals: {creature: card , action: locals[:action]  }%>
+  <% hand.cards.sort_by(&:cost).each  do |card| %>
+    <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>

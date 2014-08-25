@@ -1,5 +1,6 @@
 require_relative 'ability'
-class Heal < Ability
+require_relative '../actions/heal'
+class HealAbility < Ability
 
   def initialize
     @name = "Heal"
@@ -7,17 +8,8 @@ class Heal < Ability
     @description ="Tap : Gain 1 PV"
   end
 
-  def activable?
-    super && @owner.tapped? == false
-  end
-
-  def activate!
-    super
-    @owner.owner.health += 1
-  end
-
-  def passive?
-    false
+  def play!
+    card.add_action Heal.new
   end
 
 

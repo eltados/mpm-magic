@@ -8,4 +8,8 @@ class Pre < Phase
   def execute
   end
 
+  def auto
+    false
+  end
+
 end

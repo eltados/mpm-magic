@@ -65,9 +65,9 @@ class App <  Sinatra::Application
     redirect "/"
   end
 
-  get "/discard/:card_id" do
-    card  = Card.find(params[:card_id])
-    $world.p1.discard! card
+  get "/action/:action_id" do
+    action  = Action.find(params[:action_id])
+    action.execute!
     redirect "/"
   end
 
@@ -75,6 +75,21 @@ class App <  Sinatra::Application
     ability = Ability.find(params[:ability_id])
     ability.activate!
     redirect "/"
+  end
+
+
+  get "/attack_all" do
+    $world.current_player.creatures.select { |c| c.can? Attack}.each do |creature|
+      creature.execute! Attack
+    end
+      redirect "/"
+  end
+
+  get "/undo_attack" do
+    $world.current_player.creatures.select { |c| c.can? Attack}.each do |creature|
+      creature.execute! Attack
+    end
+      redirect "/"
   end
 end
 

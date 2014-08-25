@@ -1,0 +1,28 @@
+<% card = locals[:card] %>
+
+<div class="card <%= 'tapped' if card.tapped? %>  ">
+  <div class="header">
+    <% if !card.is_a? Land %>
+      <div class="cost"><%= card.cost %></div>
+    <% end %>
+    <div class="name"><%= card.name %></div>
+  </div>
+
+  <div class="image" style="background-image: url('<%= card.img %>');">&nbsp;</div>
+<% if card.is_a? Creature %>
+  <div class="characteristics">
+    <span class="attack"><%= card.attack %></span>/<span class="health"><%= card.health %></span>
+  </div>
+<div class="abilities">
+  <% card.abilities.each do |ability| %>
+    <%= erb :_ability, locals: {ability: ability }%>
+  <% end %>
+</div>
+<% end %>
+
+<div class="actions">
+  <% card.actions.each do |action| %>
+    <%= erb :_action, locals: {action: action }%>
+  <% end %>
+</div>
+</div>

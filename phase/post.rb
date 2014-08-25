@@ -8,4 +8,8 @@ class Post < Phase
   def execute
   end
 
+  def auto
+    false
+  end
+
 end
