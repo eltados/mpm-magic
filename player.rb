@@ -1,5 +1,7 @@
 require_relative 'deck'
 require_relative 'hand'
+require_relative 'actions/play'
+require_relative 'lands/land'
 require_relative 'graveyard'
 require_relative 'mana_pool'
 require_relative 'abilities/summoning_sickness'
@@ -87,6 +89,26 @@ class Player
 
   def creatures
     permanents.select do |card| card.is_a? Creature end
+  end
+
+
+  def attack_all!
+    creatures.select { |c| c.can? Attack}.each do |creature|
+      creature.execute! Attack
+    end
+  end
+
+  def auto_play!
+    land = $world.current_player.hand.cards.find {|c| c.is_a?(Land) && c.can?(Play) }
+    return land.execute!(Play) if land
+
+    creature = $world.current_player.hand.cards.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
+    return creature.execute!(Play) if creature
+
+    if $world.turn.phase.is_a?(Combat) && $world.current_player.creatures.find { |c| c.can?(Attack) } != nil
+      return $world.current_player.attack_all!
+    end
+    return $world.turn.next!
   end
 
 end

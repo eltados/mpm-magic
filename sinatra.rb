@@ -47,49 +47,20 @@ class App <  Sinatra::Application
   end
 
 
-  get "/draw" do
-    $world.p1.draw!
-    redirect "/"
-  end
-
-
-  get "/toggle/:card_id" do
-    card  = Card.find(params[:card_id])
-    card.toggle!
-    redirect "/"
-  end
-
-  get "/play/:card_id" do
-    card  = Card.find(params[:card_id])
-    $world.p1.play! card
-    redirect "/"
-  end
-
   get "/action/:action_id" do
     action  = Action.find(params[:action_id])
     action.execute!
     redirect "/"
   end
 
-  get "/activate/:ability_id" do
-    ability = Ability.find(params[:ability_id])
-    ability.activate!
+  get "/attack_all" do
+    $world.current_player.attack_all!
     redirect "/"
   end
 
-
-  get "/attack_all" do
-    $world.current_player.creatures.select { |c| c.can? Attack}.each do |creature|
-      creature.execute! Attack
-    end
-      redirect "/"
-  end
-
-  get "/undo_attack" do
-    $world.current_player.creatures.select { |c| c.can? Attack}.each do |creature|
-      creature.execute! Attack
-    end
-      redirect "/"
+  get '/auto_play' do
+    $world.current_player.auto_play!
+    redirect "/"
   end
 end
 
