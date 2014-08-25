@@ -1,5 +1,4 @@
 <% card = locals[:card] %>
-
 <div class="card <%= 'tapped' if card.tapped? %>  ">
   <div class="header">
     <% if !card.is_a? Land %>
@@ -7,8 +6,14 @@
     <% end %>
     <div class="name"><%= card.name %></div>
   </div>
-
+<% if card.main_action %>
+  <a href="/action/<%= "#{card.main_action.to_param}" %>" title="<%= card.main_action.name %>">
+<% end %>
   <div class="image" style="background-image: url('<%= card.img %>');">&nbsp;</div>
+<% if card.main_action %>
+  </a>
+<% end %>
+
 <% if card.is_a? Creature %>
   <div class="characteristics">
     <span class="attack"><%= card.attack %></span>/<span class="health"><%= card.health %></span>
@@ -21,7 +26,7 @@
 <% end %>
 
 <div class="actions">
-  <% card.actions.each do |action| %>
+  <% card.actionable_actions.each do |action| %>
     <%= erb :_action, locals: {action: action }%>
   <% end %>
 </div>

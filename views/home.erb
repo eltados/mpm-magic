@@ -16,7 +16,11 @@
       <%= erb :_card, locals: {card: card }%>
   <% end %>
 </div>
-
+<% if $world.turn.phase.is_a?(Combat) && $world.current_player.creatures.select { |c| c.can? (Attack) }.size!= 0 %>
+  <div id="attack_all" class="button">
+    <a href="/attack_all">Attack with All!<a>
+  </div>
+<% end %>
 
 <div id="deck">
   <a href="/draw">

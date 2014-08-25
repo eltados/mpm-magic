@@ -91,5 +91,13 @@ class Card
     ObjectSpace._id2ref(id.to_i)
   end
 
+  def actionable_actions
+    actions.select(&:actionnable?).sort_by(&:priority)
+  end
+
+  def main_action
+    actions.select(&:actionnable?).sort_by(&:priority)[0]
+  end
+
 
 end
