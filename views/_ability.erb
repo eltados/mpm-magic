@@ -1,0 +1,8 @@
+<% ability = locals[:ability] %>
+<% if ability.activable? %>
+  <a href="/activate/<%= "#{ability.to_param}" %>">
+<% end %>
+<img src="<%= ability.img %>" title="<%= ability.name %>">
+<% if ability.activable? %>
+  </a>
+<% end %>

@@ -5,7 +5,7 @@
      href="/<%= "#{action}/#{creature.to_param}" %>">
 <% end %>
 
-<div class="card <%= 'tapped' if creature.tapped?  %>  ">
+<div class="card <%= 'tapped' if creature.tapped? %>  ">
   <div class="header">
     <% if creature.cost %>
       <div class="cost"><%= creature.cost %></div>
@@ -18,6 +18,12 @@
   <div class="characteristics">
     <span class="attack"><%= creature.attack %></span>/<span class="health"><%= creature.health %></span>
   </div>
+
+<div class="abilities">
+  <% creature.abilities.each do |ability| %>
+    <%= erb :_ability, locals: {ability: ability }%>
+  <% end %>
+</div>
 </div>
 
 <% if action %>

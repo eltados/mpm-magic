@@ -14,6 +14,12 @@ class Card
 
   end
 
+  def play!
+  end
+
+  def actions
+  end
+
 
   def toggle!
     @tapped = ! @tapped
@@ -27,8 +33,18 @@ class Card
     @tapped = false
   end
 
+
+
+  def unkeep!
+  end
+
+
   def tapped?
     tapped
+  end
+
+  def in_play?
+    @owner.cards_in_play.include? self
   end
 
   def to_param
@@ -38,6 +54,6 @@ class Card
   def self.find(id)
     ObjectSpace._id2ref(id.to_i)
   end
-  
+
 
 end

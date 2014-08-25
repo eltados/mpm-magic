@@ -1,4 +1,5 @@
-class World
+require_relative 'turn'
+class World 
 
     attr_accessor :p1, :p2, :turn
     def initialize(p1 , p2)
@@ -22,15 +23,15 @@ class World
 
       world = World.new(mat,olive)
 
-      4.times do
+      20.times do
         mat.deck << Creature.gob
       end
 
-      4.times do
+      15.times do
         mat.deck << Creature.elf
       end
 
-      2.times do
+      12.times do
         mat.deck << Creature.dragon
       end
 
@@ -44,3 +45,5 @@ class World
 
 
 end
+
+$world = World.setup

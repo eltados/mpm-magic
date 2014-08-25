@@ -8,7 +8,7 @@
 
 <div id="kingdom">
   <% @world.p1.permanents.each  do |card| %>
-      <%= erb :_creature, locals: {creature: card , action: "toggle"}%>
+      <%= erb :_creature, locals: {creature: card }%>
   <% end %>
 </div>
 

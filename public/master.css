@@ -143,6 +143,18 @@
   color:white;
 }
 
+.card .abilities{
+  background-color:#CCC;
+  border:1px solid black;
+  border-radius: 5px;
+  padding:0px;
+  bottom:3px;
+  left:3px;
+  font-weight:bold;
+  position: absolute;
+  color:white;
+}
+
 .card .header .type {
   font-weight:normal;
 }
@@ -187,8 +199,12 @@
   color:#CCC;
 }
 
+
+.phase {
+  margin:0px;
+}
 .phase .selected {
-  font-size:18px;
+  font-size:20px;
   font-weight:bolder;
 }
 
@@ -219,7 +235,7 @@
   padding:5px;
   width:20%;
   height:150px;
-  overflow-x: hidden;
+  overflow-x: none;
   background:red;
 }
 
@@ -239,6 +255,7 @@
 #next a{
   color:#DDD;
 }
+
 #next{
   font-size:30px;
   background-color:green;
@@ -246,6 +263,10 @@
   padding:4px;
   border-radius: 15px;
   display:inline-block;
+  position:absolute;
+  right:0px;
+  bottom:0px;
+  margin : 3px;
 }
 
 body{

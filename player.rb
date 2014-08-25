@@ -1,6 +1,7 @@
 require_relative 'deck'
 require_relative 'hand'
 require_relative 'graveyard'
+require_relative 'abilities/summoning_sickness'
 
 class Player
   attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard
@@ -8,15 +9,15 @@ class Player
   DEFAULTS = {
      name:  "Player",
      health: 20,
-     deck: Deck.new,
-     hand: Hand.new,
-     graveyard: Graveyard.new,
   }
 
   def initialize(options={})
     options = DEFAULTS.merge(options)
     options.each {|k,v| send("#{k}=",v)}
     @permanents = []
+    @deck = Deck.new
+    @hand = Hand.new
+    @graveyard =  Graveyard.new
   end
 
   def alive?
@@ -27,9 +28,8 @@ class Player
     !alive?
   end
 
-  def summon!(creature)
-    creature.owner = self
-    @permanents << creature
+  def cards_in_play
+    @permanents
   end
 
   def attack!(player)
@@ -39,12 +39,16 @@ class Player
 
   def draw!
     raise 'No More Card to Draw'   if deck.size ==0
-    hand << deck.draw!
+    card = deck.draw!
+    card.owner = self
+    hand << card
   end
 
   def play!(card)
     hand.cards.delete card
     permanents << card
+    card.owner = self
+    card.play!
   end
 
   def discard!(card)

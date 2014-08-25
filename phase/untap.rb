@@ -5,7 +5,7 @@ class Untap < Phase
   end
 
   def execute
-    @@world.current_player.permanents.map &:untap!
+    $world.current_player.permanents.map &:untap!
   end
 
 end
