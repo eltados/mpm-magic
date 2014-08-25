@@ -1,8 +1,20 @@
 
 <div class="button"><a href="/auto_play" accesskey="a">Auto</a> </div>
+<% if(params[:auto_play]) %>
+<script>
+  window.setTimeout(function(){
+    window.location.href = "auto_play?auto_play=true" ;
+  }, 1000);
+</script>
+<% end %>
 <a href="/next">Next</a>
 <a href="/end">End</a>
 <a href="/draw">Draw</a>
+<% if !params[:auto_play] %>
+<div class="button"><a href="/auto_play?auto_play=true" accesskey="+">Auto +</a> </div>
+<% else %>
+<div class="button"><a href="/" accesskey="+">Stop</a> </div>
+<% end %>
 
 <%= erb :_player, locals: {player: @world.p1 }%>
 <hr/>

@@ -20,35 +20,31 @@ class World
     end
 
     def self.setup
-      mat   = Player.new( name:"Mathieu")
-      olive = Player.new( name:"Olivier", health:16)
+      p1 = Player.new( name:"Mathieu")
+      p2 = Player.new( name:"Olivier", health:16)
 
-      world = World.new(mat,olive)
-
-      20.times do
-        mat.deck << Mountain.new
-      end
+      world = World.new(p1,p2)
 
       20.times do
-        mat.deck << Forest.new
-      end
-
-
-      20.times do
-        mat.deck << Creature.gob
-      end
-
-      15.times do
-        mat.deck << Creature.elf
+        p1.deck << Mountain.new
+        p2.deck << Mountain.new
+        p1.deck << Forest.new
+        p2.deck << Forest.new
+        p1.deck << Creature.gob
+        p2.deck << Creature.gob
+        p1.deck << Creature.elf
+        p2.deck << Creature.elf
       end
 
       12.times do
-        mat.deck << Creature.dragon
+        p1.deck << Creature.dragon
       end
 
-      mat.deck.suffle!
+      p1.deck.suffle!
+      p2.deck.suffle!
 
-      7.times do mat.draw! end
+      7.times { p1.draw! }
+      7.times { p2.draw! }
 
       world
     end

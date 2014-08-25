@@ -108,6 +108,9 @@ class Player
     if $world.turn.phase.is_a?(Combat) && $world.current_player.creatures.find { |c| c.can?(Attack) } != nil
       return $world.current_player.attack_all!
     end
+    if $world.turn.phase.is_a?(DiscardPhase)
+      return $world.current_player.hand.cards.sort_by(&:cost).reverse[0].execute! Discard
+    end
     return $world.turn.next!
   end
 

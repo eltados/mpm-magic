@@ -14,7 +14,7 @@ require_relative 'deck'
 class App <  Sinatra::Application
   configure do
     set :bind, '0.0.0.0'
-
+    enable :sessions
     set :views, Proc.new { File.join(root, "views") }
   end
 
@@ -41,6 +41,12 @@ class App <  Sinatra::Application
     redirect "/"
   end
 
+  get "/start" do
+    session[:current_user] = $world.current_player
+    redirect "/"
+  end
+
+
   get "/end" do
     $world.turn.end_turn!
     redirect "/"
@@ -60,6 +66,7 @@ class App <  Sinatra::Application
 
   get '/auto_play' do
     $world.current_player.auto_play!
+    redirect "/?auto_play=true" if params[:auto_play]
     redirect "/"
   end
 end
