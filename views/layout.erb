@@ -4,17 +4,17 @@
   <!-- <link rel="stylesheet" type="text/css" href="master.css"> -->
 </head>
 <script>
-//   var es = new EventSource('/comet');
-//
-//   es.onmessage = function(e) {
-//     window.location.href = window.location.href;
+  var es = new EventSource('/comet');
+
+  es.onmessage = function(e) {
+    window.location.href = window.location.href;
 // $.ajax({
 //   url: "/",
 //   success: function( data ) {
 //     $('body').html(data);
 //   }
 // });
-//   }
+  }
 
 // $(document).ready(function(){
 //   $("#auto").click(function(e){

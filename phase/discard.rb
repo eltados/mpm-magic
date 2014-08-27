@@ -2,11 +2,9 @@ class DiscardPhase < Phase
 
   def initialize(options={})
     @name = "Discard"
-    @action = "discard"
   end
 
   def execute
-    # $world.switch_playing_player!
   end
 
   def cannot_pass_to_next_because

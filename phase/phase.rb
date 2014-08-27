@@ -1,7 +1,6 @@
 class Phase
 
-  attr_accessor :name, :action
-
+  attr_accessor :name
 
 
   def to_s

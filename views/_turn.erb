@@ -10,7 +10,7 @@
   <% end %>
 </div>
 
-
+  <%= h $world.playing_player.name %><hr>
   <ul class="phase">
   <% Turn.phases.each do |phase| %>
     <li class="<%= 'selected' if phase == turn.phase %>" ><%= phase %></li>

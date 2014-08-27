@@ -9,7 +9,7 @@ class Play < Action
   end
 
   def actionnable?
-    super && @owner.in_hand? &&
+    super && card.in_hand? &&
       ( $world.turn.phase.is_a?(Pre) ||
         $world.turn.phase.is_a?(Post) ||
         $world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played? && card.owner.playing?

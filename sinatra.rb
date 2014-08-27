@@ -30,10 +30,8 @@ class App <  Sinatra::Application
       session[:current_user]
     end
 
-    def other
-      @p2 if $world.p1 == me
-      @p1 if $world.p2 == me
-      @p2
+    def opponent
+      $world.p1 == me ?  $world.p2 :  $world.p1
     end
 
   end

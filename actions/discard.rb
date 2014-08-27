@@ -9,7 +9,7 @@ class Discard < Action
   end
 
   def actionnable?
-    super && card.in_hand? && $world.turn.phase.is_a?(DiscardPhase) &&  card.owner.hand.size >= 8
+    super && card.owner.playing? && card.in_hand? && $world.turn.phase.is_a?(DiscardPhase) &&  card.owner.hand.size >= 8
   end
 
   def execute!

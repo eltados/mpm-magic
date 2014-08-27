@@ -9,7 +9,7 @@ class Attack < Action
   end
 
   def actionnable?
-    super && @owner.in_play? && $world.turn.phase.is_a?(Combat) &&  @owner.activable?
+    super && card.owner.playing? && card.in_play? && $world.turn.phase.is_a?(Combat) &&  card.activable?
   end
 
   def execute!

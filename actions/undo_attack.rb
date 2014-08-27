@@ -9,7 +9,7 @@ class UndoAttack < Action
   end
 
   def actionnable?
-    super && @owner.in_play? && $world.turn.phase.is_a?(Combat) &&  @owner.flags[:attacking] == true
+    super && @owner.in_play? && $world.turn.phase.is_a?(Combat) &&  @owner.flags[:attacking] == true && card.owner.playing?
   end
 
   def execute!
