@@ -15,6 +15,10 @@ class World
       @playing_player == @p1 ? @p2 : @p1
     end
 
+    def opponent
+      defending_player
+    end
+
 
     def switch_playing_player!
       @playing_player  = defending_player

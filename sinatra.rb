@@ -65,9 +65,8 @@ class App <  Sinatra::Application
 
   get "/reset" do
     $world = nil
-    session[:current_user] = nil
-    notify!
-    redirect "/"
+    session.clear
+    "Wait for the opponent to logout out and then press <a href='/'>Connect</a>" 
   end
 
   get "/connecting" do

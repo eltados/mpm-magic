@@ -351,8 +351,21 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 
 <div id="next">
 <% if me.playing? %>
-<a href="/next" accesskey="n">Next</a><hr/>
+<a href="/next" accesskey="n">Next</a>
+<hr/>
 <a href="/auto_play" accesskey="a">Auto</a>
+<hr/>
+<% if !params[:auto_play] %>
+<a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
+<% else %>
+<script>
+  window.setTimeout(function(){
+    window.location.href = "auto_play?auto_play=true" ;
+  }, 1000);
+</script>
+<a href="/" accesskey="+">Stop AI</a>
+<% end %>
+
 <% else %>
   Opponent is playing ...
 <% end %>
@@ -403,7 +416,7 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 
 
 <!--
-<div id="auto">
+
 <% if(params[:auto_play]) %>
 <script>
   window.setTimeout(function(){
@@ -416,7 +429,7 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 <% else %>
 <div class="button"><a href="/" accesskey="+">Stop</a> </div>
 <% end %>
-</div>
+
 -->
 
 
