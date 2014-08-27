@@ -273,11 +273,15 @@ z-index:100;
 }
 
 #next{
+  z-index:200;
   position:absolute;
-  top:0;
-  left:0;
-  height:150px;
-  width:150px;
+  top:5;
+  font-size:150%;
+  right:150;
+  padding:15px;
+  /*height:150px;*/
+  /*width:150px;*/
+  background-color:red;
 }
 
 
@@ -345,6 +349,17 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
   </pre>
 </div>
 
+<div id="next">
+<% if me.playing? %>
+<a href="/next" accesskey="n">Next</a><hr/>
+<a href="/auto_play" accesskey="a">Auto</a>
+<% else %>
+  Opponent is playing ...
+<% end %>
+
+</div>
+
+
 <table id="playground" border="0" padding="0" spacing="0">
   <tr height="40%" style="background-image: url('battleground.jpg');"><td  style="vertical-align:bottom;">
 
@@ -404,11 +419,7 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 </div>
 -->
 
-<% if me.playing? %>
-<div id="next">
-<div class="button"><a href="/next" accesskey="n">Next</a> </div>
-</div>
-<% end %>
+
 <!-- <div id="turn">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div> -->
