@@ -1,16 +1,9 @@
 <% turn = locals[:turn] %>
 
-<div id="next" class="button" >
-  <% if turn.phase.can_pass_to_next? %>
-  <a href="/next" accesskey="n">
-  Next
-  </a>
-  <% else %>
-    <%= turn.phase.cannot_pass_to_next_because %>
-  <% end %>
-</div>
-
-  <%= h $world.playing_player.name %><hr>
+  <span class="<%= "playing" if me.playing? %>">
+  <%= h $world.playing_player.name %>
+  </span>
+  <hr>
   <ul class="phase">
   <% Turn.phases.each do |phase| %>
     <li class="<%= 'selected' if phase == turn.phase %>" ><%= phase %></li>

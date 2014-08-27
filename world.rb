@@ -25,4 +25,8 @@ class World
       @p2.clean!
     end
 
+    def ready?
+      p1 && p2
+    end
+
 end

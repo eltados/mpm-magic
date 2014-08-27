@@ -52,12 +52,12 @@ class App <  Sinatra::Application
 
   get "/" do
     @world = $world
-    redirect "/start/1" if ! $world
+    redirect "/connecting" if ! $world || ! $world.ready?
     erb :home
   end
 
   get "/next" do
-    $world.turn.next!
+    $world.turn.next! if me.playing?
     notify!
     redirect "/"
   end
@@ -65,22 +65,26 @@ class App <  Sinatra::Application
 
   get "/reset" do
     $world = nil
-    redirect "/automatch"
-  end
-
-
-
-  get "/start/:player_number" do
-    session.clear
-    $world = World.new if ! $world
-    session[:current_user] =  Player.new( name:"Player #{params[:player_number]}")
-    me.setup!
-    $world.p1 = me if params[:player_number].to_i == 1
-    $world.p2 = me if params[:player_number].to_i == 2
-    $world.playing_player = $world.p1
+    session[:current_user] = nil
+    notify!
     redirect "/"
   end
 
+  get "/connecting" do
+    $world = World.new if ! $world
+    if $world.p1 == nil
+      session[:current_user] =  Player.new( name:"Player 1")
+      me.setup!
+      $world.p1 = me
+      $world.playing_player = $world.p1
+    elsif !me
+      session[:current_user] =  Player.new( name:"Player 2")
+      me.setup!
+      $world.p2 = me
+    end
+    redirect "/" if $world.ready?
+    erb :connecting
+  end
 
   get "/end" do
     $world.turn.end_turn!

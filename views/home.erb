@@ -275,7 +275,7 @@ z-index:100;
 #next{
   position:absolute;
   top:0;
-  left:150;
+  left:0;
   height:150px;
   width:150px;
 }
@@ -314,6 +314,15 @@ z-index:100;
   font-weight:bolder;
 }
 
+.playing{
+  color:white;
+  background:blue;
+  font-weight:bold;
+  width:100%;
+  font-size:150%;
+  padding:5px;
+}
+
 
 
 </style>
@@ -331,12 +340,10 @@ z-index:100;
 
 <div id="logs" >
   <pre>
-Opponent: <%= h opponent %> <%=  opponent.playing? %>
-Me: <%= h me %> <%=  me.playing? %>
+Me: <%= h me.name %> (<%= me.health %>) <%= " is playing" if me.playing? %>
+Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if opponent.playing? %>
   </pre>
 </div>
-<!-- <div class="circle">30</div> -->
-<% c = 0 %>
 
 <table id="playground" border="0" padding="0" spacing="0">
   <tr height="40%" style="background-image: url('battleground.jpg');"><td  style="vertical-align:bottom;">
@@ -380,7 +387,7 @@ Me: <%= h me %> <%=  me.playing? %>
 
 
 
-
+<!--
 <div id="auto">
 <% if(params[:auto_play]) %>
 <script>
@@ -395,9 +402,13 @@ Me: <%= h me %> <%=  me.playing? %>
 <div class="button"><a href="/" accesskey="+">Stop</a> </div>
 <% end %>
 </div>
+-->
+
+<% if me.playing? %>
 <div id="next">
 <div class="button"><a href="/next" accesskey="n">Next</a> </div>
 </div>
+<% end %>
 <!-- <div id="turn">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div> -->
