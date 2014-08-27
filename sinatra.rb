@@ -54,7 +54,7 @@ class App <  Sinatra::Application
 
   get "/" do
     @world = $world
-    redirect "/start" if ! $world
+    redirect "/start/1" if ! $world
     erb :home
   end
 

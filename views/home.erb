@@ -21,8 +21,7 @@
   vertical-align:bottom;
   position:relative;
   overflow-x:auto;
-  /*overflow-x:hidden;*/
-  padding-bottom:15px;
+  /*padding-bottom:15px;*/
 }
 
 
@@ -42,7 +41,6 @@
   position:relative;
   /*overflow:none;*/
   overflow-x:auto;
-  padding-bottom:130px;
   padding-top:15px;
   background-image: url('battleground.jpg');
 
@@ -79,15 +77,19 @@ border: 0px;
 }
 
 #hand{
-  height: 188px;
+  height: 148px;
   text-align:center;
   position:absolute;
   bottom:0px;
-  width:100%;
-  padding-top:50px;
+  /*display: block;*/
+  /*margin-left: auto;*/
+  /*width:100%;*/
+  /*padding-top:50px;*/
 overflow-y: auto;
+  /*background-color:blue;*/
   /*transform: rotateX(-20deg);*/
 }
+
 
 .lands{
   background-color:blue;
@@ -318,9 +320,10 @@ z-index:100;
 
 </td></tr>
 
-  <tr height="60%" style="background-image: url('battleground.jpg');"><td>
+  <tr height="60%" style="background-image: url('battleground.jpg'); "><td>
 
 <div id="my_playground">
+  <div style="padding-bottom:125px;">
   <% me.creatures.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
@@ -328,16 +331,20 @@ z-index:100;
   <% me.lands.sort_by(&:name).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
-
+</div>
 </div>
 
 </td></tr>
-</table>
-<div id="hand">
+ </table>
+
+<div id="hand" >
   <% me.hand.cards.sort_by(&:cost).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>
+
+
+
 
 <div id="auto">
 <% if(params[:auto_play]) %>
