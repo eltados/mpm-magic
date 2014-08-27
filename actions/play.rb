@@ -12,7 +12,7 @@ class Play < Action
     super && @owner.in_hand? &&
       ( $world.turn.phase.is_a?(Pre) ||
         $world.turn.phase.is_a?(Post) ||
-        $world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played?
+        $world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played? && card.owner.playing?
   end
 
   def execute!

@@ -1,0 +1,66 @@
+
+<div class="button"><a id="auto"  href="/auto_play" accesskey="a">Auto</a> </div>
+<% if(params[:auto_play]) %>
+<script>
+  window.setTimeout(function(){
+    window.location.href = "auto_play?auto_play=true" ;
+  }, 1000);
+</script>
+<% end %>
+<a href="/next">Next</a>
+<a href="/end">End</a>
+<a href="/draw">Draw</a>
+<% if !params[:auto_play] %>
+<div class="button"><a  id="auto_plus" href="/auto_play?auto_play=true" accesskey="+">Auto +</a> </div>
+<% else %>
+<div class="button"><a href="/" accesskey="+">Stop</a> </div>
+<% end %>
+<br>
+<br>
+<hr/>
+<%= erb :_player, locals: {player: me }%>
+
+<div id="kingdom">
+  <% me.creatures.sort_by(&:name).sort_by(&:cost).reverse.each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
+  <% end %>
+  <br>
+  <br>
+  <% me.lands.sort_by(&:name).each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
+  <% end %>
+</div>
+
+
+<div id="kingdom">
+  <% me.creatures.sort_by(&:name).sort_by(&:cost).reverse.each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
+  <% end %>
+  <br>
+  <br>
+  <% me.lands.sort_by(&:name).each  do |card| %>
+      <%= erb :_card, locals: {card: card }%>
+  <% end %>
+</div>
+
+
+<% if $world.turn.phase.is_a?(Combat) && me.creatures.select { |c| c.can? (Attack) }.size!= 0 %>
+  <div id="attack_all" class="button">
+    <a href="/attack_all">Attack with All!<a>
+  </div>
+<% end %>
+
+<div id="deck">
+  <a href="/draw">
+    <%= erb :_deck, locals: {deck: me.deck }%>
+  </a>
+</div>
+
+<div id="hand">
+  <%= erb :_hand, locals: {hand: me.hand }%>
+<%= erb :_player, locals: {player: me }%>
+</div>
+
+<div id="turn">
+  <%= erb :_turn, locals: {turn: @world.turn }%>
+</div>

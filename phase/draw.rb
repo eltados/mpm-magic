@@ -6,7 +6,7 @@ class Draw < Phase
   end
 
   def execute
-    $world.current_player.draw!
+    $world.playing_player.draw!
   end
 
 end

@@ -1,5 +1,5 @@
 <% player = locals[:player] %>
 <div class="player">
-  <div class="name"><%= player.name %><%= player.mana_pool.mana %></div>
+  <div class="name"><%= player.name %><%= player.mana_pool.mana %> <%= player.playing? %></div>
   <div class="health"><%= player.health %></div>
 </div>

@@ -13,15 +13,27 @@ require_relative 'turn'
 require_relative 'deck'
 
 class App <  Sinatra::Application
+
   configure do
     set :bind, '0.0.0.0'
-    enable :sessions
+    use Rack::Session::Pool
+    set :session_secret, 'secret'
     set :views, Proc.new { File.join(root, "views") }
   end
 
   helpers do
     def h(text)
       Rack::Utils.escape_html(text)
+    end
+
+    def me
+      session[:current_user]
+    end
+
+    def other
+      @p2 if $world.p1 == me
+      @p1 if $world.p2 == me
+      @p2
     end
 
   end
@@ -42,6 +54,7 @@ class App <  Sinatra::Application
 
   get "/" do
     @world = $world
+    redirect "/start" if ! $world
     erb :home
   end
 
@@ -53,13 +66,20 @@ class App <  Sinatra::Application
 
 
   get "/reset" do
-    $world = World.setup
-    notify!
-    redirect "/"
+    $world = nil
+    redirect "/automatch"
   end
 
-  get "/start" do
-    session[:current_user] = $world.current_player
+
+
+  get "/start/:player_number" do
+    session.clear
+    $world = World.new if ! $world
+    session[:current_user] =  Player.new( name:"Player #{params[:player_number]}")
+    me.setup!
+    $world.p1 = me if params[:player_number].to_i == 1
+    $world.p2 = me if params[:player_number].to_i == 2
+    $world.playing_player = $world.p1
     redirect "/"
   end
 
@@ -78,13 +98,15 @@ class App <  Sinatra::Application
   end
 
   get "/attack_all" do
-    $world.current_player.attack_all!
+    me.attack_all!
     notify!
     redirect "/"
   end
 
+
+
   get '/auto_play' do
-    $world.current_player.auto_play!
+    me.auto_play!
     notify!
     redirect "/?auto_play=true" if params[:auto_play]
     redirect "/"

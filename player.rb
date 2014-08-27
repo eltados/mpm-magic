@@ -7,7 +7,7 @@ require_relative 'mana_pool'
 require_relative 'abilities/summoning_sickness'
 
 class Player
-  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard, :mana_pool, :flags
+  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard, :mana_pool, :flags, :played
 
   DEFAULTS = {
      name:  "Player",
@@ -22,11 +22,16 @@ class Player
     @hand = Hand.new
     @graveyard =  Graveyard.new
     @mana_pool =  ManaPool.new(self)
+    @played =  false
     @flags =  {}
   end
 
   def alive?
     health > 0
+  end
+
+  def played?
+    played
   end
 
   def dead?
@@ -98,18 +103,39 @@ class Player
     end
   end
 
+  def setup!
+    20.times do
+      deck << Mountain.new
+      deck << Forest.new
+      deck << Creature.gob
+      deck << Creature.elf
+    end
+
+    12.times do
+      deck << Creature.dragon
+    end
+
+    deck.suffle!
+
+    7.times { draw! }
+  end
+
+  def playing?
+    self == $world.playing_player
+  end
+
   def auto_play!
-    land = $world.current_player.hand.cards.find {|c| c.is_a?(Land) && c.can?(Play) }
+    land = hand.cards.find {|c| c.is_a?(Land) && c.can?(Play) }
     return land.execute!(Play) if land
 
-    creature = $world.current_player.hand.cards.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
+    creature = hand.cards.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
     return creature.execute!(Play) if creature
 
-    if $world.turn.phase.is_a?(Combat) && $world.current_player.creatures.find { |c| c.can?(Attack) } != nil
-      return $world.current_player.attack_all!
+    if $world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
+      return attack_all!
     end
     if $world.turn.phase.is_a?(DiscardPhase)
-      return $world.current_player.hand.cards.sort_by(&:cost).reverse[0].execute! Discard
+      return hand.cards.sort_by(&:cost).reverse[0].execute! Discard
     end
     return $world.turn.next!
   end
