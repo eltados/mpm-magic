@@ -1,0 +1,20 @@
+<h1>Welcome <%= me.name %></h1>
+
+
+
+<% if $world &&  $world.ready? %>
+  <h1><a href="/game">Join game <%= $world.p1.name %> and <%= $world.p2.name %> </a></h1>
+<% end %>
+
+<h3>Select a player to player against</h3>
+<ul>
+  <% @players.reject { |p| p == me }.each do |p| %>
+    <li><a href="/multiplayer?opponent=<%= p.to_param %>"><%= p.name %></a></li>
+  <% end %>
+</ul>
+
+<h3>Other actions</h3>
+
+<ul>
+  <li><a href="/clear">Clear</a></li>
+</ul>
