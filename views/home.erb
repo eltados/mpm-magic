@@ -1,7 +1,5 @@
 <h1>Welcome <%= me.name %></h1>
 
-
-
 <% if $world &&  $world.ready? %>
   <h1><a href="/game">Join game <%= $world.p1.name %> and <%= $world.p2.name %> </a></h1>
 <% end %>
@@ -18,3 +16,10 @@
 <ul>
   <li><a href="/clear">Clear</a></li>
 </ul>
+
+
+<script>
+window.setTimeout(function(){
+  window.location.href = window.location.href ;
+}, 3000);
+</script>

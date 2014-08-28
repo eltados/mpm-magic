@@ -125,6 +125,7 @@ class Player
   end
 
   def auto_play!
+    return "" if !playing?
     land = hand.cards.find {|c| c.is_a?(Land) && c.can?(Play) }
     return land.execute!(Play) if land
 

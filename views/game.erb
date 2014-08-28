@@ -9,17 +9,25 @@
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
-<div id="logs" >
+<div id="me">
+  Me: <%= me.health %> PV
+</div>
+
+
+<div id="opponent">
+  Op: <%= opponent.health %> PV
+</div>
+<!-- <div id="logs" >
   <a href="/game" class="ajax">Test</a>
   <pre>
 Me: <%= h me.name %> (<%= me.health %>) <%= " is playing" if me.playing? %>
 Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if opponent.playing? %>
   </pre>
-</div>
+</div> -->
 
 <div id="next">
 <% if me.playing? %>
-<a href="/next" accesskey="n" class="ajax">Next</a>
+<a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
 <!-- <hr/> -->
 <!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
 <hr/>

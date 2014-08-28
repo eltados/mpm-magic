@@ -51,7 +51,6 @@ class App <  Sinatra::Application
   get "/multiplayer" do
       p1 = me
       p2 = Player.find(params[:opponent])
-
       p1.setup!
       p2.setup!
 
@@ -62,7 +61,7 @@ class App <  Sinatra::Application
 
 
   get "/game" do
-    redirect "/" if ! $world
+    redirect "/clear" if ! $world
     @world = $world
     erb :game , layout: !request.xhr?
   end
@@ -82,32 +81,10 @@ class App <  Sinatra::Application
     redirect "/"
   end
 
-  # get "/connect" do
-  #   $world = World.new if ! $world
-  #   if $world.p1 == nil
-  #     session[:current_user] =  Player.new( name:"Player 1")
-  #     me.setup!
-  #     $world.p1 = me
-  #     $world.playing_player = $world.p1
-  #   elsif !me
-  #     session[:current_user] =  Player.new( name:"Player 2")
-  #     me.setup!
-  #     $world.p2 = me
-  #   end
-  #   redirect "/game" if $world.ready?
-  #   erb :connecting
-  # end
-
-  # get "/end" do
-  #   $world.turn.end_turn!
-  #   redirect "/game"
-  # end
-
-
   get "/action/:action_id" do
     action  = Action.find(params[:action_id])
-    notify!
     action.execute!
+    notify!
     redirect "/game"
   end
 
@@ -117,7 +94,11 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
-
+  get '/auto' do
+    me.auto_play!
+    notify!
+    redirect "/game"
+  end
 
   get '/auto_play' do
     me.auto_play!
@@ -125,6 +106,8 @@ class App <  Sinatra::Application
     redirect "/game?auto_play=true" if params[:auto_play]
     redirect "/game"
   end
+
+
 
 
   @@connections = []
