@@ -140,4 +140,13 @@ class Player
     return $world.turn.next!
   end
 
+  def to_param
+    "#{object_id}-#{name}"
+  end
+
+  def self.find(id)
+    ObjectSpace._id2ref(id.to_i)
+  end
+
+
 end
