@@ -1,19 +1,19 @@
 <html>
 <head>
  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="master.css"> -->
+  <link rel="stylesheet" type="text/css" href="master.css">
 </head>
 <script>
   var es = new EventSource('/comet');
 
   es.onmessage = function(e) {
-    window.location.href = window.location.href;
-// $.ajax({
-//   url: "/",
-//   success: function( data ) {
-//     $('body').html(data);
-//   }
-// });
+    // window.location.href = window.location.href;
+    $.ajax({
+      url: window.location.href,
+      success: function( data ) {
+        $('body').html(data);
+      }
+    });
   }
 
 // $(document).ready(function(){

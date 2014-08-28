@@ -65,7 +65,7 @@ class App <  Sinatra::Application
   get "/game" do
     redirect "/" if ! $world
     @world = $world
-    erb :game
+    erb :game , layout: !request.xhr?
   end
 
   get "/next" do
