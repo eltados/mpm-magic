@@ -53,7 +53,7 @@ class App <  Sinatra::Application
   get "/" do
     @world = $world
     redirect "/connecting" if ! $world || ! $world.ready?
-    erb :home
+    erb :game
   end
 
   get "/next" do
