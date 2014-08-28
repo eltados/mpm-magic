@@ -1,6 +1,6 @@
 <% action = locals[:action] %>
 <% if action.actionnable? %>
-  <a href="/action/<%= "#{action.to_param}" %>">
+  <a href="/action/<%= "#{action.to_param}" %>" class="action ajax">
   <img src="<%= action.img %>" title="<%= action.name %>">
   </a>
 <% end %>

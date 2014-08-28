@@ -7,7 +7,7 @@
     <div class="name"><%= card.name %></div>
   </div>
 <% if card.main_action %>
-  <a href="/action/<%= "#{card.main_action.to_param}" %>" title="<%= card.main_action.name %>">
+  <a href="/action/<%= "#{card.main_action.to_param}" %>" title="<%= card.main_action.name %>" class="ajax">
 <% end %>
   <div class="image" style="background-image: url('<%= card.img %>');">&nbsp;</div>
 <% if card.main_action %>

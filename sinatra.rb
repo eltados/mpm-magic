@@ -44,7 +44,6 @@ class App <  Sinatra::Application
       if ! @@players.include? me
         @@players << me
       end
-      notify!
       @players = @@players
       erb :home
   end

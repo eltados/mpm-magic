@@ -10,6 +10,7 @@
 </div>
 
 <div id="logs" >
+  <a href="/game" class="ajax">Test</a>
   <pre>
 Me: <%= h me.name %> (<%= me.health %>) <%= " is playing" if me.playing? %>
 Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if opponent.playing? %>
@@ -18,9 +19,9 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 
 <div id="next">
 <% if me.playing? %>
-<a href="/next" accesskey="n">Next</a>
-<hr/>
-<a href="/auto_play" accesskey="a">Auto</a>
+<a href="/next" accesskey="n" class="ajax">Next</a>
+<!-- <hr/> -->
+<!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
 <hr/>
 <% if !params[:auto_play] %>
 <a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
@@ -31,7 +32,7 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
   }, 1000);
 </script>
 <a href="/game" accesskey="+">Stop AI</a>
-<% end %>
+<% end %> -->
 
 <% else %>
   Opponent is playing ...

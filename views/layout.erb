@@ -1,35 +1,11 @@
 <html>
 <head>
- <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="master.js"></script>
   <link rel="stylesheet" type="text/css" href="master.css">
+
 </head>
-<script>
-  var es = new EventSource('/comet');
-
-  es.onmessage = function(e) {
-    // window.location.href = window.location.href;
-    $.ajax({
-      url: window.location.href,
-      success: function( data ) {
-        $('body').html(data);
-      }
-    });
-  }
-
-// $(document).ready(function(){
-//   $("#auto").click(function(e){
-//
-//       // // perform your AJAX
-// //$(this).attr("href")
-//
-//       e.preventDefault();
-//   });
-// });
-
-
-
-</script>
-<body id="body">
+<body >
     <%= yield %>
 </body>
 </html>
