@@ -123,7 +123,7 @@ class App <  Sinatra::Application
   get '/auto_play' do
     me.auto_play!
     notify!
-    redirect "/?auto_play=true" if params[:auto_play]
+    redirect "/game?auto_play=true" if params[:auto_play]
     redirect "/game"
   end
 
