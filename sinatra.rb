@@ -4,7 +4,10 @@ require 'rubygems'
 require 'sinatra'
 require 'json'
 require 'sinatra/reloader' if development?
-require_relative 'creature'
+require_relative 'creatures/creature'
+require_relative 'creatures/gob'
+require_relative 'creatures/dragon'
+require_relative 'creatures/elf'
 require_relative 'fight'
 require_relative 'player'
 require_relative 'world'
@@ -67,7 +70,7 @@ class App <  Sinatra::Application
   end
 
   get "/next" do
-    $world.turn.next! if me.playing?
+    $world.turn.next! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
     notify!
     redirect "/game"
   end
@@ -81,9 +84,15 @@ class App <  Sinatra::Application
     redirect "/"
   end
 
-  get "/action/:action_id" do
+  get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
-    action.execute!
+    puts "#{params[:target]}" if params[:target]
+    puts params.inspect
+    if !params[:target_id]
+      action.execute!
+    else
+      action.execute_with_target! Card.find(params[:target_id])
+    end
     notify!
     redirect "/game"
   end
@@ -94,8 +103,14 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
+  get "/cancel_target" do
+    $world.target_action = nil
+    notify!
+    redirect "/game"
+  end
+
   get '/auto' do
-    me.auto_play!
+    me.auto_play! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
     notify!
     redirect "/game"
   end

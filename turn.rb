@@ -8,10 +8,11 @@ require_relative 'phase/post'
 require_relative 'phase/combat'
 require_relative 'phase/change_player'
 require_relative 'phase/resolve_combat'
+require_relative 'phase/block'
 
 class Turn
   attr_accessor :current_phase, :number
-  @@phases = [ Untap.new , Unkeep.new, Draw.new , Pre.new , Combat.new, ResolveCombat.new, Post.new , DiscardPhase.new , ChangePlayer.new ]
+  @@phases = [ Untap.new , Unkeep.new, Draw.new , Pre.new , Combat.new, BlockPhase.new, ResolveCombat.new, Post.new , DiscardPhase.new , ChangePlayer.new ]
 
 
   def initialize

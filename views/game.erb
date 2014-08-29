@@ -1,3 +1,18 @@
+<div id="logs" >
+  <pre>
+<%= h $world.target_action %>
+attacking :
+<% c = me.creatures.first %>
+<%= h c.name %>
+
+<%= h c.flags.inspect %>
+
+  </pre>
+</div>
+
+
+
+
 <div id="hand" >
   <% me.hand.cards.sort_by(&:cost).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
@@ -17,35 +32,36 @@
 <div id="opponent">
   Op: <%= opponent.health %> PV
 </div>
-<!-- <div id="logs" >
-  <a href="/game" class="ajax">Test</a>
-  <pre>
-Me: <%= h me.name %> (<%= me.health %>) <%= " is playing" if me.playing? %>
-Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if opponent.playing? %>
-  </pre>
-</div> -->
+
 
 <div id="next">
-<% if me.playing? %>
-<a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
-<!-- <hr/> -->
-<!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
-<hr/>
-<% if !params[:auto_play] %>
-<a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
-<% else %>
-<script>
-  window.setTimeout(function(){
-    window.location.href = "auto_play?auto_play=true" ;
-  }, 1000);
-</script>
-<a href="/game" accesskey="+">Stop AI</a>
-<% end %> -->
+<% if @world.turn.phase.is_a?(BlockPhase) %>
 
+  <% if me.opponent.playing? %>
+  <a href="/next" accesskey="n" class="ajax">Finished blocking</a>
+  <% else %>
+    Opponent is blocking ...
+  <% end %>
 <% else %>
-  Opponent is playing ...
+  <% if me.playing? %>
+  <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
+  <!-- <hr/> -->
+  <!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
+  <hr/>
+  <% if !params[:auto_play] %>
+  <a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
+  <% else %>
+  <script>
+    window.setTimeout(function(){
+      window.location.href = "auto_play?auto_play=true" ;
+    }, 1000);
+  </script>
+  <a href="/game" accesskey="+">Stop AI</a>
+  <% end %> -->
+  <% else %>
+    Opponent is playing ...
+  <% end %>
 <% end %>
-
 </div>
 
 
@@ -74,7 +90,7 @@ Opponent: <%= h opponent.name %> (<%= opponent.health %>) <%= " is playing" if o
 
 <div id="my_playground">
   <div style="padding-bottom:125px;">
-  <% me.creatures.each  do |card| %>
+  <% me.creatures.sort_by(&:cost).reverse.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
   <br/>

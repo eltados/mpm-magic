@@ -42,6 +42,17 @@ z-index:100;
   background:green;
 }
 
+#cancel{
+  position:absolute;
+  top:10;
+  right:5;
+  padding:5px;
+  /*width:120px;*/
+  overflow-x: none;
+  background:yellow;
+
+}
+
 
 #opponent{
   position:absolute;
@@ -101,7 +112,7 @@ border: 0px;
   position:absolute;
   bottom:0px;
   right:0px;
-  z-index:100;
+  z-index:1000;
   background-color:#CCC;
   border:1px solid black;
 }
@@ -159,13 +170,22 @@ overflow-y: auto;
 
 
 .tapped{
-  transform: rotate(90deg);
-  -moz-transform:rotate(90deg);
-  -o-transform:rotate(90deg);
-  -webkit-transform:rotate(90deg);
+  transform: rotate(90deg) !important  ;
+  -moz-transform:rotate(90deg) !important  ;
+  -o-transform:rotate(90deg) !important  ;
+  -webkit-transform:rotate(90deg) !important  ;
   margin-right:16px !important  ;
   margin-left:16px !important  ;
 }
+
+
+.blocking{
+  transform: rotate(10deg);
+  -moz-transform:rotate(10deg);
+  -o-transform:rotate(10deg);
+  -webkit-transform:rotate(10deg);
+}
+
 
 
 
@@ -364,4 +384,8 @@ a{
   width:100%;
   font-size:150%;
   padding:5px;
+}
+
+.target{
+  border:5px solid blue;
 }

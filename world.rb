@@ -3,7 +3,7 @@ require_relative 'lands/mountain'
 require_relative 'lands/forest'
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player
+    attr_accessor :p1, :p2, :turn, :playing_player, :target_action
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
@@ -19,6 +19,9 @@ class World
       defending_player
     end
 
+    def permanents
+      [@p1.permanents ,@p1.permanents  ].flatten
+    end
 
     def switch_playing_player!
       @playing_player  = defending_player

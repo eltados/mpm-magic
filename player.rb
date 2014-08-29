@@ -107,21 +107,32 @@ class Player
     20.times do
       deck << Mountain.new
       deck << Forest.new
-      deck << Creature.gob
-      deck << Creature.elf
+      deck << Gob.new
     end
 
     12.times do
-      deck << Creature.dragon
+      deck << Elf.new
+      deck << Dragon.new
     end
 
     deck.suffle!
 
-    7.times { draw! }
+    2.times { draw! }
+    d = Dragon.new
+    d.owner = self
+    permanents << d
+
+    e = Elf.new
+    e.owner = self
+    permanents << e
   end
 
   def playing?
     self == $world.playing_player
+  end
+
+  def opponent
+    $world.p1 == self ? $world.p2 : $world.p1
   end
 
   def auto_play!
@@ -135,6 +146,7 @@ class Player
     if $world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
       return attack_all!
     end
+
     if $world.turn.phase.is_a?(DiscardPhase)
       return hand.cards.sort_by(&:cost).reverse[0].execute! Discard
     end

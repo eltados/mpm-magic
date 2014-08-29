@@ -1,2 +1,0 @@
-class MagicObject
-end
