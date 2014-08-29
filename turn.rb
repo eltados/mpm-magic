@@ -25,6 +25,7 @@ class Turn
     @current_phase += 1
     end_turn! if @current_phase >= @@phases.size
     phase.execute
+    $world.clean_up!
     next! if phase.auto
   end
 

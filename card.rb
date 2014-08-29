@@ -100,4 +100,7 @@ class Card
   end
 
 
+  def clean_up!
+  end
+
 end

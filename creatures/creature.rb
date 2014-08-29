@@ -74,12 +74,18 @@ class Creature < Card
     !alive?
   end
 
+  def kill!
+    player = owner
+    player.permanents.delete self
+    player.graveyard << self
+  end
 
   def unkeep!
     super
     @abilities.each do |ability|
       self.abilities.delete ability if ! ability.permanent?
     end
+    reset!
   end
 
   def attack!
@@ -109,6 +115,9 @@ class Creature < Card
     !has_ability?(SummoningSickness) && !tapped?
   end
 
+  def clean_up!
+    kill! if dead?
+  end
 
   def play!
     super

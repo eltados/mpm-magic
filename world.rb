@@ -20,16 +20,15 @@ class World
     end
 
     def permanents
-      [@p1.permanents ,@p1.permanents  ].flatten
+      [@p1.permanents , @p2.permanents  ].flatten
     end
 
     def switch_playing_player!
       @playing_player  = defending_player
     end
 
-    def clean!
-      @p1.clean!
-      @p2.clean!
+    def clean_up!
+      permanents.map &:clean_up!
     end
 
     def ready?
