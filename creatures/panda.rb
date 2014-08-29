@@ -1,4 +1,4 @@
-class Dragon < Creature
+class Panda < Creature
 
   def initialize
     super
