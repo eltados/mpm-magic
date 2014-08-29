@@ -3,7 +3,10 @@
 require 'rubygems'
 require 'require_all'
 require 'sinatra'
+require 'rest_client'
 require 'json'
+require 'open-uri'
+require 'active_support/all'
 require 'sinatra/reloader' if development?
 require_all 'creatures'
 require_all 'actions'
@@ -124,6 +127,7 @@ class App <  Sinatra::Application
   end
 
 
+
   get '/cards' do
     $world = World.new(Player.new,Player.new )
     @cards=[]
@@ -166,9 +170,17 @@ class App <  Sinatra::Application
       }
     end
   end
+
+  get '/card_importer' do
+    params[:name] ||= "zombie"
+    params[:img_query] ||= params[:name]
+    response = RestClient.get "http://api.mtgdb.info/search/#{URI::encode(params[:name])}?start=0&limit=0"
+    @cards = JSON.parse(response)
+    @cards = @cards.uniq{ |c| c['name'] }.sort_by{ |c| c['name'] }
+    @card = @cards.find{ |c| c['id'] == params[:id].to_i}
+    res = RestClient::Resource.new( "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27#{URI::encode(params[:img_query])}%27&$format=json&ImageFilters=%27Size%3AMedium%27", '', '7IU5fLJU28Y49NTV0zTLIuEQm+lS5So82uWaqpUIOF8' )
+    @images= JSON.parse(res.get)
+    erb :card_importer , layout: false
+  end
+
 end
-
-
-
-
-# use ExceptionHandling

@@ -1,3 +1,5 @@
 <% @cards.each do |card| %>
   <%= erb :_card, locals: {card: card   }%>
 <% end %>
+<br/>
+<a href="/card_importer">Create a new Card</a>

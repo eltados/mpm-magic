@@ -5,7 +5,7 @@
     <% if !card.is_a? Land %>
       <div class="cost"><%= card.cost %></div>
     <% end %>
-    <div class="name"><%= card.name %></div>
+    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %></span></div>
   </div>
 <% if $world && $world.target_action %>
   <% if $world.target_action.can_target? card %>

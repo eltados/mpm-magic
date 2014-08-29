@@ -3,7 +3,7 @@ require_relative 'actions/discard'
 require_relative 'actions/play'
 class Card
 
-  attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags, :description
 
 
   def initialize (owner = nil)
