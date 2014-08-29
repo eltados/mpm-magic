@@ -3,7 +3,7 @@ class Panda < Creature
   def initialize
     super
     @name = "Panda"
-    @strength = 9
+    @strength = 6
     @toughness = 9
     @type = "Panda"
     @cost = 8
