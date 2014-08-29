@@ -116,9 +116,12 @@ class Player
     end
 
     deck.suffle!
+    p = Panda.new
+    p.owner = self
+    permanents << p 
 
     7.times { draw! }
-    
+
   end
 
   def playing?
