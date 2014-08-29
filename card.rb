@@ -5,19 +5,15 @@ class Card
 
   attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags
 
-  DEFAULTS = {
-     tapped: false,
-  }.freeze
 
-  def initialize(options={})
-
-    options = DEFAULTS.merge(options)
-    options.each {|k,v| send("#{k}=",v)}
+  def initialize (owner = nil)
     @actions = []
     add_action Discard.new
     add_action Play.new
     @cost = 0
+    @tapped = false
     @flags = {}
+    @owner = owner
 
   end
 

@@ -10,17 +10,13 @@ class Creature < Card
 
   attr_accessor  :strength, :toughness, :dmg, :abilities,  :attack_bonus
 
-  DEFAULTS = {
-     dmg:  0,
-     attack_bonus: 0,
-     tapped: false
-  }.freeze
-
-  def initialize(options={})
-    super
-    options = DEFAULTS.merge(options)
-    options.each {|k,v| send("#{k}=",v)}
+  def initialize(owner=nil)
+    super(owner)
     @abilities = []
+    @dmg = 0
+    @attack_bonus = 0
+    @strength = 1
+    @toughness = 1
     add_action Attack.new
     add_action UndoAttack.new
     add_action Block.new
@@ -63,7 +59,7 @@ class Creature < Card
 
 
   def attack
-    strength + attack_bonus
+    @strength + @attack_bonus
   end
 
   def alive?

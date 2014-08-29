@@ -3,8 +3,8 @@ require_relative '../actions/produce'
 class Land < Card
   attr_accessor :mana_produced
 
-  def initialize(options={})
-    super
+  def initialize(owner=nil)
+    super(owner)
     add_action Produce.new
     @mana_produced = 1
   end

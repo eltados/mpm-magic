@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'require_all'
 require 'sinatra'
 require 'json'
 require 'sinatra/reloader' if development?
-require_relative 'creatures/creature'
-require_relative 'creatures/gob'
-require_relative 'creatures/dragon'
-require_relative 'creatures/elf'
-require_relative 'creatures/panda'
+require_all 'creatures'
+require_all 'actions'
+require_all 'lands'
+require_all 'abilities'
+require_all 'phase'
 require_relative 'fight'
 require_relative 'player'
 require_relative 'world'
@@ -121,6 +122,22 @@ class App <  Sinatra::Application
     redirect "/game?auto_play=true" if params[:auto_play]
     redirect "/game"
   end
+
+
+  get '/cards' do
+    $world = World.new(Player.new,Player.new )
+    @cards=[]
+    [Land , Creature].each do |type|
+      ObjectSpace.each_object(type.singleton_class).reject{ |c| c == type }.each do |card_class|
+        card = card_class.new
+        card.owner = $world.p1
+        @cards << card
+      end
+    end
+    @cards = @cards.sort_by(&:cost)
+    erb :cards
+  end
+
 
 
 
