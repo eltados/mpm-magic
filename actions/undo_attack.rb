@@ -16,4 +16,8 @@ class UndoAttack < Action
     card.undo_attack!
   end
 
+  def log
+    "#{card.owner.name} #{name.downcase}s of #{card.name}"
+  end
+
 end

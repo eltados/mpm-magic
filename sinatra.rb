@@ -86,10 +86,9 @@ class App <  Sinatra::Application
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
-    puts "#{params[:target]}" if params[:target]
-    puts params.inspect
     if !params[:target_id]
       action.execute!
+      $world.logs << action.log
     else
       action.execute_with_target! Card.find(params[:target_id])
     end

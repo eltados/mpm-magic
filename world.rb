@@ -3,12 +3,13 @@ require_relative 'lands/mountain'
 require_relative 'lands/forest'
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player, :target_action
+    attr_accessor :p1, :p2, :turn, :playing_player, :target_action, :logs
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
       @turn = Turn.new
       @playing_player = @p1
+      @logs =[]
     end
 
     def defending_player

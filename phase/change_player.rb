@@ -5,6 +5,7 @@ class ChangePlayer < Phase
   end
 
   def execute
+    $world.logs << "**** #{$world.playing_player.name} passes him turn"
     $world.switch_playing_player!
   end
 

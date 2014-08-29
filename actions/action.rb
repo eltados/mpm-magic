@@ -21,4 +21,8 @@ class Action
     raise "Not implemented"
   end
 
+  def log
+    "#{card.owner.name} #{name.downcase}s #{card.name}"
+  end
+
 end

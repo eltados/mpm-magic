@@ -117,14 +117,8 @@ class Player
 
     deck.suffle!
 
-    2.times { draw! }
-    d = Dragon.new
-    d.owner = self
-    permanents << d
-
-    e = Elf.new
-    e.owner = self
-    permanents << e
+    7.times { draw! }
+    
   end
 
   def playing?

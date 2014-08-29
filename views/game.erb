@@ -1,10 +1,9 @@
 <div id="logs" >
-  <pre>
-<%= h $world.target_action %>
-attacking :
-
-
-  </pre>
+  <ul>
+    <% @world.logs.reverse.each do |log| %>
+    <li><%= log %></li>
+    <% end %>
+  </ul>
 </div>
 
 

@@ -16,4 +16,8 @@ class Attack < Action
     card.attack!
   end
 
+
+  def log
+    "#{card.owner.name} #{name.downcase}s with #{card.name}"
+  end
 end

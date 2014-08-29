@@ -106,16 +106,41 @@ border: 0px;
 }
 
 #logs{
-  width : 300px;
-  max-height: 400px;
-  overflow-x:auto;
+  width : 50px;
+  max-height: 200px;
+  overflow:hidden;
   position:absolute;
   bottom:0px;
   right:0px;
-  z-index:1000;
+  z-index:50;
   background-color:#CCC;
   border:1px solid black;
+  opacity:0.25;
+  padding:3px;
+
+/*z-index:50;*/
+opacity:0.50;
+height: 400px;
+width: 300px;
+overflow-x:auto;
 }
+
+
+/*#logs:hover{
+  overflow-x:auto;
+  z-index:500;
+  opacity:0.75;
+  height: 400px;
+  width: 300px;
+  bottom:0;
+}*/
+
+
+#logs:hover{
+  z-index:500;
+  opacity:0.90;
+}
+
 
 
 
