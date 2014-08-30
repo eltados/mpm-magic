@@ -5,7 +5,7 @@ class CardCollection
     @cards = cards
   end
 
-  def suffle!
+  def shuffle!
     @cards.shuffle!
   end
 

@@ -122,5 +122,9 @@ class Creature < Card
     @abilities.map &:play!
   end
 
+  def self.all
+      ObjectSpace.each_object(Creature.singleton_class).reject{ |c| c == Creature }
+  end
+
 
 end

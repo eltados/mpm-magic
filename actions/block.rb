@@ -25,7 +25,8 @@ class Block < Action
   end
 
   def can_target?(target)
-    target.flags[:attacking]
+    target.flags[:attacking] && \
+    ( ! target.has_ability?(Flying) || ( target.has_ability?(Flying) && card.has_ability?(Flying)) )
   end
 
 

@@ -3,8 +3,8 @@ class Nightmare < Creature
   def initialize
     super
     @name = 'Nightmare'
-    @strength = 0
-    @toughness = 0
+    @strength = 5
+    @toughness = 5
     @type = "Creature"
     @cost = 6 # 5B
     @description =  "Flying Nightmare's power and toughness are each equal to the number of Swamps you control."

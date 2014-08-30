@@ -95,6 +95,9 @@ class Card
     actions.select(&:actionnable?).sort_by(&:priority)[0]
   end
 
+  def self.all
+      ObjectSpace.each_object(self.singleton_class).reject{ |c| c == self }
+  end
 
   def clean_up!
   end

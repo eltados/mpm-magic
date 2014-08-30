@@ -131,12 +131,10 @@ class App <  Sinatra::Application
   get '/cards' do
     $world = World.new(Player.new,Player.new )
     @cards=[]
-    [Land , Creature].each do |type|
-      ObjectSpace.each_object(type.singleton_class).reject{ |c| c == type }.each do |card_class|
+    Creature.all.each do |card_class|
         card = card_class.new
         card.owner = $world.p1
         @cards << card
-      end
     end
     @cards = @cards.sort_by(&:cost)
     erb :cards

@@ -62,6 +62,12 @@ class Player
   end
 
 
+  def add_permanent!(card)
+    permanents << card
+    card.owner = self
+  end
+
+
   def unkeep!
     @flags = {}
     @mana_pool.reset!
@@ -107,18 +113,20 @@ class Player
     20.times do
       deck << Mountain.new
       deck << Forest.new
-      deck << Gob.new
+      # deck << Gob.new
     end
 
-    12.times do
-      deck << Elf.new
-      deck << Dragon.new
+
+    40.times do
+      deck << Creature.all.shuffle[0].new
+      # deck << Dragon.new
     end
 
-    deck.suffle!
-    p = Panda.new
-    p.owner = self
-    permanents << p 
+    deck.shuffle!
+
+    # add_permanent! Panda.new
+    # add_permanent! Dragon.new
+    # add_permanent! Gob.new
 
     7.times { draw! }
 
