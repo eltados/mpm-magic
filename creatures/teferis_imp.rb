@@ -2,7 +2,7 @@ class TeferisImp < Creature
 
   def initialize
     super
-    @name = 'Teferi's Imp'
+    @name = "Teferi's Imp"
     @strength = 1
     @toughness = 1
     @type = "Creature"
