@@ -408,13 +408,12 @@ a{
   font-weight:bolder;
 }
 
-.playing{
-  color:white;
-  background:blue;
-  font-weight:bold;
-  width:100%;
-  font-size:150%;
-  padding:5px;
+#turn.playing{
+  background:green;
+}
+
+#turn.not_playing{
+  background:#666;
 }
 
 .target{

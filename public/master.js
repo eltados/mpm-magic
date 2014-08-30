@@ -19,6 +19,7 @@ var keymap = {
 //   });
 //   return false;
 // });
+if(window.location.pathname  == "/game"){
 
 $( document ).keypress(function( event ) {
   key = String.fromCharCode(event.which)
@@ -36,7 +37,6 @@ $( document ).keypress(function( event ) {
 });
 
 
-
 var es = new EventSource('/comet');
 es.onmessage = function(e) {
   // $("#logs").prepend(</br>');
@@ -47,3 +47,5 @@ es.onmessage = function(e) {
     }
   });
 };
+
+}

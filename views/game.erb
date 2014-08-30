@@ -16,7 +16,7 @@
 </div>
 
 
-<div id="turn">
+<div id="turn" class="<%= ( (me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) ) ) ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
@@ -43,7 +43,7 @@
     Opponent is blocking ...
   <% end %>
 <% else %>
-  <% if me.playing? %>
+  <% if me.playing? & @world.turn.phase.can_pass_to_next? %>
   <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
   <!-- <hr/> -->
   <!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
@@ -58,6 +58,9 @@
   </script>
   <a href="/game" accesskey="+">Stop AI</a>
   <% end %> -->
+
+  <% elsif me.playing? && !@world.turn.phase.can_pass_to_next? %>
+    <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
     Opponent is playing ...
   <% end %>
