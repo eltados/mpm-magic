@@ -28,7 +28,11 @@ class Action
 
 
   def execute!
-    raise "Not implemented"
+    world.logs << log
+  end
+
+  def can_target?(target)
+    true
   end
 
   def log

@@ -14,11 +14,12 @@ class UndoAttack < Action
   end
 
   def execute!
+    super
     card.undo_attack!
   end
 
   def log
-    "#{player.name} #{nadowncase}s of #{card.name}"
+    "#{player.name} #{name.downcase}s of #{card.name}"
   end
 
 end

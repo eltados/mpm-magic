@@ -12,6 +12,7 @@ class Discard < Action
   end
 
   def execute!
+    super
     player.discard! card
     world.turn.next!
   end

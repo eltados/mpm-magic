@@ -62,7 +62,12 @@ class App <  Sinatra::Application
   end
 
   get "/next" do
-    me.world.turn.next! if ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
+    me.world.turn.next! if me.active?
+    while(me.world.active_player.ai == true) do
+      me.world.active_player.auto_play!
+      notify!
+    end
+
     notify!
     redirect "/game"
   end
@@ -109,6 +114,21 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
+  get "/game/ai" do
+    world = World.new(me, nil)
+    me.world =  world
+    world.p1 = me
+
+    world.p2 = Player.new(self)
+    world.p2.name= "Robot"
+    world.p2.ai= true
+    world.p2.world = world
+    world.start!
+    redirect "/game"
+  end
+
+
+
 
 
 
@@ -117,7 +137,6 @@ class App <  Sinatra::Application
     action  = Action.find(params[:action_id])
     if !params[:target_id]
       action.execute!
-      me.world.logs << action.log
     else
       action.execute_with_target! Card.find(params[:target_id])
     end
@@ -138,9 +157,7 @@ class App <  Sinatra::Application
   end
 
   get '/auto' do
-    me.auto_play! if ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
-    puts "Auto play"
-    puts ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
+    me.auto_play! if me.active?
     notify!
     redirect "/game"
   end

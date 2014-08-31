@@ -10,8 +10,14 @@
 <h1>Welcome <%= me.name %> [<a href="/clear">Logout</a>]</h1>
 
 <a href="/">Refresh</a>
-<ul>
   <% if !me.world %>
+<h3>Single Player</h3>
+<ul>
+    <li><a href="/game/ai">Play against AI</a></li>
+</ul>
+
+<h3>Multiplayer</h3>
+<ul>
     <li><a href="/game/new">Create game</a></li>
     <% @players.reject{ |p| p == me || p.world == nil }.map(&:world).each do |world| %>
         <li><a href="/game/join/<%= world.to_param %>">Join <%= world.name %> vs <%= world.p1.name %></a></li>

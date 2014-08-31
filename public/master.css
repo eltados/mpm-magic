@@ -112,12 +112,36 @@ border-spacing: 0px;
 border: 0px;
 }
 
+#lose{
+  top:10px;
+  left:0px;
+  width :100%;
+  text-align :center;
+  /*height :100%;*/
+  position:absolute;
+  z-index:1000;
+  font-size:500%;
+  background-color:red;
+}
+
+
+#win{
+  top:10px;
+  left:0px;
+  width :100%;
+  text-align :center;
+  /*height :100%;*/
+  position:absolute;
+  z-index:1000;
+  font-size:500%;
+  background-color:lightgreen;
+}
 
 
 #logs{
   width : 50px;
   max-height: 200px;
-  overflow:hidden;
+  overflow:auto;
   position:absolute;
   bottom:0px;
   right:0px;

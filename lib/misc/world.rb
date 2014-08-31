@@ -27,6 +27,11 @@ class World
       @playing_player  = defending_player
     end
 
+    def active_player
+      @playing_player.active? ?  @playing_player : opponent
+    end
+
+
     def clean_up!
       permanents.map &:clean_up!
     end

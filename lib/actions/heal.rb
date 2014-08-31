@@ -15,6 +15,7 @@ class Heal < Action
   end
 
   def execute!
+    super
     card.tap!
     player.health += 1
   end

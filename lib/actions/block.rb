@@ -18,6 +18,7 @@ class Block < Action
   end
 
   def execute!
+    super
     a = TargetAction.new(card, self)
     world.target_action =a
   end
@@ -30,7 +31,6 @@ class Block < Action
 
 
   def execute_with_target!(target)
-    puts target.name
     card.block! target
     world.target_action =nil
   end

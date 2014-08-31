@@ -15,6 +15,7 @@ class Play < Action
   end
 
   def execute!
+  super
     player.play! card
   end
 

@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :name, :health , :permanents, :world, :deck, :hand, :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health , :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
 
   def initialize(world=nil)
     @permanents = []
@@ -8,6 +8,7 @@ class Player
     @graveyard = []
     @mana_pool =  ManaPool.new(self)
     @played =  false
+    @ai =  false
     @flags =  {}
     @health = 20
   end
@@ -95,7 +96,9 @@ class Player
 
 
 
-
+  def active?
+    ( playing? &&  !world.turn.phase.is_a?(BlockPhase) ) || ( !playing? &&  world.turn.phase.is_a?(BlockPhase) )
+  end
 
   def playing?
     self == world.playing_player
@@ -106,18 +109,33 @@ class Player
   end
 
   def auto_play!
-    return "" if (!playing? && ! world.turn.phase.is_a?(BlockPhase)) || (playing? && world.turn.phase.is_a?(BlockPhase))   
+    return nil if !active?
     land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
-    return land.execute!(Play) if land
+
+    if land
+      return land.execute!(Play)
+    end
 
     creature = hand.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
-    return creature.execute!(Play) if creature
+    if creature
+      return creature.execute!(Play)
+    end
 
     if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
       return attack_all!
     end
 
-    if world.turn.phase.is_a?(DiscardPhase)
+    if world.turn.phase.is_a?(BlockPhase)
+      attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  c.flags[:blocked] }
+      attacking_creatures.each do |attacking_creature|
+        creatures.select{ |c| c.can? Block, attacking_creature }.each do |defending_creatures|
+          return defending_creature.execute_with_target!(Block , attacking_creature )  ## todo improve logic
+        end
+      end
+
+    end
+
+    if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
       return hand.sort_by(&:cost).reverse[0].execute! Discard
     end
     return world.turn.next!

@@ -7,7 +7,16 @@
 </div>
 
 
+<% if me.health <= 0 %>
+<div id="lose" >
+  YOU LOSE !
+</div>
+<% elsif  opponent.health <= 0 %>
+<div id="win" >
+  YOU WIN !
+</div>
 
+<% end %>
 
 <div id="hand" >
   <% me.hand.sort_by(&:cost).each  do |card| %>
@@ -16,7 +25,7 @@
 </div>
 
 
-<div id="turn" class="<%= ( (me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) ) ) ? " playing" : " not_playing"%>">
+<div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
@@ -35,22 +44,36 @@
 
 
 <div id="next">
-<% if @world.turn.phase.is_a?(BlockPhase) %>
 
-  <% if me.opponent.playing? %>
-  <a href="/next" accesskey="n" class="ajax">Finished blocking</a>
-  <% else %>
-    Opponent is blocking ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
-  <% end %>
-<% else %>
-  <% if me.playing? & @world.turn.phase.can_pass_to_next? %>
-    <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
-  <% elsif me.playing? && !@world.turn.phase.can_pass_to_next? %>
+  <% if me.active? & @world.turn.phase.can_pass_to_next? %>
+    <a href="/next" accesskey="n" class="ajax">
+        <% if @world.turn.phase.is_a?(Draw) %>
+        Start
+        <% elsif @world.turn.phase.is_a?(Post) %>
+        End Turn
+        <% elsif @world.turn.phase.is_a?(BlockPhase) %>
+          <% if me.creatures.find{ |c| c.flags[:blocking] } %>
+            Finished Blocking
+          <% else %>
+            Skip Block
+          <% end %>
+
+        <% elsif @world.turn.phase.is_a?(Combat) %>
+          <% if me.creatures.find{ |c| c.flags[:attacking] } %>
+            Attack
+          <% else %>
+            Skip Combat
+          <% end %>
+        <% else %>
+        Next
+        <% end %>
+    </a>
+  <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
     Opponent is playing ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
-<% end %>
+
 </div>
 
 

@@ -26,8 +26,9 @@ class Card
     @actions <<  action
   end
 
-  def can? action_class
-    action(action_class).actionnable? == true
+  def can?(action_class, target = nil)
+    action(action_class).actionnable? == true && \
+    ( target ==nil || action(action_class).can_target?(target) )
   end
 
   def execute! action_class
