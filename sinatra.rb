@@ -51,7 +51,7 @@ class App <  Sinatra::Application
   end
 
   get "/" do
-    @include_prod_js = ENV['RACK_ENV'] == "development" ? false : true
+    @include_prod_js = true
     erb :home
   end
 
