@@ -65,16 +65,14 @@ class App <  Sinatra::Application
     me.world.turn.next! if me.active?
     while(me.world.active_player.ai == true) do
       me.world.active_player.auto_play!
-      notify!
     end
-
     notify!
     redirect "/game"
   end
 
 
   get "/clear" do
-    me.world =nil if me && me.world
+    me.world = nil if me && me.world
     @players.delete me
     session.clear
     notify!
@@ -124,14 +122,12 @@ class App <  Sinatra::Application
     world.p2.ai= true
     world.p2.world = world
     world.start!
+    # 1.times {  world.p1.permanents <<  WinterWall.new(me) }
+    # 1.times {  world.p1.permanents <<  Gob.new(me) }
+    # 1.times {  world.p2.permanents <<  Nightmare.new(world.p2)  }
+    # 1.times {  world.p2.permanents <<  Elf.new(world.p2)  }
     redirect "/game"
   end
-
-
-
-
-
-
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])

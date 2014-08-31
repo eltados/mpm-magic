@@ -6,15 +6,17 @@
 </form>
 </h1>
 
+
+
 <% else %>
 <h1>Welcome <%= me.name %> [<a href="/clear">Logout</a>]</h1>
 
-<a href="/">Refresh</a>
-  <% if !me.world %>
 <h3>Single Player</h3>
 <ul>
     <li><a href="/game/ai">Play against AI</a></li>
 </ul>
+
+  <% if !me.world %>
 
 <h3>Multiplayer</h3>
 <ul>

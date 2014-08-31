@@ -31,6 +31,7 @@ class Block < Action
 
 
   def execute_with_target!(target)
+    world.logs << "#{player.name} blocks #{target.name} with #{card.name}"
     card.block! target
     world.target_action =nil
   end

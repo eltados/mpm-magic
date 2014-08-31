@@ -26,6 +26,11 @@ class Card
     @actions <<  action
   end
 
+
+  def remove_action action
+    @actions.delete action(action) if(action(action) )
+  end
+
   def can?(action_class, target = nil)
     action(action_class).actionnable? == true && \
     ( target ==nil || action(action_class).can_target?(target) )

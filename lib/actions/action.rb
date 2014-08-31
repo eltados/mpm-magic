@@ -2,7 +2,7 @@ class Action
   attr_accessor :name, :owner, :img, :description, :priority
 
   def to_param
-    "#{object_id}-#{name}"
+    "#{object_id}-#{name}-#{owner.to_param}"
   end
 
   def self.find(id)

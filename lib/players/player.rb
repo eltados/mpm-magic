@@ -126,10 +126,14 @@ class Player
     end
 
     if world.turn.phase.is_a?(BlockPhase)
-      attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  c.flags[:blocked] }
+      puts "block"
+      attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  !c.flags[:blocked] }
       attacking_creatures.each do |attacking_creature|
-        creatures.select{ |c| c.can? Block, attacking_creature }.each do |defending_creatures|
-          return defending_creature.execute_with_target!(Block , attacking_creature )  ## todo improve logic
+        creatures.select{ |c| c.can? Block, attacking_creature }.sort_by(&:attack).each do |defending_creature|
+          block = defending_creature.action(Block)
+          if attacking_creature.attack <  defending_creature.health
+            return block.execute_with_target!( attacking_creature )
+          end
         end
       end
 

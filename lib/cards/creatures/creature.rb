@@ -12,6 +12,7 @@ class Creature < Card
     add_action Attack.new
     add_action UndoAttack.new
     add_action Block.new
+    add_action UndoBlock.new
   end
 
   def health
@@ -29,10 +30,7 @@ class Creature < Card
 
 
   def remove_ability(ability_class)
-    puts "#{ability_class}"
     ability = self.ability(ability_class)
-    puts "#{ability}"
-
     @abilities.delete ability if ability!=nil
   end
 
@@ -85,8 +83,13 @@ class Creature < Card
   def block!(creature)
     @flags[:blocking] = true
     creature.flags[:blocked] = true
-    puts "#{self.name} blocks #{creature}"
     @flags[:blocked_creature] = creature
+  end
+
+  def undo_block!
+    @flags[:blocking] = nil
+    @flags[:blocked_creature].flags[:blocked] = nil
+    @flags[:blocked_creature] = nil
   end
 
 
