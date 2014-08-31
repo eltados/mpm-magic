@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'require_all'
 require 'sinatra'
+# require 'sinatra/cookies'
 require 'rest_client'
 require 'json'
 require 'open-uri'
@@ -29,7 +30,6 @@ class App <  Sinatra::Application
     BetterErrors.application_root = __dir__
   end
 
-
   helpers do
     def h(text)
       Rack::Utils.escape_html(text)
@@ -51,21 +51,9 @@ class App <  Sinatra::Application
   end
 
   get "/" do
+    @include_prod_js = ENV['RACK_ENV'] == "development" ? false : true
     erb :home
   end
-
-  # get "/multiplayer" do
-  #     p1 = me
-  #     p2 = Player.find(params[:opponent])
-  #     p1.setup!
-  #     p2.setup!
-  #
-  #     world  = World.new(p1 , p2)
-  #     notify!
-  #
-  #     redirect "/game"
-  # end
-
 
   get "/game" do
     redirect "/clear" if me == nil || me.world == nil || !me.world.ready?
@@ -81,9 +69,10 @@ class App <  Sinatra::Application
 
 
   get "/clear" do
-    me.world.delete me if me && me.world
+    me.world =nil if me && me.world
     @players.delete me
     session.clear
+    notify!
     redirect "/"
   end
 
@@ -91,6 +80,7 @@ class App <  Sinatra::Application
     session[:current_user] =  Player.new
     me.name = params[:name]
     @players << me
+    notify!
     redirect "/"
   end
 
@@ -100,12 +90,14 @@ class App <  Sinatra::Application
       world.p1 = me
       world.p2 = nil
       me.world = world
+      notify!
       redirect "/"
   end
 
 
   get "/game/cancel" do
     me.world = nil
+    notify!
     redirect "/"
   end
 
@@ -113,6 +105,7 @@ class App <  Sinatra::Application
     me.world = World.find(params[:world_id])
     me.world.p2 = me
     me.world.start!
+    notify!
     redirect "/game"
   end
 

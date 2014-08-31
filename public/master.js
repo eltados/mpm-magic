@@ -2,23 +2,23 @@ var keymap = {
   'a' : "/attack_all",
   'n' : "/next",
   'q' : "/auto",
+  ']' : "/clear",
 };
 
 
-// $(document ).on( "click", "a.ajax" , function() {
-//   url = $( this ).attr("href") ;
-//   // alert("ajax");
-//   $.ajax({
-//     url: url,
-//     success: function( data ) {
-//       $('body').html(data);
-//     },
-//     error: function( data ) {
-//       $('body').html(data);
-//     }
-//   });
-//   return false;
-// });
+if(window.location.pathname  == "/game" || window.location.pathname  == "/"){
+var es = new EventSource('/comet');
+es.onmessage = function(e) {
+  // $("#logs").prepend(</br>');
+  $.ajax({
+    url: window.location.href,
+    success: function( data ) {
+      $('body').html(data);
+    }
+  });
+};
+}
+
 
 if(window.location.pathname  == "/game"){
 
@@ -38,15 +38,6 @@ $( document ).keypress(function( event ) {
 });
 
 
-var es = new EventSource('/comet');
-es.onmessage = function(e) {
-  // $("#logs").prepend(</br>');
-  $.ajax({
-    url: window.location.href,
-    success: function( data ) {
-      $('body').html(data);
-    }
-  });
-};
+
 
 }

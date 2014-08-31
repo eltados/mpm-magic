@@ -2,6 +2,9 @@
 <head>
   <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script src="master.js"></script>
+  <% if @include_prod_js  %>
+   <script src="production.js"></script>
+  <% end %>
   <link rel="stylesheet" type="text/css" href="master.css">
 
 </head>
