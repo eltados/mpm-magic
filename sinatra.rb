@@ -7,9 +7,11 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
-require "better_errors"
 
-require 'sinatra/reloader' if development?
+if development?
+  require "better_errors"
+  require 'sinatra/reloader'
+end
 require_all 'lib'
 
 
