@@ -53,6 +53,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   json
+  minitest
   require_all
   rest-client
   shotgun

@@ -351,8 +351,8 @@ body{
   perspective: 1500px;
   perspective-origin: top;
   overflow:hidden;
-background-image: url('battleground.jpg');
-background-color:green;
+/*background-image: url('battleground.jpg');*/
+/*background-color:green;*/
 }
 a{
   text-decoration:none;
