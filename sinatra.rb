@@ -206,6 +206,9 @@ class App <  Sinatra::Application
 
 
 
+  get '/env' do
+    ENV.inspect
+  end
   get '/card_importer' do
     params[:name] ||= "zombie"
     params[:img_query] ||= params[:name]
