@@ -60,6 +60,10 @@ class World
 
     def start!
       [p1, p2].each do |p|
+        p.hand = []
+        p.permanents = []
+        p.graveyard = []
+        p.deck = []
 
         20.times do
           p.deck << Mountain.new(p)
