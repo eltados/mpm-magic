@@ -9,6 +9,7 @@
 <% else %>
 <h1>Welcome <%= me.name %> [<a href="/clear">Logout</a>]</h1>
 
+<a href="/">Refresh</a>
 <ul>
   <% if !me.world %>
     <li><a href="/game/new">Create game</a></li>
@@ -21,7 +22,7 @@
     <% if me.world.ready? %>
       <h1><%= me.world.p2.name %> joined, <a href="/game">START</a></h1>
     <% else %>
-      <h1>Waiting for player to join ...</h1>
+      <h1>Waiting for player to join ... <a href="/">Refresh</a></h1>
     <% end %>
   <% end %>
 

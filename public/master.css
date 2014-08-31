@@ -18,6 +18,11 @@ z-index:100;
   /*height:150px;*/
   /*width:150px;*/
   background-color:red;
+
+}
+#next a{
+  color:white;
+  font-weight:bold
 }
 
 
@@ -34,10 +39,24 @@ z-index:100;
 
 #me{
   position:absolute;
-  top:50;
+  bottom:155;
   left:5;
   padding:5px;
-  /*width:120px;*/
+  z-index:100;
+  font-size:115%;
+  overflow-x: none;
+  background:green;
+
+}
+
+
+#opponent{
+  position:absolute;
+  top:5;
+  left:5;
+  padding:5px;
+  z-index:100;
+  font-size:115%;
   overflow-x: none;
   background:green;
 }
@@ -53,16 +72,6 @@ z-index:100;
 
 }
 
-
-#opponent{
-  position:absolute;
-  top:5;
-  left:5;
-  padding:5px;
-  /*width:120px;*/
-  overflow-x: none;
-  background:lightgrey;
-}
 
 
 #opponent_playground .card{
@@ -156,7 +165,7 @@ overflow-x:auto;
   bottom:0px;
   /*display: block;*/
   /*margin-left: auto;*/
-  /*width:100%;*/
+  width:100%;
   /*padding-top:50px;*/
 overflow-y: auto;
   /*background-color:blue;*/

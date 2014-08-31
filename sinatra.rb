@@ -11,7 +11,7 @@ require 'active_support/all'
 
 if development?
   require "better_errors"
-  # require 'sinatra/reloader'
+  require 'sinatra/reloader'
 end
 require_all 'lib'
 
@@ -139,14 +139,9 @@ class App <  Sinatra::Application
 
   get '/auto' do
     me.auto_play! if ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
+    puts "Auto play"
+    puts ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
     notify!
-    redirect "/game"
-  end
-
-  get '/auto_play' do
-    me.auto_play!
-    notify!
-    redirect "/game?auto_play=true" if params[:auto_play]
     redirect "/game"
   end
 

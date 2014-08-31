@@ -1,8 +1,5 @@
 <% turn = locals[:turn] %>
-
-  <span>
-  <%= h me.world.playing_player.name %>
-  </span>
+  <%= me.world.playing_player.name %>
   <hr>
   <ul class="phase">
   <% @world.turn.phases.each do |phase| %>

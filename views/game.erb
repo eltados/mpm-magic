@@ -21,17 +21,17 @@
 </div>
 
 <div id="me">
-  Me: <%= me.health %> HP
+  <%= me.name %>: <%= me.health %> HP
   <br/>
   Cards : <%= me.hand.size %>
 </div>
 
-
 <div id="opponent">
-  Op: <%= opponent.health %> HP
+  <%= opponent.name %>: <%= opponent.health %> HP
   <br/>
   Cards : <%= opponent.hand.size %>
 </div>
+
 
 
 <div id="next">
@@ -40,29 +40,15 @@
   <% if me.opponent.playing? %>
   <a href="/next" accesskey="n" class="ajax">Finished blocking</a>
   <% else %>
-    Opponent is blocking ...
+    Opponent is blocking ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 <% else %>
   <% if me.playing? & @world.turn.phase.can_pass_to_next? %>
-  <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
-  <!-- <hr/> -->
-  <!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
-  <hr/>
-  <% if !params[:auto_play] %>
-  <a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
-  <% else %>
-  <script>
-    window.setTimeout(function(){
-      window.location.href = "auto_play?auto_play=true" ;
-    }, 1000);
-  </script>
-  <a href="/game" accesskey="+">Stop AI</a>
-  <% end %> -->
-
+    <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
   <% elsif me.playing? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    Opponent is playing ...
+    Opponent is playing ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 <% end %>
 </div>

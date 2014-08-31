@@ -106,7 +106,7 @@ class Player
   end
 
   def auto_play!
-    return "" if !playing?
+    return "" if (!playing? && ! world.turn.phase.is_a?(BlockPhase)) || (playing? && world.turn.phase.is_a?(BlockPhase))   
     land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
     return land.execute!(Play) if land
 

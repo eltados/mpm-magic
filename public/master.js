@@ -6,19 +6,6 @@ var keymap = {
 };
 
 
-if(window.location.pathname  == "/game" || window.location.pathname  == "/"){
-var es = new EventSource('/comet');
-es.onmessage = function(e) {
-  // $("#logs").prepend(</br>');
-  $.ajax({
-    url: window.location.href,
-    success: function( data ) {
-      $('body').html(data);
-    }
-  });
-};
-}
-
 
 if(window.location.pathname  == "/game"){
 
@@ -36,7 +23,16 @@ $( document ).keypress(function( event ) {
     });
   }
 });
-
+var es = new EventSource('/comet');
+es.onmessage = function(e) {
+  // $("#logs").prepend(</br>');
+  $.ajax({
+    url: window.location.href,
+    success: function( data ) {
+      $('body').html(data);
+    }
+  });
+};
 
 
 
