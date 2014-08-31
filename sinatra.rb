@@ -70,6 +70,10 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
+  get "/clear_all" do
+    @players = []
+    redirect "/clear"
+  end
 
   get "/clear" do
     me.world = nil if me && me.world
