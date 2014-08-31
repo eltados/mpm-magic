@@ -17,6 +17,16 @@ class Action
     @owner
   end
 
+
+  def player
+    card.owner
+  end
+
+  def world
+    card.owner.world
+  end
+
+
   def execute!
     raise "Not implemented"
   end

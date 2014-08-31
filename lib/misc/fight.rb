@@ -8,7 +8,7 @@ class Fight
 
   def self.attack_player!(creature ,player)
     player.health -= creature.attack
-    $world.logs << "#{player.name} loses #{creature.attack} HP (#{creature.name})"
+    player.world.logs << "#{player.name} loses #{creature.attack} HP (#{creature.name})"
   end
 
   def self.resolve_dmg(attacker , defender)

@@ -1,11 +1,11 @@
 <% turn = locals[:turn] %>
 
   <span>
-  <%= h $world.playing_player.name %>
+  <%= h me.world.playing_player.name %>
   </span>
   <hr>
   <ul class="phase">
-  <% Turn.phases.each do |phase| %>
+  <% @world.turn.phases.each do |phase| %>
     <li class="<%= 'selected' if phase == turn.phase %>" ><%= phase %></li>
   <% end %>
   </ul>

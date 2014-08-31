@@ -98,4 +98,12 @@ class Card
   def clean_up!
   end
 
+  def player
+    @owner
+  end
+
+  def world
+    player.world
+  end
+
 end

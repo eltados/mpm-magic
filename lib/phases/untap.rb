@@ -1,11 +1,12 @@
 class Untap < Phase
 
-  def initialize(options={})
+  def initialize(turn=nil)
+    super(turn)
     @name = "Untap"
   end
 
   def execute
-    $world.playing_player.permanents.map &:untap!
+    world.playing_player.permanents.map &:untap!
   end
 
 end

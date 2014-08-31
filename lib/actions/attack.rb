@@ -8,7 +8,7 @@ class Attack < Action
   end
 
   def actionnable?
-    super && card.owner.playing? && card.in_play? && $world.turn.phase.is_a?(Combat) &&  card.activable?
+    super && player.playing? && card.in_play? && world.turn.phase.is_a?(Combat) &&  card.activable?
   end
 
   def execute!
@@ -17,6 +17,6 @@ class Attack < Action
 
 
   def log
-    "#{card.owner.name} #{name.downcase}s with #{card.name}"
+    "#{player.name} #{name.downcase}s with #{card.name}"
   end
 end

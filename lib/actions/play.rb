@@ -9,13 +9,13 @@ class Play < Action
 
   def actionnable?
     super && card.in_hand? &&
-      ( $world.turn.phase.is_a?(Pre) ||
-        $world.turn.phase.is_a?(Post) ||
-        $world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played? && card.owner.playing?
+      ( world.turn.phase.is_a?(Pre) ||
+        world.turn.phase.is_a?(Post) ||
+        world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played? && card.owner.playing?
   end
 
   def execute!
-    card.owner.play! card
+    player.play! card
   end
 
 

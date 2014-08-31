@@ -1,6 +1,7 @@
 class Post < Phase
 
-  def initialize
+  def initialize(turn=nil)
+    super(turn)
     @name = "Post Combat"
   end
 

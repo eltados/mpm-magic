@@ -16,7 +16,7 @@
 </div>
 
 
-<div id="turn" class="<%= ( (me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) ) ) ? " playing" : " not_playing"%>">
+<div id="turn" class="<%= ( (me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) ) ) ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 

@@ -1,9 +1,49 @@
-<h1>Welcome <%= me.name %></h1>
+<% if !me %>
+<form action="/login" method="GET">
+  Name : <input type="text" value="<%= "Player #{@players.size + 1}" %>" name="name"/>
+  <input type="submit" value="Login" />
+</form>
 
-<% if $world &&  $world.ready? %>
-  <h1><a href="/game">Join game <%= $world.p1.name %> and <%= $world.p2.name %> </a></h1>
-<% end %>
 
+<h3>Players</h3>
+<ul>
+  <% @players.each do |p| %>
+      <li><%= p.name %></li>
+  <% end %>
+</ul>
+<% else %>
+<h1>Welcome <%= me.name %> [<a href="/clear">Logout</a>]</h1>
+
+<ul>
+  <% if !me.world %>
+    <li><a href="/game/new">Create game</a></li>
+    <% @players.reject{ |p| p == me || p.world == nil }.map(&:world).each do |world| %>
+        <li><a href="/game/join/<%= world.to_param %>">Join <%= world.name %> </a></li>
+    <% end %>
+  <% else %>
+    <li>In game <%= me.world.name %> <a href="/game/cancel">[cancel]</a> </li>
+    <% if  me.world.ready? %>
+      <h1><a href="/game">start</a></h1>
+    <% end %>
+  <% end %>
+
+</ul>
+
+
+
+
+<h3>Players</h3>
+<ul>
+  <% @players.each do |p| %>
+    <% if p == me %>
+      <li><%= p.name %> (me)</li>
+    <% else %>
+      <li><a href="/multiplayer?opponent=<%= p.to_param %>"><%= p.name %></a></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<% if false %>
 <h3>Select a player to player against</h3>
 <ul>
   <% @players.reject { |p| p == me }.each do |p| %>
@@ -11,6 +51,9 @@
   <% end %>
 </ul>
 
+<% end %>
+
+<% end %>
 <h3>Other actions</h3>
 
 <ul>
@@ -19,9 +62,9 @@
   <li><a href="/card_importer">Create a new Card</a></li>
 </ul>
 
-
+<!--
 <script>
 window.setTimeout(function(){
   window.location.href = window.location.href ;
 }, 5000);
-</script>
+</script> -->

@@ -63,7 +63,7 @@ class Creature < Card
   end
 
   def kill!
-    $world.logs << "#{owner.name} loses his #{self.name}"
+    player.world.logs << "#{owner.name} loses his #{self.name}"
     player = owner
     player.permanents.delete self
     player.graveyard << self

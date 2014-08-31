@@ -8,7 +8,9 @@ class UndoAttack < Action
   end
 
   def actionnable?
-    super && @owner.in_play? && $world.turn.phase.is_a?(Combat) &&  @owner.flags[:attacking] == true && card.owner.playing?
+    super && card.in_play? && world.turn.phase.is_a?(Combat) && \
+    card.flags[:attacking] == true &&\
+    player.playing?
   end
 
   def execute!
@@ -16,7 +18,7 @@ class UndoAttack < Action
   end
 
   def log
-    "#{card.owner.name} #{name.downcase}s of #{card.name}"
+    "#{player.name} #{nadowncase}s of #{card.name}"
   end
 
 end

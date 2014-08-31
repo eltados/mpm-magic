@@ -1,6 +1,7 @@
 class Combat < Phase
 
-  def initialize(options={})
+  def initialize(turn=nil)
+    super(turn)
     @name = "Combat"
   end
 
@@ -8,7 +9,7 @@ class Combat < Phase
   end
 
   def auto
-    $world.playing_player.creatures.select { |c| c.can? (Attack) }.size == 0
+    world.playing_player.creatures.select { |c| c.can? (Attack) }.size == 0
   end
 
 end

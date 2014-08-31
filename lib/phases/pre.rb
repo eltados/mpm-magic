@@ -1,6 +1,7 @@
 class Pre < Phase
 
-  def initialize(options={})
+  def initialize(turn=nil)
+    super(turn)
     @name = "Pre combat"
   end
 

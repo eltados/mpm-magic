@@ -10,7 +10,7 @@ require 'active_support/all'
 
 if development?
   require "better_errors"
-  require 'sinatra/reloader'
+  # require 'sinatra/reloader'
 end
 require_all 'lib'
 
@@ -40,61 +40,91 @@ class App <  Sinatra::Application
     end
 
     def opponent
-      $world.p1 == me ?  $world.p2 :  $world.p1
+      me.world.p1 == me ?  me.world.p2 :  me.world.p1
     end
 
   end
 
-
-  @@players = []
+  def initialize
+    super
+    @players = []
+  end
 
   get "/" do
-      session[:current_user] =  Player.new( name:"Player #{request.ip}") if me == nil
-      if ! @@players.include? me
-        @@players << me
-      end
-      @players = @@players
-      erb :home
+    erb :home
   end
 
-  get "/multiplayer" do
-      p1 = me
-      p2 = Player.find(params[:opponent])
-      p1.setup!
-      p2.setup!
-
-      notify!
-      $world  = World.new(p1 , p2)
-      redirect "/game"
-  end
+  # get "/multiplayer" do
+  #     p1 = me
+  #     p2 = Player.find(params[:opponent])
+  #     p1.setup!
+  #     p2.setup!
+  #
+  #     world  = World.new(p1 , p2)
+  #     notify!
+  #
+  #     redirect "/game"
+  # end
 
 
   get "/game" do
-    redirect "/clear" if ! $world
-    @world = $world
+    redirect "/clear" if me == nil || me.world == nil || !me.world.ready?
+    @world = me.world
     erb :game , layout: !request.xhr?
   end
 
   get "/next" do
-    $world.turn.next! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
+    me.world.turn.next! if ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
     notify!
     redirect "/game"
   end
 
 
   get "/clear" do
-    $world = nil
-    @@players = []
+    me.world.delete me if me && me.world
+    @players.delete me
     session.clear
-    notify!
     redirect "/"
   end
+
+  get "/login" do
+    session[:current_user] =  Player.new
+    me.name = params[:name]
+    @players << me
+    redirect "/"
+  end
+
+
+  get "/game/new" do
+      world  = World.new(me)
+      world.p1 = me
+      world.p2 = nil
+      me.world = world
+      redirect "/"
+  end
+
+
+  get "/game/cancel" do
+    me.world = nil
+    redirect "/"
+  end
+
+  get "/game/join/:world_id" do
+    me.world = World.find(params[:world_id])
+    me.world.p2 = me
+    me.world.start!
+    redirect "/game"
+  end
+
+
+
+
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
       action.execute!
-      $world.logs << action.log
+      me.world.logs << action.log
     else
       action.execute_with_target! Card.find(params[:target_id])
     end
@@ -109,13 +139,13 @@ class App <  Sinatra::Application
   end
 
   get "/cancel_target" do
-    $world.target_action = nil
+    me.world.target_action = nil
     notify!
     redirect "/game"
   end
 
   get '/auto' do
-    me.auto_play! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
+    me.auto_play! if ( me.playing? &&  !me.world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  me.world.turn.phase.is_a?(BlockPhase) )
     notify!
     redirect "/game"
   end
@@ -130,10 +160,10 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    $world = World.new(Player.new,Player.new )
+    me.world = World.new(Player.new,Player.new )
     @cards=[]
     Creature.all.each do |card_class|
-        card = card_class.new $world.p1
+        card = card_class.new me.world.p1
         @cards << card
     end
     @cards = @cards.sort_by(&:cost)
@@ -168,6 +198,8 @@ class App <  Sinatra::Application
       }
     end
   end
+
+
 
 
   get '/card_importer' do

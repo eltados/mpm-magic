@@ -1,14 +1,7 @@
 class Player
-  attr_accessor :name, :health , :permanents, :deck, :hand, :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health , :permanents, :world, :deck, :hand, :graveyard, :mana_pool, :flags, :played
 
-  DEFAULTS = {
-     name:  "Player",
-     health: 20,
-  }
-
-  def initialize(options={})
-    options = DEFAULTS.merge(options)
-    options.each {|k,v| send("#{k}=",v)}
+  def initialize(world=nil)
     @permanents = []
     @deck = []
     @hand = []
@@ -16,6 +9,7 @@ class Player
     @mana_pool =  ManaPool.new(self)
     @played =  false
     @flags =  {}
+    @health = 20
   end
 
   def alive?
@@ -100,50 +94,15 @@ class Player
 
 
 
-  def setup!
-    20.times do
-      deck << Mountain.new(self)
-      deck << Forest.new(self)
-      # deck << Gob.new
-    end
 
 
-    40.times do
-      deck << Creature.all.shuffle[0].new(self)
-      # deck << Dragon.new
-    end
-
-    deck.shuffle!
-    hand << Nightmare.new(self)
-    6.times { draw! }
-
-  end
-  #
-  # def setup!
-  #   20.times do
-  #     deck << Mountain.new(self)
-  #     deck << Forest.new(self)
-  #     # deck << Gob.new
-  #   end
-  #
-  #
-  #   40.times do
-  #     deck << Creature.all.shuffle[0].new(self)
-  #     # deck << Dragon.new
-  #   end
-  #
-  #   deck.shuffle!
-  #
-  #   7.times { draw! }
-  #
-  # end
 
   def playing?
-    self == $world.playing_player
+    self == world.playing_player
   end
 
   def opponent
-    $world.p1 == self ? $world.p2 : $world.p1
+    world.p1 == self ? world.p2 : world.p1
   end
 
   def auto_play!
@@ -154,14 +113,14 @@ class Player
     creature = hand.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
     return creature.execute!(Play) if creature
 
-    if $world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
+    if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
       return attack_all!
     end
 
-    if $world.turn.phase.is_a?(DiscardPhase)
+    if world.turn.phase.is_a?(DiscardPhase)
       return hand.sort_by(&:cost).reverse[0].execute! Discard
     end
-    return $world.turn.next!
+    return world.turn.next!
   end
 
   def to_param

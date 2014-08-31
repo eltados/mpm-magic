@@ -9,17 +9,17 @@ class Block < Action
 
   def actionnable?
     super \
-    && !card.owner.playing? \
+    && !player.playing? \
     && card.in_play? \
-    && $world.turn.phase.is_a?(BlockPhase) \
+    && world.turn.phase.is_a?(BlockPhase) \
     && !card.tapped? \
     && !card.flags[:blocking] \
-    && card.owner.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0
+    && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0
   end
 
   def execute!
     a = TargetAction.new(card, self)
-    $world.target_action =a
+    world.target_action =a
   end
 
   def can_target?(target)
@@ -32,11 +32,11 @@ class Block < Action
   def execute_with_target!(target)
     puts target.name
     card.block! target
-    $world.target_action =nil
+    world.target_action =nil
   end
 
   def log
-    "#{card.owner.name} #{name.downcase}s with #{card.name}"
+    "#{player.name} blocks with #{card.name}"
   end
 
 end

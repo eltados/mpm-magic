@@ -1,6 +1,7 @@
 class BlockPhase < Phase
 
-  def initialize(options={})
+  def initialize(turn=nil)
+    super(turn)
     @name = "Block"
   end
 
@@ -8,7 +9,7 @@ class BlockPhase < Phase
   end
 
   def auto
-    $world.defending_player.creatures.select { |c| c.can? (Block) }.size == 0
+    world.defending_player.creatures.select { |c| c.can? (Block) }.size == 0
   end
 
 end
