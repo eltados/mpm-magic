@@ -7,18 +7,11 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
+require "better_errors"
+
 require 'sinatra/reloader' if development?
-require_all 'creatures'
-require_all 'actions'
-require_all 'lands'
-require_all 'abilities'
-require_all 'phase'
-require_relative 'fight'
-require_relative 'player'
-require_relative 'world'
-require_relative 'battle'
-require_relative 'turn'
-require_relative 'deck'
+require_all 'lib'
+
 
 class App <  Sinatra::Application
 
@@ -28,6 +21,12 @@ class App <  Sinatra::Application
     set :session_secret, 'secret'
     set :views, Proc.new { File.join(root, "views") }
   end
+
+  configure :development do
+    use BetterErrors::Middleware
+    BetterErrors.application_root = __dir__
+  end
+
 
   helpers do
     def h(text)
@@ -132,8 +131,7 @@ class App <  Sinatra::Application
     $world = World.new(Player.new,Player.new )
     @cards=[]
     Creature.all.each do |card_class|
-        card = card_class.new
-        card.owner = $world.p1
+        card = card_class.new $world.p1
         @cards << card
     end
     @cards = @cards.sort_by(&:cost)
@@ -168,6 +166,7 @@ class App <  Sinatra::Application
       }
     end
   end
+
 
   get '/card_importer' do
     params[:name] ||= "zombie"

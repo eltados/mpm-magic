@@ -8,7 +8,15 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     backports (3.6.0)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
+    coderay (1.1.0)
     daemons (1.1.9)
+    debug_inspector (0.0.2)
+    erubis (2.7.0)
     eventmachine (1.0.3)
     i18n (0.6.11)
     json (1.8.1)
@@ -52,6 +60,8 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  better_errors
+  binding_of_caller
   json
   minitest
   require_all

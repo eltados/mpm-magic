@@ -10,7 +10,7 @@
 
 
 <div id="hand" >
-  <% me.hand.cards.sort_by(&:cost).each  do |card| %>
+  <% me.hand.sort_by(&:cost).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>

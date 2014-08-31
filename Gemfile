@@ -6,6 +6,13 @@ gem 'thin'
 gem 'require_all'
 gem 'rest-client'
 gem 'activesupport'
-gem 'shotgun'
-gem 'minitest'
+
+
+group :development do
+  gem 'minitest'
+  gem 'shotgun'
+  gem "better_errors"
+  gem "binding_of_caller"
+end
+
 ruby '2.0.0'
