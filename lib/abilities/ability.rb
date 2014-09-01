@@ -1,6 +1,11 @@
 class Ability
   attr_accessor :name, :owner, :img, :description
 
+
+  def initialize(owner)
+    @owner = owner
+  end
+
   def action
     nil
   end

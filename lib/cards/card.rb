@@ -1,4 +1,4 @@
-class Card
+class Card < Hooks
 
   attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags, :description
 
@@ -48,20 +48,12 @@ class Card
   end
 
 
-  def toggle!
-    @tapped = ! @tapped
-  end
-
   def tap!
     @tapped = true
   end
 
   def untap!
     @tapped = false
-  end
-
-  def can_be_played?
-    true
   end
 
   def unkeep!
@@ -111,5 +103,20 @@ class Card
   def world
     player.world
   end
+
+
+##
+
+  # def when_phase_untap
+  #   untap!
+  # end
+  #
+  #
+  # def when_phase_unkeep
+  # end
+  #
+  # def when_phase_end_turn
+  #   @flags = {}
+  # end
 
 end

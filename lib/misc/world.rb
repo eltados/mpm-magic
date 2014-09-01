@@ -20,7 +20,7 @@ class World
     end
 
     def permanents
-      [@p1.permanents , @p2.permanents  ].flatten
+      [@p1.permanents , @p2.permanents ].flatten
     end
 
     def switch_playing_player!

@@ -1,6 +1,7 @@
 class Discard < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Discard"
     @img ="discard.png"
     @description ="Discard this card"

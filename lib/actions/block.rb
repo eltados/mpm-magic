@@ -1,6 +1,7 @@
 class Block < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Block"
     @img ="http://icons.iconarchive.com/icons/rafiqul-hassan/blogger/24/Shield-icon.png"
     @description ="Block"

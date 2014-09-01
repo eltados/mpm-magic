@@ -1,6 +1,7 @@
 class Produce < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Produce"
     @img ="produce.png"
     @description ="Produce mana"

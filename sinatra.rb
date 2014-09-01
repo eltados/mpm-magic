@@ -164,10 +164,12 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    me.world = World.new(Player.new,Player.new )
+    session[:current_user] =  Player.new
+    me.world = World.new(Player.new ,Player.new )
     @cards=[]
     Creature.all.each do |card_class|
-        card = card_class.new me.world.p1
+        card = card_class.new
+        card.owner = me
         @cards << card
     end
     @cards = @cards.sort_by(&:cost)

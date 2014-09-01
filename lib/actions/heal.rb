@@ -1,6 +1,7 @@
 class Heal < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Heal"
     @img ="heal.png"
     @description ="Tap : Gain 1 HP"

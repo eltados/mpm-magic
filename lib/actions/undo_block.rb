@@ -1,6 +1,7 @@
 class UndoBlock < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Undo Bock"
     @img ="undo.png"
     @description ="Remove this card from blocking"

@@ -1,6 +1,6 @@
 class Creature < Card
 
-  attr_accessor  :strength, :toughness, :dmg, :abilities,  :attack_bonus
+  attr_accessor  :strength, :toughness, :dmg, :abilities, :attack_bonus
 
   def initialize(owner=nil)
     super(owner)
@@ -14,6 +14,41 @@ class Creature < Card
     add_action Block.new
     add_action UndoBlock.new
   end
+
+  # def toughness
+  #   @toughness  + ab_calc(:toughness)
+  # end
+  #
+  # def strength
+  #   @strength  + ab_calc(:strength)
+  # end
+  #
+  #
+  # def actions
+  #   @actions + ab_ary( :actions )
+  # end
+  #
+  # def ab_calc(method)
+  #   @abilities.select{ |a| a.respond_to? method }.map( &method ).inject{|sum,x| sum + x } || 0
+  # end
+  #
+  # def ab_ary(method)
+  #   @abilities.select{ |a| a.respond_to? method }.map( &method ).flatten
+  # end
+
+  def reset!
+    @dmg = 0
+    @attack_bonus = 0
+  end
+
+  def unkeep!
+    super
+    @abilities.each do |ability|
+      self.abilities.delete ability if ! ability.permanent?
+    end
+    reset!
+  end
+
 
   def health
     toughness - dmg
@@ -41,15 +76,8 @@ class Creature < Card
     return nil
   end
 
-
-  def reset!
-    @dmg = 0
-    @attack_bonus = 0
-  end
-
-
   def attack
-    @strength + @attack_bonus
+    strength + @attack_bonus
   end
 
   def alive?
@@ -67,13 +95,7 @@ class Creature < Card
     player.graveyard << self
   end
 
-  def unkeep!
-    super
-    @abilities.each do |ability|
-      self.abilities.delete ability if ! ability.permanent?
-    end
-    reset!
-  end
+
 
   def attack!
     tap!
@@ -118,6 +140,13 @@ class Creature < Card
   end
 
 
-
+  # def when_phase_end_turn
+  #   super
+  #   @abilities.each do |ability|
+  #     self.abilities.delete ability if ! ability.permanent?
+  #   end
+  #   @dmg = 0
+  #   @attack_bonus = 0
+  # end
 
 end

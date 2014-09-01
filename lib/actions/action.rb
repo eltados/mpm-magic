@@ -1,6 +1,12 @@
 class Action
   attr_accessor :name, :owner, :img, :description, :priority
 
+
+
+  def initialize(owner)
+    @owner = owner
+  end
+
   def to_param
     "#{object_id}-#{name}-#{owner.to_param}"
   end

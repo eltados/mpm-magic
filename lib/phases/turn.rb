@@ -3,7 +3,7 @@ class Turn
 
 
   def initialize(world=nil)
-    @phases = [Untap, Unkeep, Draw , Pre, Combat, BlockPhase, ResolveCombat, Post , DiscardPhase , ChangePlayer].map do |phase|
+    @phases = [Untap, Unkeep, Draw , Pre, Combat, BlockPhase, ResolveCombat, Post , DiscardPhase , EndTurn].map do |phase|
       phase.new self
     end
 

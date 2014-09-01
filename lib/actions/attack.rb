@@ -1,6 +1,7 @@
 class Attack < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Attack"
     @img ="attack.png"
     @description ="Attack with this card"

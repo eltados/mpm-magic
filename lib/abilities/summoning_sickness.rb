@@ -1,6 +1,7 @@
 class SummoningSickness < Ability
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Summoning Sickness"
     @img ="spiral.png"
     # @img = "this creature cannot"

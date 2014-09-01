@@ -1,6 +1,7 @@
 class Play < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Play"
     @img ="play.png"
     @description ="Play this card"

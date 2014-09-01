@@ -1,6 +1,7 @@
 class Haste < Ability
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Haste"
     @img ="haste.png"
   end
@@ -8,5 +9,6 @@ class Haste < Ability
   def play!
     @owner.remove_ability SummoningSickness
   end
+
 
 end

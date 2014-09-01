@@ -1,6 +1,7 @@
 class UndoAttack < Action
 
-  def initialize
+  def initialize(owner=nil)
+    super(owner)
     @name = "Undo Attack"
     @img ="undo.png"
     @description ="Remove this card from attack"
