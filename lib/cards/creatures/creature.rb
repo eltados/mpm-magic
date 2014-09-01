@@ -5,6 +5,7 @@ class Creature < Card
   def initialize(owner=nil)
     super(owner)
     @abilities = []
+    @icons = []
     @dmg = 0
     @attack_bonus = 0
     @strength = 1
@@ -91,6 +92,10 @@ class Creature < Card
     @abilities.map &:play!
   end
 
+  def when_played
+    super
+  end
+
   def when_phase_ends
     super
     when_dead if dead?
@@ -111,8 +116,5 @@ class Creature < Card
     player.permanents.delete self
     player.graveyard << self
   end
-
-
-
 
 end
