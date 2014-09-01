@@ -27,4 +27,7 @@ class Phase
     true
   end
 
+  def after
+  end
+
 end

@@ -3,7 +3,7 @@ class Turn
 
 
   def initialize(world=nil)
-    @phases = [Untap, Unkeep, Draw , Pre, Combat, BlockPhase, ResolveCombat, Post , DiscardPhase , EndTurn].map do |phase|
+    @phases = [Untap, Unkeep, Draw , Pre, Combat, BlockPhase, ResolveCombat, Post , DiscardPhase ].map do |phase|
       phase.new self
     end
 
@@ -16,10 +16,11 @@ class Turn
 
   def next!
     return false if !phase.can_pass_to_next?
+    phase.after
     @current_phase += 1
     end_turn! if @current_phase >= @phases.size
     phase.execute
-    world.clean_up!
+    world.when_phase_ends
     next! if phase.auto
   end
 
@@ -30,6 +31,7 @@ class Turn
 
   def end_turn!
     @current_phase = -1
+    world.when_turn_ends
     @number += 1
     next!
   end

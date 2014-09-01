@@ -1,4 +1,4 @@
-class Player
+class Player < Hook
   attr_accessor :name, :health , :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
 
   def initialize(world=nil)
@@ -25,18 +25,11 @@ class Player
     !alive?
   end
 
-  def cards_in_play
-    @permanents
-  end
-
-  def attack!(player)
-    Battle.new(self, player)
-  end
-
 
   def draw!
     raise 'No More Card to Draw'   if deck.size ==0
     hand << deck.shift
+    when_draw
   end
 
   def play!(card)
@@ -52,30 +45,13 @@ class Player
   end
 
 
-  def unkeep!
-    @flags = {}
-    @mana_pool.reset!
-  end
+
 
   def discard!(card)
     hand.delete card
     graveyard << card
   end
 
-  def clean!
-    clean_dead_permanents!
-    @permanents.each do |c|
-      c.reset!
-    end
-  end
-
-  def clean_dead_permanents!
-    dead_permanents = []
-    @permanents.each do |c|
-      dead_permanents << c if c.dead?
-    end
-    @permanents -=  dead_permanents
-  end
 
   def lands
     permanents.select do |card| card.is_a? Land end
@@ -153,5 +129,13 @@ class Player
     ObjectSpace._id2ref(id.to_i)
   end
 
+  def when_turn_ends
+    @mana_pool.reset!
+    @flags = {}
+  end
+
+  def when_phase_draw
+    draw!
+  end
 
 end

@@ -7,6 +7,7 @@ class Fight
   end
 
   def self.attack_player!(creature ,player)
+    creature.when_hits_player
     player.health -= creature.attack
     player.world.logs << "#{player.name} loses #{creature.attack} HP (#{creature.name})"
   end

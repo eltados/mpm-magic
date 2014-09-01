@@ -11,4 +11,15 @@ class Elf < Creature
     add_ability(HealAbility.new)
   end
 
+  def when_hits_player
+    super
+    @strength += 1
+    @toughness += 1
+  end
+
+  def when_blocked
+    super
+    player.health += 1
+  end
+
 end

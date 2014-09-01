@@ -36,19 +36,6 @@ class Creature < Card
   #   @abilities.select{ |a| a.respond_to? method }.map( &method ).flatten
   # end
 
-  def reset!
-    @dmg = 0
-    @attack_bonus = 0
-  end
-
-  def unkeep!
-    super
-    @abilities.each do |ability|
-      self.abilities.delete ability if ! ability.permanent?
-    end
-    reset!
-  end
-
 
   def health
     toughness - dmg
@@ -88,15 +75,6 @@ class Creature < Card
     !alive?
   end
 
-  def kill!
-    player.world.logs << "#{owner.name} loses his #{self.name}"
-    player = owner
-    player.permanents.delete self
-    player.graveyard << self
-  end
-
-
-
   def attack!
     tap!
     flags[:attacking] = true
@@ -129,24 +107,32 @@ class Creature < Card
     !has_ability?(SummoningSickness) && !tapped?
   end
 
-  def clean_up!
-    kill! if dead?
-  end
-
   def play!
     super
     add_ability SummoningSickness.new
     @abilities.map &:play!
   end
 
+  def when_phase_ends
+    super
+    when_dead if dead?
+  end
 
-  # def when_phase_end_turn
-  #   super
-  #   @abilities.each do |ability|
-  #     self.abilities.delete ability if ! ability.permanent?
-  #   end
-  #   @dmg = 0
-  #   @attack_bonus = 0
-  # end
+  def when_turn_ends
+    super
+    @abilities.each do |ability|
+      self.abilities.delete ability if ! ability.permanent?
+    end
+    @dmg = 0
+    @attack_bonus = 0
+  end
+
+  def when_dead
+    super
+    player.world.logs << "#{owner.name} loses his #{self.name}"
+    player.permanents.delete self
+    player.graveyard << self
+  end
+
 
 end

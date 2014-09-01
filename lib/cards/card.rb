@@ -15,6 +15,7 @@ class Card < Hook
 
   def play!
     pay_cost!
+    when_played
   end
 
   def pay_cost!
@@ -50,14 +51,12 @@ class Card < Hook
 
   def tap!
     @tapped = true
+    when_tapped
   end
 
   def untap!
     @tapped = false
-  end
-
-  def unkeep!
-    @flags = {}
+    when_untapped
   end
 
 
@@ -66,7 +65,7 @@ class Card < Hook
   end
 
   def in_play?
-    @owner.cards_in_play.include? self
+    @owner.permanents.include? self
   end
 
   def in_hand?
@@ -93,8 +92,6 @@ class Card < Hook
       ObjectSpace.each_object(self.singleton_class).reject{ |c| c == self }
   end
 
-  def clean_up!
-  end
 
   def player
     @owner
@@ -105,18 +102,14 @@ class Card < Hook
   end
 
 
-##
+  def when_turn_ends
+    super
+    @flags = {}
+  end
 
-  # def when_phase_untap
-  #   untap!
-  # end
-  #
-  #
-  # def when_phase_unkeep
-  # end
-  #
-  # def when_phase_end_turn
-  #   @flags = {}
-  # end
+  def when_phase_untap
+    super
+    untap!
+  end
 
 end

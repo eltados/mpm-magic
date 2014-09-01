@@ -6,10 +6,7 @@ class Unkeep < Phase
   end
 
   def execute
-    world.playing_player.unkeep!
-    world.p1.permanents.map &:unkeep!
-    world.p2.permanents.map &:unkeep!
-    # world.playing_player.permanents.map &:when_phase_unkeep
+    world.when_phase_unkeep
   end
 
 end

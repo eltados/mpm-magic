@@ -10,4 +10,5 @@ class DarkMonk < Creature
     @img = "http://fc02.deviantart.net/fs25/f/2008/183/6/0/DArk_monk_by_DjLewis.jpg"
   end
 
+
 end

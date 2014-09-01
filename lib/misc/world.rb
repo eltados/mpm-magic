@@ -23,6 +23,10 @@ class World
       [@p1.permanents , @p2.permanents ].flatten
     end
 
+    def players
+      [@p1, @p2 ]
+    end
+
     def switch_playing_player!
       @playing_player  = defending_player
     end
@@ -31,10 +35,6 @@ class World
       @playing_player.active? ?  @playing_player : opponent
     end
 
-
-    def clean_up!
-      permanents.map &:clean_up!
-    end
 
     def ready?
       @p1 != nil  && @p2 !=nil
@@ -75,6 +75,9 @@ class World
           p.deck << Creature.all.shuffle[0].new(p)
         end
 
+        p.permanents << Nightmare.new(p)
+        # p.permanents << Mountain.new(p)
+
         p.deck.shuffle!
 
         7.times { p.draw! }
@@ -83,5 +86,27 @@ class World
     end
 
 
+    def when_phase_ends
+      permanents.map &:when_phase_ends
+      players.map &:when_phase_ends
+    end
 
+    def when_turn_ends
+      permanents.map &:when_turn_ends
+      players.map &:when_turn_ends
+      playing_player.when_my_turn_ends
+      switch_playing_player!
+    end
+
+    def when_phase_unkeep
+      playing_player.permanents.map &:when_phase_unkeep
+    end
+
+    def when_phase_untap
+      playing_player.permanents.map &:when_phase_untap
+    end
+
+    def when_phase_draw
+      playing_player.when_phase_draw
+    end
 end
