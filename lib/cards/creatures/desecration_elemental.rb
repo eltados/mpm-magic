@@ -6,7 +6,7 @@ class DesecrationElemental < Creature
     @strength = 8
     @toughness = 8
     @type = "Creature"
-    @cost = 4 # 3B
+    @cost = 8 # 3B
     @description =  "Fear (This creature can't be blocked except by artifact creatures and/or black creatures.) Whenever a player casts a spell, sacrifice a creature."
     @img = "http://bogleech.com/mtg/elemental-spawnwrithe.jpg"
     @mtg_id = 50204
