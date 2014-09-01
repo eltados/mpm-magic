@@ -15,28 +15,6 @@ class Creature < Card
     add_action UndoBlock.new
   end
 
-  # def toughness
-  #   @toughness  + ab_calc(:toughness)
-  # end
-  #
-  # def strength
-  #   @strength  + ab_calc(:strength)
-  # end
-  #
-  #
-  # def actions
-  #   @actions + ab_ary( :actions )
-  # end
-  #
-  # def ab_calc(method)
-  #   @abilities.select{ |a| a.respond_to? method }.map( &method ).inject{|sum,x| sum + x } || 0
-  # end
-  #
-  # def ab_ary(method)
-  #   @abilities.select{ |a| a.respond_to? method }.map( &method ).flatten
-  # end
-
-
   def health
     toughness - dmg
   end
@@ -133,6 +111,8 @@ class Creature < Card
     player.permanents.delete self
     player.graveyard << self
   end
+
+
 
 
 end
