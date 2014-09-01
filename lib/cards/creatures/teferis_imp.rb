@@ -11,5 +11,4 @@ class TeferisImp < Creature
     @img = "http://images1.wikia.nocookie.net/__cb20080618101518/sfery/images/8/8b/Imp02.jpg"
     @mtg_id = 3369
   end
-
 end
