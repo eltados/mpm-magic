@@ -1,4 +1,4 @@
-class Card < Hooks
+class Card < Hook
 
   attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags, :description
 
