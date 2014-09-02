@@ -71,7 +71,7 @@ class World
         end
 
 
-        40.times do
+        50.times do
           p.deck << Creature.all.shuffle[0].new(p)
         end
 
