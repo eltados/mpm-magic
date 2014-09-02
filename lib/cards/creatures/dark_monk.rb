@@ -3,7 +3,7 @@ class DarkMonk < Creature
   def initialize(owner=nil)
     super(owner)
     @name = "Dark Monk"
-    @strength = 2
+    @strength = 3
     @toughness = 1
     @type = "Monk"
     @cost = 3
