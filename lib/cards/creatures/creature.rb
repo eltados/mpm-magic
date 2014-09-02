@@ -4,9 +4,6 @@ class Creature < Card
 
   $modified_methods = [:strength , :toughness, :dmg, :attack_bonus, :actions, :can_attack , :can_block  ]
   $modified_methods_with_param = [ :can_be_blocked_by ]
-# ,
-# ,
-
 
   def initialize(owner=nil)
     super(owner)

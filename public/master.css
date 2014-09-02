@@ -25,6 +25,20 @@ z-index:100;
   font-weight:bold
 }
 
+#additional_action{
+  z-index:200;
+  position:absolute;
+  top:80;
+  font-size:150%;
+  right:150;
+  padding:15px;
+  background-color:blue;
+}
+
+#additional_action a{
+  color:white;
+  font-weight:bold
+}
 
 #turn{
   position:absolute;

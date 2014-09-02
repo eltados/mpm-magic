@@ -1,10 +1,10 @@
-<div id="logs" >
+<!-- <div id="logs" >
   <ul>
     <% @world.logs.reverse.each do |log| %>
     <li><%= log %></li>
     <% end %>
   </ul>
-</div>
+</div> -->
 
 
 <% if me.health <= 0 %>
@@ -78,6 +78,15 @@
   <% end %>
 
 </div>
+
+<% if @world.turn.phase.is_a?(Combat) &&  me.active? && me.creatures.find{ |c| c.flags[:attacking] } ==nil  %>
+<div id="additional_action">
+
+    <a href="/attack_all"  class="ajax">
+            Attack with All
+    </a>
+</div>
+<% end %>
 
 
 <table id="playground" border="0" padding="0" spacing="0">
