@@ -5,11 +5,11 @@ class NightmareAbility < Ability
   end
 
   def toughness(original)
-    card.player.lands.size
+    original + card.player.lands.size
   end
 
   def strength(original)
-    card.player.lands.size
+    original + card.player.lands.size
   end
 
 end

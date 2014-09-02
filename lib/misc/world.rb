@@ -72,7 +72,7 @@ class World
 
 
         50.times do
-          p.deck << Creature.all.shuffle[0].new(p)
+          p.deck << (Creature.all - [God]).shuffle[0].new(p)
         end
 
 
