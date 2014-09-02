@@ -75,21 +75,20 @@ class World
           p.deck << Creature.all.shuffle[0].new(p)
         end
 
-        # p.permanents << Mountain.new(p)
 
         p.deck.shuffle!
 
         7.times { p.draw! }
 
       end
-      p1.permanents << DarkMonk.new(p1)
-      p1.permanents << Nightmare.new(p1)
-      p1.permanents << Gob.new(p1)
-      p1.permanents << WinterWall.new(p1)
-      p2.hand = []
-      # p2.permanents << DarkMonk.new(p2)
-      p2.permanents << Rhino.new(p2)
-      10.times {  p1.permanents << Mountain.new(p1) }
+      # p1.permanents << DarkMonk.new(p1)
+      # p1.permanents << Nightmare.new(p1)
+      # p1.permanents << Gob.new(p1)
+      # p1.permanents << WinterWall.new(p1)
+      # p2.hand = []
+      # # p2.permanents << DarkMonk.new(p2)
+      # p2.permanents << Rhino.new(p2)
+      # 10.times {  p1.permanents << Mountain.new(p1) }
     end
 
 
