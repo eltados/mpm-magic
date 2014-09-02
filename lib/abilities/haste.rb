@@ -4,7 +4,7 @@ class Haste < Ability
     "This creature does extra player dommage when blocked"
   end
 
-  def when_blocked
+  def when_played
     card.abilities.reject!{ |a|  a.class == SummoningSickness}
   end
 

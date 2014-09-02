@@ -30,13 +30,14 @@
 </div>
 
 <div id="me">
-  <%= me.name %>: <%= me.health %> HP
+  <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
   Cards : <%= me.hand.size %>
 </div>
 
 <div id="opponent">
-  <%= opponent.name %>: <%= opponent.health %> HP
+  <span class="hp <%= hp_color opponent.health %>"><%= opponent.health %> HP </span><br>
+  <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
   <br/>

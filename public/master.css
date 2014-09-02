@@ -136,7 +136,22 @@ border: 0px;
   font-size:500%;
   background-color:lightgreen;
 }
+.hp {
+  font-size:200%;
+  font-weight:bold;
+  color:white;
+}
+.hp_5 {
+  color:#610B0B;
+}
 
+.hp_10 {
+  color:#FF0000;
+}
+
+.hp_15 {
+  color:#F6CECE;
+}
 
 #logs{
   width : 50px;

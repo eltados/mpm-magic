@@ -39,6 +39,15 @@ class App <  Sinatra::Application
       session[:current_user]
     end
 
+
+    def hp_color(hp)
+       return "hp_5" if hp <= 5
+       return "hp_10" if hp <= 10
+       return "hp_15" if hp <= 15
+      ""
+    end
+
+
     def opponent
       me.world.p1 == me ?  me.world.p2 :  me.world.p1
     end
