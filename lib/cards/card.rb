@@ -15,7 +15,7 @@ class Card < Hook
 
   def play!
     pay_cost!
-    when_played
+    event :played
   end
 
   def pay_cost!
@@ -51,12 +51,12 @@ class Card < Hook
 
   def tap!
     @tapped = true
-    when_tapped
+    event :tapped
   end
 
   def untap!
     @tapped = false
-    when_untapped
+    event :untapped
   end
 
 
@@ -101,7 +101,6 @@ class Card < Hook
     player.world
   end
 
-
   def when_turn_ends
     super
     @flags = {}
@@ -111,5 +110,13 @@ class Card < Hook
     super
     untap!
   end
+
+
+  def event(event)
+    method = "when_#{event}".to_sym
+    send method if self.respond_to? method.to_sym
+  end
+
+
 
 end

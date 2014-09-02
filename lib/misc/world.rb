@@ -75,7 +75,6 @@ class World
           p.deck << Creature.all.shuffle[0].new(p)
         end
 
-        p.permanents << Nightmare.new(p)
         # p.permanents << Mountain.new(p)
 
         p.deck.shuffle!
@@ -83,30 +82,38 @@ class World
         7.times { p.draw! }
 
       end
+      p1.permanents << DarkMonk.new(p1)
+      p1.permanents << Nightmare.new(p1)
+      p1.permanents << Gob.new(p1)
+      p1.permanents << WinterWall.new(p1)
+      p2.hand = []
+      # p2.permanents << DarkMonk.new(p2)
+      p2.permanents << Rhino.new(p2)
+      10.times {  p1.permanents << Mountain.new(p1) }
     end
 
 
     def when_phase_ends
-      permanents.map &:when_phase_ends
-      players.map &:when_phase_ends
+      permanents.each{ |p|  p.event :phase_ends }
+      players.map &:when_phase_ends # TODO
     end
 
     def when_turn_ends
-      permanents.map &:when_turn_ends
-      players.map &:when_turn_ends
-      playing_player.when_my_turn_ends
+      permanents.each{ |p|  p.event :turn_ends }
+      players.map &:when_turn_ends # TODO
+      playing_player.when_my_turn_ends #TODO
       switch_playing_player!
     end
 
     def when_phase_unkeep
-      playing_player.permanents.map &:when_phase_unkeep
+      playing_player.permanents.each{ |p|  p.event :phase_unkeep }
     end
 
     def when_phase_untap
-      playing_player.permanents.map &:when_phase_untap
+      playing_player.permanents.each{ |p|  p.event  :phase_untap }
     end
 
     def when_phase_draw
-      playing_player.when_phase_draw
+      playing_player.when_phase_draw #TODO
     end
 end

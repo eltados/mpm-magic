@@ -13,9 +13,8 @@ class Block < Action
     && !player.playing? \
     && card.in_play? \
     && world.turn.phase.is_a?(BlockPhase) \
-    && !card.tapped? \
-    && !card.flags[:blocking] \
-    && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0
+    && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0 \
+    && card.can_block_any(player.opponent.creatures.select { |c| c.flags[:attacking] })
   end
 
   def execute!
@@ -25,8 +24,7 @@ class Block < Action
   end
 
   def can_target?(target)
-    target.flags[:attacking] && \
-    ( ! target.has_ability?(Flying) || ( target.has_ability?(Flying) && card.has_ability?(Flying)) )
+    target.flags[:attacking] && card.can_block_creature(target)
   end
 
 
