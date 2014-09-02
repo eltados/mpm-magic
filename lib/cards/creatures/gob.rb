@@ -8,7 +8,7 @@ class Gob < Creature
     @type = "Gobelin"
     @cost = 2
     @img = "http://bibliotheque-imperiale.com/images/thumb/4/42/Gobelinnuit.png/300px-Gobelinnuit.png";
-    add_ability(Haste.new)
+    add_abilities  [ Haste ]
   end
 
 end

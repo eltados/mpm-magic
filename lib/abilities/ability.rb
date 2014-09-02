@@ -1,33 +1,44 @@
 class Ability
-  attr_accessor :name, :owner, :img, :description
 
-
-  def initialize(owner)
-    @owner = owner
+  attr_accessor :card
+  def initialize(card)
+    @card = card
   end
 
-  def action
-    nil
-  end
 
   def permanent?
     true
   end
 
-  def to_param
-    "#{object_id}-#{name}"
-  end
-
-  def self.find(id)
-    ObjectSpace._id2ref(id.to_i)
+  def id
+     self.class.name.underscore.to_sym
   end
 
 
-  def play!
+  def name
+     self.class.name.underscore.gsub('_', ' ').gsub(' ability', '').humanize
   end
 
-  def card
-    @owner
+  def img
+    "#{id}.png"
   end
+
+
+  def description
+    ""
+  end
+
+  def to_sym
+    id
+  end
+
+  def to_s
+    id
+  end
+
+  def self.to_sym
+    self.name.underscore.to_sym
+  end
+
 
 end

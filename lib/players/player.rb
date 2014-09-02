@@ -1,4 +1,4 @@
-class Player < Hook
+class Player <Hook
   attr_accessor :name, :health , :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
 
   def initialize(world=nil)
@@ -29,7 +29,7 @@ class Player < Hook
   def draw!
     raise 'No More Card to Draw'   if deck.size ==0
     hand << deck.shift
-    when_draw
+    # when_draw
   end
 
   def play!(card)
@@ -38,14 +38,11 @@ class Player < Hook
     card.play!
   end
 
-
-  def add_permanent!(card)
-    permanents << card
-    card.owner = self
+  def hits_player!(dommage , card)
+    @health -= dommage
+    card.flags[:hits_player] = dommage
+    card.event :hits_player
   end
-
-
-
 
   def discard!(card)
     hand.delete card
@@ -102,7 +99,6 @@ class Player < Hook
     end
 
     if world.turn.phase.is_a?(BlockPhase)
-      puts "block"
       attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  !c.flags[:blocked] }
       attacking_creatures.each do |attacking_creature|
         creatures.select{ |c| c.can? Block, attacking_creature }.sort_by(&:attack).each do |defending_creature|

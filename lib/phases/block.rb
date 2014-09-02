@@ -14,7 +14,11 @@ class BlockPhase < Phase
   end
 
   def auto
-    world.defending_player.creatures.select { |c| c.can? (Block) }.size == 0
+    attacking_creatures = world.playing_player.creatures.select { |c| c.flags[:attacking]  }
+    world.defending_player.creatures.each do |defending_creature|
+       return false if defending_creature.can_block_any(attacking_creatures)
+    end
+    return true
   end
 
 end

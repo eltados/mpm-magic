@@ -9,7 +9,8 @@ class Attack < Action
   end
 
   def actionnable?
-    super && player.playing? && card.in_play? && world.turn.phase.is_a?(Combat) &&  card.activable?
+    super && player.playing? && card.in_play? && world.turn.phase.is_a?(Combat) && \
+    card.can_attack
   end
 
   def execute!

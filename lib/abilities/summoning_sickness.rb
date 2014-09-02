@@ -1,13 +1,17 @@
+
+
 class SummoningSickness < Ability
 
-  def initialize(owner=nil)
-    super(owner)
-    @name = "Summoning Sickness"
-    @img ="spiral.png"
-    # @img = "this creature cannot"
+  def description
+    "This creature is affected by the summoning sickness and cannot attack the first turn"
   end
 
   def permanent?
+    false
+  end
+
+
+  def can_attack(original)
     false
   end
 

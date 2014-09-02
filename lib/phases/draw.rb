@@ -6,7 +6,7 @@ class Draw < Phase
   end
 
   def execute
-    world.when_phase_draw 
+    world.when_phase_draw  # TODO
   end
 
 end

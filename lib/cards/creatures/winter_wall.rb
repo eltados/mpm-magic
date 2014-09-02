@@ -7,6 +7,7 @@ class WinterWall < Creature
     @toughness = 6
     @cost = 4
     @img = "http://img4.wikia.nocookie.net/__cb20110305193555/gameofthrones/images/thumb/f/f5/The_Wall.jpg/500px-The_Wall.jpg"
+    add_abilities = [ WallAbility ] 
   end
 
 end

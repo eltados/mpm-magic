@@ -9,7 +9,7 @@ class Combat < Phase
   end
 
   def after
-    world.playing_player.creatures.select { |c| c.flags[:attacking]  }.map(&:when_attacking)
+    world.playing_player.creatures.select { |c| c.flags[:attacking]  }.each{ |c| c.event :attacking}
   end
 
 
