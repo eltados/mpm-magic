@@ -22,9 +22,9 @@ end
 
 
 class Card
-  attr_accessor :hp , :mods
+  attr_accessor :hp , :abilities
   def initialize
-    @mods = [ ] 
+    @abilities = [ ] 
     @hp = 1 
   end 
   
@@ -33,7 +33,7 @@ class Card
   
 
   def modify(original_value , method)
-    @mods.select do  |mod| 
+    @abilities.select do  |mod| 
         mod.respond_to? method
     end.reduce(original_value) do |val,mod| 
         mod.send( method, val , self )
@@ -56,7 +56,7 @@ class SuperCard < Card
 
   def initialize
     @hp = 1 
-    @mods = [ Mod2 , Mod1,  Mod1  ] 
+    @abilities = [ Mod2 , Mod1,  Mod1  ] 
   end 
 
   
@@ -71,8 +71,9 @@ puts c.hp_with_mod
 puts "======="
 s = SuperCard.new
 puts s.hp
-puts s.hp_without_mod
-puts s.hp_with_mod
-
+s.abilities << Mod1
+puts s.hp
+s.abilities.shift
+puts s.hp
 
 
