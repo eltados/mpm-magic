@@ -7,7 +7,7 @@ class Boost < Ability
 
   def when_hits_player
     card.toughness += 1
-    card.strenght += 1
+    card.strength += 1
   end
 
 end

@@ -182,7 +182,7 @@ class Creature < Card
   def event(event)
     super
     method = "when_#{event}".to_sym
-    @abilities.select do  |ability|
+    @abilities.select do |ability|
         ability.respond_to? method
     end.each  do |ability|
       ability.send method
