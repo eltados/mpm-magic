@@ -109,25 +109,8 @@ class Creature < Card
     super
   end
 
- # TODO fix the duplication
-self.modified_methods.each do |method|
-  define_method "#{method}_with_mod".to_sym do
-     __modify( send("#{method}_without_mod".to_sym) , method )
-  end
-  alias_method_chain method , :mod
-end
 
-
-# TODO fix the duplication
-self.modified_methods_with_param.each do |method|
-  define_method "#{method}_with_mod".to_sym do |param|
-     __modify_with_param( send("#{method}_without_mod".to_sym , param ) , method , param )
-  end
-  alias_method_chain method , :mod
-end
-
-
-
+  define_modified_methods
 
 
   def when_phase_ends
