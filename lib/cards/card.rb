@@ -1,10 +1,18 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :type, :cost, :flags, :description, :abilities
 
+  def self.modified_methods
+    [ :actions ]
+  end
+
+  def self.modified_methods_with_param
+     []
+  end
 
   def initialize (owner = nil)
     @actions = []
+    @abilities = []
     add_action Discard.new
     add_action Play.new
     @cost = 0
@@ -117,6 +125,42 @@ class Card < Hook
     send method if self.respond_to? method.to_sym
   end
 
+
+
+
+
+  def __modify(original_value , method )
+    @abilities.select do |ability|
+        ability.respond_to? method
+    end.reduce(original_value) do |val,ability|
+        ability.send( method, val)
+    end
+  end
+
+
+  self.modified_methods.each do |method|
+    define_method "#{method}_with_mod".to_sym do
+       __modify( send("#{method}_without_mod".to_sym) , method )
+    end
+    alias_method_chain method , :mod
+  end
+
+
+
+  def __modify_with_param(original_value , method, param )
+    @abilities.select do |ability|
+        ability.respond_to? method
+    end.reduce(original_value) do |val,ability|
+        ability.send( method, val , param)
+    end
+  end
+
+  self.modified_methods_with_param.each do |method|
+    define_method "#{method}_with_mod".to_sym do |param|
+       __modify_with_param( send("#{method}_without_mod".to_sym , param ) , method , param )
+    end
+    alias_method_chain method , :mod
+  end
 
 
 end

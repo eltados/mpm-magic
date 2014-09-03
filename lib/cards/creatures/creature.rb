@@ -1,9 +1,14 @@
 class Creature < Card
 
-  attr_accessor  :strength, :toughness, :dmg, :abilities, :attack_bonus
+  attr_accessor  :strength, :toughness, :dmg, :attack_bonus
 
-  $modified_methods = [:strength , :toughness, :dmg, :attack_bonus, :actions, :can_attack , :can_block  ]
-  $modified_methods_with_param = [ :can_be_blocked_by ]
+  def self.modified_methods
+    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block  ]
+  end
+
+  def self.modified_methods_with_param
+    super + [:can_be_blocked_by  ]
+  end
 
   def initialize(owner=nil)
     super(owner)
@@ -100,58 +105,6 @@ class Creature < Card
   end
 
 
-
-
-  def __modify(original_value , method )
-    @abilities.select do |ability|
-        ability.respond_to? method
-    end.reduce(original_value) do |val,ability|
-        ability.send( method, val)
-    end
-  end
-
-
-  $modified_methods.each do |method|
-    define_method "#{method}_with_mod".to_sym do
-       __modify( send("#{method}_without_mod".to_sym) , method )
-    end
-    alias_method_chain method , :mod
-  end
-
-
-
-  def __modify_with_param(original_value , method, param )
-    @abilities.select do |ability|
-        ability.respond_to? method
-    end.reduce(original_value) do |val,ability|
-        ability.send( method, val , param)
-    end
-  end
-
-  $modified_methods_with_param.each do |method|
-    define_method "#{method}_with_mod".to_sym do |param|
-       __modify_with_param( send("#{method}_without_mod".to_sym , param ) , method , param )
-    end
-    alias_method_chain method , :mod
-  end
-
-
-
-  # def __modify(original_value , method)
-  #   @abilities.select do  |ability|
-  #       ability.respond_to? method
-  #   end.reduce(original_value) do |val,ability|
-  #       ability.send( method, val )
-  #   end
-  # end
-  #
-  #
-  # $modified_methods.each do |method|
-  #   define_method "#{method}_with_mod".to_sym do
-  #      __modify( send("#{method}_without_mod".to_sym) , method)
-  #   end
-  #   alias_method_chain method , :mod
-  # end
 
 
 
