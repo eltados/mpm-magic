@@ -3,7 +3,7 @@ class Creature < Card
   attr_accessor  :strength, :toughness, :dmg,  :attack_bonus
 
   def self.modified_methods
-    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block  ]
+    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block , :can_be_activated ]
   end
 
   def self.modified_methods_with_param
@@ -67,8 +67,8 @@ class Creature < Card
     owner.mana_pool.can_pay? self.cost
   end
 
-  def activable?
-    !abilities.include?(SummoningSickness) && !tapped?
+  def can_be_activated
+    !tapped?
   end
 
   def can_attack

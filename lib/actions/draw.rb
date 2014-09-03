@@ -1,24 +1,24 @@
-class Heal < Action
+class DrawAction < Action
 
   def initialize(owner=nil)
     super(owner)
-    @name = "Heal"
-    @img ="heal.png"
-    @description ="Tap : Gain 1 HP"
+    @name = "Draw"
+    @img ="draw.png"
+    @description ="{Tap} : Draw a card"
     @priority =2
   end
 
-  def actionnable?
+  def can_be_activated
     super && card.in_play? && (
       world.turn.phase.is_a?(Pre) ||
       world.turn.phase.is_a?(Combat) || world.turn.phase.is_a?(Post)
-   )  &&  card.activable?
+   )  &&  card.can_be_activated
   end
 
   def execute!
     super
     card.tap!
-    player.health += 1
+    player.draw!
   end
 
 

@@ -8,7 +8,7 @@ class UndoBlock < Action
     @priority =1
   end
 
-  def actionnable?
+  def can_be_activated
     super && card.in_play? && world.turn.phase.is_a?(BlockPhase) && \
     card.flags[:blocking] == true &&\
     player.active?

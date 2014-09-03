@@ -8,7 +8,7 @@ class Produce < Action
     @priority =1
   end
 
-  def actionnable?
+  def can_be_activated
     super && card.in_play? &&  !card.tapped?
   end
 

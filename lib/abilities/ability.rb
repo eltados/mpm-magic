@@ -5,10 +5,19 @@ class Ability
     @card = card
   end
 
-
   def permanent?
     true
   end
+
+  def player
+    card.player
+  end
+
+
+  def opponent
+    card.player.opponent
+  end
+
 
   def id
      self.class.name.underscore.to_sym

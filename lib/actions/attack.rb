@@ -8,7 +8,7 @@ class Attack < Action
     @priority =1
   end
 
-  def actionnable?
+  def can_be_activated
     super && player.playing? && card.in_play? && world.turn.phase.is_a?(Combat) && \
     card.can_attack
   end

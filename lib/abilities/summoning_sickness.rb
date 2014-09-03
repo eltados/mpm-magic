@@ -1,5 +1,3 @@
-
-
 class SummoningSickness < Ability
 
   def description
@@ -12,6 +10,10 @@ class SummoningSickness < Ability
 
 
   def can_attack(original)
+    false
+  end
+
+  def can_be_activated(original)
     false
   end
 

@@ -45,7 +45,7 @@ class Card < Hook
   end
 
   def can?(action_class, target = nil)
-    action(action_class).actionnable? == true && \
+    action(action_class).can_be_activated == true && \
     ( target ==nil || action(action_class).can_target?(target) )
   end
 
@@ -93,11 +93,11 @@ class Card < Hook
   end
 
   def actionable_actions
-    actions.select(&:actionnable?).sort_by(&:priority)
+    actions.select(&:can_be_activated).sort_by(&:priority)
   end
 
   def main_action
-    actions.select(&:actionnable?).sort_by(&:priority)[0]
+    actions.select(&:can_be_activated).sort_by(&:priority)[0]
   end
 
   def self.all

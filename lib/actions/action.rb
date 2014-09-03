@@ -15,7 +15,7 @@ class Action
     ObjectSpace._id2ref(id.to_i)
   end
 
-  def actionnable?
+  def can_be_activated
      true
   end
 

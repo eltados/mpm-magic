@@ -83,7 +83,7 @@ class World
       end
       # p1.permanents << DarkMonk.new(p1)
       # p1.permanents << Nightmare.new(p1)
-      # p1.hand << Gob.new(p1)
+      # p1.hand << TeferisImp.new(p1)
       # p1.permanents << WinterWall.new(p1)
       # p2.hand = []
       # # p2.permanents << DarkMonk.new(p2)

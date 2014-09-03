@@ -8,7 +8,7 @@ class Play < Action
     @priority =1
   end
 
-  def actionnable?
+  def can_be_activated
     super && card.in_hand? &&
       ( world.turn.phase.is_a?(Pre) ||
         world.turn.phase.is_a?(Post) ||

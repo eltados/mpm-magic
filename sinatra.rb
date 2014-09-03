@@ -3,7 +3,6 @@
 require 'rubygems'
 require 'require_all'
 require 'sinatra'
-# require 'sinatra/cookies'
 require 'rest_client'
 require 'json'
 require 'open-uri'

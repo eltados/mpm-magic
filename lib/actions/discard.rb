@@ -8,7 +8,7 @@ class Discard < Action
     @priority = 3
   end
 
-  def actionnable?
+  def can_be_activated
     super && player.playing? && card.in_hand? && world.turn.phase.is_a?(DiscardPhase) &&  player.hand.size >= 8
   end
 
