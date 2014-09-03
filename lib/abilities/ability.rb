@@ -40,5 +40,9 @@ class Ability
     self.name.underscore.to_sym
   end
 
+  def inspect
+    "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
+  end
+
 
 end

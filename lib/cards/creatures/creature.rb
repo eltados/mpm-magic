@@ -93,6 +93,11 @@ class Creature < Card
     @abilities += abilities.map { |a| a.new(self) }
   end
 
+  def has_ability(ability)
+    @abilities.any?{ |a| a.is_a? ability }
+  end
+
+
 
   def play!
     abilities << SummoningSickness.new(self)
