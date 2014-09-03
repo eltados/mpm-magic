@@ -33,6 +33,7 @@ class Player <Hook
   end
 
   def play!(card)
+    return if ! hand.include? card
     hand.delete card
     permanents << card
     card.play!
