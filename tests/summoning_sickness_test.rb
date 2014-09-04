@@ -12,7 +12,7 @@ class SummoningSickNessTest < Minitest::Test
     dragon = Dragon.new(@p1)
     assert_equal false,  dragon.has_ability(Haste)
     assert_equal false,  dragon.has_ability(SummoningSickness)
-    assert_equal false,  dragon.can_attack
+    assert_equal true,  dragon.can_attack
 
     dragon.stub :pay_cost!, (true) do
       dragon.play!
