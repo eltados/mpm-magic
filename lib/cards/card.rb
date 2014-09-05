@@ -90,7 +90,7 @@ class Card < Hook
   end
 
   def to_param
-    "#{object_id}-#{name}"
+    "#{object_id}-#{self.class.name.underscore}"
   end
 
   def self.find(id)

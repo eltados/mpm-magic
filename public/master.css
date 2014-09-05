@@ -124,6 +124,7 @@ background-image: url('battleground.jpg');
   /*margin-top:-2%;*/
 border-spacing: 0px;
 border: 0px;
+z-index:-500;
 }
 
 #lose{
@@ -364,6 +365,7 @@ box-sizing: border-box;
   max-height:100px;
   vertical-align:bottom;
   text-align:right;
+  z-index:150;
 }
 
 .card .abilities img{
@@ -381,7 +383,12 @@ box-sizing: border-box;
   width:30px;
   max-height:124px;
   vertical-align:bottom;
+  z-index:150;
 }
+.card .actions a{
+  z-index:150;
+}
+
 
 
 .card .actions img{
@@ -480,4 +487,21 @@ a{
 
 .target{
   border:5px solid blue;
+}
+
+
+/*SVG stuff*/
+.arrow{
+  stroke:black;
+  stroke-width:5;
+  z-index:10000;
+  z-index:50;
+}
+
+.svg{
+z-index:0;
+position:absolute;
+top:0px;
+left:0px;
+/*background:blue;*/
 }

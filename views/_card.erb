@@ -1,11 +1,11 @@
 <% card = locals[:card] %>
-<div class="card  <%= card.flags.keys.join(' ') %> <%= 'target' if me.world && me.world.target_action && me.world.target_action.can_target?(card) %>
+<div id="card-<%= card.to_param%>" class="card  <%= card.flags.keys.join(' ') %> <%= 'target' if me.world && me.world.target_action && me.world.target_action.can_target?(card) %>
 <%= 'tapped' if card.tapped? %> ">
   <div class="header">
     <% if !card.is_a? Land %>
       <div class="cost"><%= card.cost %></div>
     <% end %>
-    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %></span></div>
+    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %> </span></div>
   </div>
 <% if me.world && me.world.target_action %>
   <% if me.world.target_action.can_target? card %>
@@ -33,7 +33,7 @@
   <% end %>
 </div>
 <% end %>
-<% if card.owner %>
+<% if card.owner == me %>
 <div class="actions">
   <% card.actionable_actions.each do |action| %>
     <%= erb :_action, locals: {action: action }%>
@@ -41,3 +41,10 @@
 </div>
 <% end %>
 </div>
+<% if false && card.is_a?(Creature ) && card.flags[:blocked_creature] %>
+<script type="text/javascript">
+$(document).ready(function(){
+  $( "#card-<%= card.to_param%>" ).arrow( $("#card-<%= card.flags[:blocked_creature].to_param%>"));
+});
+</script>
+<% end %>

@@ -1,7 +1,7 @@
 class Spider < Creature
 
-  def initialize
-    super
+  def initialize(owner=nil)
+    super(owner)
     @name = "Giant Spider"
     @strength = 4
     @toughness = 2
