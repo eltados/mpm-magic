@@ -1,4 +1,5 @@
 Mpm-magic
+Wahh
 =========
 
 Mpm-magic is an attempt to create a magic the gathering like game in Ruby.
