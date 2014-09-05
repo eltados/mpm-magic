@@ -45,4 +45,8 @@ class Action
     "#{card.owner.name} #{name.downcase}s #{card.name}"
   end
 
+  def inspect
+    "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
+  end
+
 end

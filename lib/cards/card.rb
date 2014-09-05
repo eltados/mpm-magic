@@ -54,10 +54,15 @@ class Card < Hook
   end
 
   def action(action_class)
-    @actions.each do |a|
+    actions.each do |a|
       return a if a.is_a? action_class
     end
     return nil
+  end
+
+
+  def has_action(action)
+    actions.any?{ |a| a.is_a? action }
   end
 
 

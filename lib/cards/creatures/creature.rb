@@ -103,7 +103,6 @@ class Creature < Card
   end
 
 
-
   def play!
     abilities << SummoningSickness.new(self)
     super
