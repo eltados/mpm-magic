@@ -1,16 +1,16 @@
 <% card = locals[:card] %>
-<div class="card  <%= card.flags.keys.join(' ') %> <%= 'target' if $world.target_action && $world.target_action.can_target?(card) %>
+<div class="card  <%= card.flags.keys.join(' ') %> <%= 'target' if me.world && me.world.target_action && me.world.target_action.can_target?(card) %>
 <%= 'tapped' if card.tapped? %> ">
   <div class="header">
     <% if !card.is_a? Land %>
       <div class="cost"><%= card.cost %></div>
     <% end %>
-    <div class="name"><%= card.name %></div>
+    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %></span></div>
   </div>
-<% if $world.target_action %>
-  <% if $world.target_action.can_target? card %>
+<% if me.world && me.world.target_action %>
+  <% if me.world.target_action.can_target? card %>
     <% close = true %>
-    <a href="<%= "/action/#{$world.target_action.action.to_param}/#{card.to_param}"%>" class="ajax">
+    <a href="<%= "/action/#{me.world.target_action.action.to_param}/#{card.to_param}"%>" class="ajax">
   <% end %>
 <% elsif card.main_action && card.owner == me %>
   <% close = true %>
@@ -33,7 +33,7 @@
   <% end %>
 </div>
 <% end %>
-<% if card.owner == me %>
+<% if card.owner %>
 <div class="actions">
   <% card.actionable_actions.each do |action| %>
     <%= erb :_action, locals: {action: action }%>

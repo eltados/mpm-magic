@@ -1,64 +1,92 @@
-<div id="logs" >
+<!-- <div id="logs" >
   <ul>
     <% @world.logs.reverse.each do |log| %>
     <li><%= log %></li>
     <% end %>
   </ul>
+</div> -->
+
+
+<% if me.health <= 0 %>
+<div id="lose" >
+  <a href="/">YOU LOSE !</a>
+</div>
+<% elsif  opponent.health <= 0 %>
+<div id="win" >
+  <a href="/">YOU WIN !</a>
 </div>
 
-
-
+<% end %>
 
 <div id="hand" >
-  <% me.hand.cards.sort_by(&:cost).each  do |card| %>
+  <% me.hand.sort_by(&:cost).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>
 
 
-<div id="turn">
+<div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
 <div id="me">
-  Me: <%= me.health %> PV
+  <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
+  <br/>
+  Cards : <%= me.hand.size %>
 </div>
-
 
 <div id="opponent">
-  Op: <%= opponent.health %> PV
+  <span class="hp <%= hp_color opponent.health %>"><%= opponent.health %> HP </span><br>
+  <%= opponent.name %>
+  <br/>
+  Cards : <%= opponent.hand.size %>
+  <br/>
+  AI : <%= opponent.ai %>
 </div>
+
 
 
 <div id="next">
-<% if @world.turn.phase.is_a?(BlockPhase) %>
 
-  <% if me.opponent.playing? %>
-  <a href="/next" accesskey="n" class="ajax">Finished blocking</a>
+  <% if me.active? & @world.turn.phase.can_pass_to_next? %>
+    <a href="/next" accesskey="n" class="ajax">
+        <% if @world.turn.phase.is_a?(Draw) %>
+        Start
+        <% elsif @world.turn.phase.is_a?(Post) %>
+        End Turn
+        <% elsif @world.turn.phase.is_a?(BlockPhase) %>
+          <% if me.creatures.find{ |c| c.flags[:blocking] } %>
+            Finished Blocking
+          <% else %>
+            Skip Block
+          <% end %>
+
+        <% elsif @world.turn.phase.is_a?(Combat) %>
+          <% if me.creatures.find{ |c| c.flags[:attacking] } %>
+            Attack
+          <% else %>
+            Skip Combat
+          <% end %>
+        <% else %>
+        Next
+        <% end %>
+    </a>
+  <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
+    <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    Opponent is blocking ...
+    Opponent is playing ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
-<% else %>
-  <% if me.playing? %>
-  <a href="/next" accesskey="n" class="ajax"><%= @world.turn.phase.is_a?(Untap) ? "START" : "Next" %></a>
-  <!-- <hr/> -->
-  <!-- <a href="/auto_play" accesskey="a" class="ajax">Auto</a>
-  <hr/>
-  <% if !params[:auto_play] %>
-  <a  href="/auto_play?auto_play=true" accesskey="+">AI</a>
-  <% else %>
-  <script>
-    window.setTimeout(function(){
-      window.location.href = "auto_play?auto_play=true" ;
-    }, 1000);
-  </script>
-  <a href="/game" accesskey="+">Stop AI</a>
-  <% end %> -->
-  <% else %>
-    Opponent is playing ...
-  <% end %>
-<% end %>
+
 </div>
+
+<% if @world.turn.phase.is_a?(Combat) &&  me.active? && me.creatures.find{ |c| c.flags[:attacking] } ==nil  %>
+<div id="additional_action">
+
+    <a href="/attack_all"  class="ajax">
+            Attack with All
+    </a>
+</div>
+<% end %>
 
 
 <table id="playground" border="0" padding="0" spacing="0">

@@ -1,25 +1,63 @@
-<h1>Welcome <%= me.name %></h1>
+<% if !me %>
+<h1>
+<form action="/login" method="GET">
+  Name : <input type="text" value="<%= "Player #{request.ip}"%>" name="name"/>
+  <input type="submit" value="Login" />
+</form>
+</h1>
 
-<% if $world &&  $world.ready? %>
-  <h1><a href="/game">Join game <%= $world.p1.name %> and <%= $world.p2.name %> </a></h1>
-<% end %>
 
-<h3>Select a player to player against</h3>
+
+<% else %>
+<h1>Welcome <%= me.name %> [<a href="/clear">Logout</a>]</h1>
+
+<h3>Single Player</h3>
 <ul>
-  <% @players.reject { |p| p == me }.each do |p| %>
-    <li><a href="/multiplayer?opponent=<%= p.to_param %>"><%= p.name %></a></li>
+    <li><a href="/game/ai">Play against AI</a></li>
+</ul>
+
+  <% if !me.world %>
+
+<h3>Multiplayer</h3>
+<ul>
+    <li><a href="/game/new">Create game</a></li>
+    <% @players.reject{ |p| p == me || p.world == nil }.map(&:world).each do |world| %>
+        <li><a href="/game/join/<%= world.to_param %>">Join <%= world.name %> vs <%= world.p1.name %></a></li>
+    <% end %>
+  <% else %>
+    <li>In game <%= me.world.name %> <a href="/game/cancel">[cancel]</a> </li>
+
+    <% if me.world.ready? %>
+      <h1><%= me.world.p2.name %> joined, <a href="/game">START</a></h1>
+    <% else %>
+      <h1>Waiting for player to join ... <a href="/">Refresh</a></h1>
+    <% end %>
+  <% end %>
+
+</ul>
+
+
+
+
+<h3>Players Currently logged in :</h3>
+<ul>
+  <% @players.each do |p| %>
+    <% if p == me %>
+      <li><%= p.name %> (me)</li>
+    <% else %>
+      <li><%= p.name %></li>
+    <% end %>
   <% end %>
 </ul>
+
 
 <h3>Other actions</h3>
 
 <ul>
   <li><a href="/clear">Clear</a></li>
+  <li><a href="/cards">View all cards</a></li>
+  <li><a href="/card_importer">Create a new Card</a></li>
 </ul>
 
 
-<script>
-window.setTimeout(function(){
-  window.location.href = window.location.href ;
-}, 3000);
-</script>
+<% end %>

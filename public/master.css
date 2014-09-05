@@ -18,8 +18,27 @@ z-index:100;
   /*height:150px;*/
   /*width:150px;*/
   background-color:red;
+
+}
+#next a{
+  color:white;
+  font-weight:bold
 }
 
+#additional_action{
+  z-index:200;
+  position:absolute;
+  top:80;
+  font-size:150%;
+  right:150;
+  padding:15px;
+  background-color:blue;
+}
+
+#additional_action a{
+  color:white;
+  font-weight:bold
+}
 
 #turn{
   position:absolute;
@@ -34,10 +53,24 @@ z-index:100;
 
 #me{
   position:absolute;
-  top:50;
+  bottom:155;
   left:5;
   padding:5px;
-  /*width:120px;*/
+  z-index:100;
+  font-size:115%;
+  overflow-x: none;
+  background:green;
+
+}
+
+
+#opponent{
+  position:absolute;
+  top:5;
+  left:5;
+  padding:5px;
+  z-index:100;
+  font-size:115%;
   overflow-x: none;
   background:green;
 }
@@ -53,16 +86,6 @@ z-index:100;
 
 }
 
-
-#opponent{
-  position:absolute;
-  top:5;
-  left:5;
-  padding:5px;
-  /*width:120px;*/
-  overflow-x: none;
-  background:lightgrey;
-}
 
 
 #opponent_playground .card{
@@ -101,14 +124,53 @@ background-image: url('battleground.jpg');
   /*margin-top:-2%;*/
 border-spacing: 0px;
 border: 0px;
+}
+
+#lose{
+  top:10px;
+  left:0px;
+  width :100%;
+  text-align :center;
+  /*height :100%;*/
+  position:absolute;
+  z-index:1000;
+  font-size:500%;
+  background-color:red;
+}
 
 
+#win{
+  top:10px;
+  left:0px;
+  width :100%;
+  text-align :center;
+  /*height :100%;*/
+  position:absolute;
+  z-index:1000;
+  font-size:500%;
+  background-color:lightgreen;
+}
+.hp {
+  font-size:200%;
+  font-weight:bold;
+  color:white;
+}
+.hp_5 {
+  color:#610B0B;
+}
+
+.hp_10 {
+  color:#FF0000;
+}
+
+.hp_15 {
+  color:#F6CECE;
 }
 
 #logs{
   width : 50px;
   max-height: 200px;
-  overflow:hidden;
+  overflow:auto;
   position:absolute;
   bottom:0px;
   right:0px;
@@ -145,20 +207,18 @@ overflow-x:auto;
 
 
 #hand .card{
-  -webkit-box-shadow: 0px 0px 50px 0px black;
-  -moz-box-shadow:    0px 0px 50px 0px black;
-  box-shadow:         0px 0px 50px 0px black;
   border:5px solid black;
+  height:145px;
 }
 
 #hand{
-  height: 148px;
+  height: 150px;
   text-align:center;
   position:absolute;
   bottom:0px;
   /*display: block;*/
   /*margin-left: auto;*/
-  /*width:100%;*/
+  width:100%;
   /*padding-top:50px;*/
 overflow-y: auto;
   /*background-color:blue;*/
@@ -258,7 +318,13 @@ box-sizing: border-box;
   height:24px;
   position:absolute;
   top:0px;
+  text-align:left;
   /*box-shadow:         0px 3px 17px 0px rgba(50, 50, 50, 0.75);*/
+}
+
+
+.card .header span{
+  text-align:center;
 }
 
 .card .header .cost{
@@ -347,6 +413,8 @@ body{
   perspective: 1500px;
   perspective-origin: top;
   overflow:hidden;
+/*background-image: url('battleground.jpg');*/
+/*background-color:green;*/
 }
 a{
   text-decoration:none;
@@ -402,13 +470,12 @@ a{
   font-weight:bolder;
 }
 
-.playing{
-  color:white;
-  background:blue;
-  font-weight:bold;
-  width:100%;
-  font-size:150%;
-  padding:5px;
+#turn.playing{
+  background:green;
+}
+
+#turn.not_playing{
+  background:#666;
 }
 
 .target{

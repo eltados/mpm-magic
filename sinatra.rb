@@ -1,19 +1,19 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'require_all'
 require 'sinatra'
+require 'rest_client'
 require 'json'
-require 'sinatra/reloader' if development?
-require_relative 'creatures/creature'
-require_relative 'creatures/gob'
-require_relative 'creatures/dragon'
-require_relative 'creatures/elf'
-require_relative 'fight'
-require_relative 'player'
-require_relative 'world'
-require_relative 'battle'
-require_relative 'turn'
-require_relative 'deck'
+require 'open-uri'
+require 'active_support/all'
+
+if development?
+  require "better_errors"
+  require 'sinatra/reloader'
+end
+require_all 'lib'
+
 
 class App <  Sinatra::Application
 
@@ -22,6 +22,11 @@ class App <  Sinatra::Application
     use Rack::Session::Pool
     set :session_secret, 'secret'
     set :views, Proc.new { File.join(root, "views") }
+  end
+
+  configure :development do
+    use BetterErrors::Middleware
+    BetterErrors.application_root = __dir__
   end
 
   helpers do
@@ -33,62 +38,112 @@ class App <  Sinatra::Application
       session[:current_user]
     end
 
+
+    def hp_color(hp)
+       return "hp_5" if hp <= 5
+       return "hp_10" if hp <= 10
+       return "hp_15" if hp <= 15
+      ""
+    end
+
+
     def opponent
-      $world.p1 == me ?  $world.p2 :  $world.p1
+      me.world.p1 == me ?  me.world.p2 :  me.world.p1
     end
 
   end
 
-
-  @@players = []
+  def initialize
+    super
+    @players = []
+  end
 
   get "/" do
-      session[:current_user] =  Player.new( name:"Player #{request.ip}") if me == nil
-      if ! @@players.include? me
-        @@players << me
-      end
-      @players = @@players
-      erb :home
+    erb :home
   end
-
-  get "/multiplayer" do
-      p1 = me
-      p2 = Player.find(params[:opponent])
-      p1.setup!
-      p2.setup!
-
-      notify!
-      $world  = World.new(p1 , p2)
-      redirect "/game"
-  end
-
 
   get "/game" do
-    redirect "/clear" if ! $world
-    @world = $world
+    redirect "/clear" if me == nil || me.world == nil || !me.world.ready?
+    @world = me.world
     erb :game , layout: !request.xhr?
   end
 
   get "/next" do
-    $world.turn.next! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
+    me.world.turn.next! if me.active?
+    while(me.world.active_player.ai == true) do
+      me.world.active_player.auto_play!
+    end
     notify!
     redirect "/game"
   end
 
+  get "/clear_all" do
+    @players = []
+    redirect "/clear"
+  end
 
   get "/clear" do
-    $world = nil
-    @@players = []
+    me.world = nil if me && me.world
+    @players.delete me
     session.clear
     notify!
     redirect "/"
+  end
+
+  get "/login" do
+    session[:current_user] =  Player.new
+    me.name = params[:name]
+    @players << me
+    notify!
+    redirect "/"
+  end
+
+
+  get "/game/new" do
+      world  = World.new(me)
+      world.p1 = me
+      world.p2 = nil
+      me.world = world
+      notify!
+      redirect "/"
+  end
+
+
+  get "/game/cancel" do
+    me.world = nil
+    notify!
+    redirect "/"
+  end
+
+  get "/game/join/:world_id" do
+    me.world = World.find(params[:world_id])
+    me.world.p2 = me
+    me.world.start!
+    notify!
+    redirect "/game"
+  end
+
+  get "/game/ai" do
+    world = World.new(me, nil)
+    me.world =  world
+    world.p1 = me
+
+    world.p2 = Player.new(self)
+    world.p2.name= "Robot"
+    world.p2.ai= true
+    world.p2.world = world
+    world.start!
+    # 1.times {  world.p1.permanents <<  WinterWall.new(me) }
+    # 1.times {  world.p1.permanents <<  Gob.new(me) }
+    # 1.times {  world.p2.permanents <<  Nightmare.new(world.p2)  }
+    # 1.times {  world.p2.permanents <<  Elf.new(world.p2)  }
+    redirect "/game"
   end
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
       action.execute!
-      $world.logs << action.log
     else
       action.execute_with_target! Card.find(params[:target_id])
     end
@@ -103,23 +158,32 @@ class App <  Sinatra::Application
   end
 
   get "/cancel_target" do
-    $world.target_action = nil
+    me.world.target_action = nil
     notify!
     redirect "/game"
   end
 
   get '/auto' do
-    me.auto_play! if ( me.playing? &&  !$world.turn.phase.is_a?(BlockPhase) ) || ( !me.playing? &&  $world.turn.phase.is_a?(BlockPhase) )
+    me.auto_play! if me.active?
     notify!
     redirect "/game"
   end
 
-  get '/auto_play' do
-    me.auto_play!
-    notify!
-    redirect "/game?auto_play=true" if params[:auto_play]
-    redirect "/game"
+
+
+  get '/cards' do
+    session[:current_user] =  Player.new
+    me.world = World.new(Player.new ,Player.new )
+    @cards=[]
+    Creature.all.each do |card_class|
+        card = card_class.new
+        card.owner = me
+        @cards << card
+    end
+    @cards = @cards.sort_by(&:cost)
+    erb :cards
   end
+
 
 
 
@@ -148,9 +212,23 @@ class App <  Sinatra::Application
       }
     end
   end
+
+
+
+
+  get '/env' do
+    ENV.inspect
+  end
+  get '/card_importer' do
+    params[:name] ||= "zombie"
+    params[:img_query] ||= params[:name]
+    response = RestClient.get "http://api.mtgdb.info/search/#{URI::encode(params[:name])}?start=0&limit=0"
+    @cards = JSON.parse(response)
+    @cards = @cards.uniq{ |c| c['name'] }.sort_by{ |c| c['name'] }
+    @card = @cards.find{ |c| c['id'] == params[:id].to_i}
+    res = RestClient::Resource.new( "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27#{URI::encode(params[:img_query])}%27&$format=json&ImageFilters=%27Size%3AMedium%27", '', '7IU5fLJU28Y49NTV0zTLIuEQm+lS5So82uWaqpUIOF8' )
+    @images= JSON.parse(res.get)
+    erb :card_importer , layout: false
+  end
+
 end
-
-
-
-
-# use ExceptionHandling

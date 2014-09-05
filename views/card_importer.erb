@@ -1,0 +1,69 @@
+<h3>1- Search for a card</h3>
+<form action="/card_importer" method="GET">
+  <input type="text" value="<%= params[:name]%>" name="name"/>
+</form>
+
+
+<h3>2- select a card</h3>
+<%if !@card %>
+<ul>
+    <% @cards.each do |card| %>
+        <a href="<%= "/card_importer?name=#{params[:name]}&id=#{card['id']}"%>">
+        <li> <%= card['name'] %> </a>:
+        [<%= card['manaCost'] %>]
+        ( <%= card['power'] %> / <%= card['toughness'] %> ) : <%= card['description'] %></li>
+    <% end %>
+</ul>
+<% else %>
+<%= @card['name'] %> </a>:
+[<%= @card['manaCost'] %>]
+( <%= @card['power'] %> / <%= @card['toughness'] %> ) : <%= @card['description'] %>
+<% end %>
+
+
+<%if @card && !params['img']%>
+<h3>3- select an Image</h3>
+<form action="/card_importer" method="GET">
+  <input type="text" value="<%= params[:img_query]%>" name="img_query"/>
+  <input type="hidden" value="<%= params[:name]%>" name="name"/>
+  <input type="hidden" value="<%= params[:id]%>" name="id"/>
+</form>
+    <% @images["d"]["results"].each do |image| %>
+        <a href="/card_importer?name=<%=  params[:name] %>&id=<%= @card['id'] %>&img=<%= image['MediaUrl'] %>">
+        <img  height="200" src="<%= image['MediaUrl']%>"/>
+        </a>
+    <% end %>
+<% end %>
+
+
+<%if @card && params['img']%>
+<h1><%= "File: #{@card['name'].gsub(/ |'/,'').underscore}.rb" %></h1>
+<pre style="background:#CCC">
+<%=
+"""
+
+class #{@card['name'].gsub(/ |'/,'').camelcase} < Creature
+
+  def initialize
+    super
+    @name = \"#{@card['name']}\"
+    @strength = #{@card['power']}
+    @toughness = #{@card['toughness']}
+    @type = \"#{@card['type']}\"
+    @cost = #{@card['manaCost'].to_i + @card['manaCost'].scan(/[^0-9]/m).size} # #{@card['manaCost']}
+    @description =  \"#{@card['description'].gsub("\n",' ').gsub("\"",'\\"')}\"
+    @img = \"#{params['img']}\"
+    @mtg_id = #{@card['id']}
+  end
+
+end
+"""
+%>
+</pre>
+<% end %>
+
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/cards">View all cards</a></li>
+</ul>
