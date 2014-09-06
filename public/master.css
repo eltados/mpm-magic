@@ -124,7 +124,6 @@ background-image: url('battleground.jpg');
   /*margin-top:-2%;*/
 border-spacing: 0px;
 border: 0px;
-z-index:-500;
 }
 
 #lose{
@@ -365,7 +364,7 @@ box-sizing: border-box;
   max-height:100px;
   vertical-align:bottom;
   text-align:right;
-  z-index:150;
+
 }
 
 .card .abilities img{
@@ -383,10 +382,7 @@ box-sizing: border-box;
   width:30px;
   max-height:124px;
   vertical-align:bottom;
-  z-index:150;
-}
-.card .actions a{
-  z-index:150;
+
 }
 
 
