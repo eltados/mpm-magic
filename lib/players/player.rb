@@ -46,9 +46,19 @@ class Player <Hook
   end
 
   def discard!(card)
+    return if ! hand.include? card
     hand.delete card
     graveyard << card
+    card.event :enters_graveyard
   end
+
+  def move_to_graveyard!(card)
+    return if ! permanents.include? card
+    permanents.delete card
+    graveyard << card
+    card.event :enters_graveyard
+  end
+
 
 
   def lands
@@ -59,6 +69,12 @@ class Player <Hook
   def creatures
     permanents.select do |card| card.is_a? Creature end
   end
+
+
+  def spells
+    permanents.select do |card| card.is_a? Spell end
+  end
+
 
 
   def attack_all!

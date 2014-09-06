@@ -177,7 +177,7 @@ class App <  Sinatra::Application
     session[:current_user] =  Player.new
     me.world = World.new(Player.new ,Player.new )
     @cards=[]
-    Creature.all.each do |card_class|
+    [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.each do |card_class|
         card = card_class.new
         card.owner = me
         @cards << card

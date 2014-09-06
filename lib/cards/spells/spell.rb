@@ -1,12 +1,13 @@
 class Spell < Card
-  attr_accessor :target
 
   def initialize(owner=nil)
     super(owner)
   end
 
-  def card
-    owner
+
+  def when_phase_ends
+    @owner.move_to_graveyard! self
   end
+
 
 end
