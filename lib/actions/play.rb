@@ -9,10 +9,7 @@ class Play < Action
   end
 
   def can_be_activated
-    super && card.in_hand? &&
-      ( world.turn.phase.is_a?(Pre) ||
-        world.turn.phase.is_a?(Post) ||
-        world.turn.phase.is_a?(DiscardPhase)  ) && card.can_be_played? && card.owner.playing?
+    card.in_hand? && card.can_be_played
   end
 
   def execute!

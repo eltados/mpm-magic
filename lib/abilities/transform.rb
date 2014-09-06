@@ -1,14 +1,13 @@
-class DrawAbility < Ability
+class TransformAbility < Ability
 
 
   def initialize(card)
     super(card)
-    @action = DrawAction.new(card)
+    @action = TransformAction.new(card)
   end
 
-
   def description
-    "{tap} : draw card"
+    "{tap} : attack of target creature is multipled by 2"
   end
 
 
@@ -17,7 +16,7 @@ class DrawAbility < Ability
   end
 
   def img
-    "draw.png"
+    "transform.png"
   end
 
 end

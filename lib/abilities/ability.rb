@@ -1,12 +1,13 @@
 class Ability
 
-  attr_accessor :card
+  attr_accessor :card , :permanent
   def initialize(card)
     @card = card
+    @permanent = true
   end
 
   def permanent?
-    true
+    @permanent
   end
 
   def player

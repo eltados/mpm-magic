@@ -31,6 +31,11 @@ class Creature < Card
     strength + attack_bonus
   end
 
+  def hit!(hit_points)
+    @dmg += hit_points
+    event :receive_dmg 
+  end
+
   def alive?
     health > 0
   end
@@ -63,8 +68,10 @@ class Creature < Card
     flags[:attacking] = nil
   end
 
-  def can_be_played?
-    owner.mana_pool.can_pay? self.cost
+  def can_be_played
+    owner.playing? &&  ( phase.is_a?(Pre) ||
+        phase.is_a?(Post) ||
+        phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
   end
 
   def can_be_activated
@@ -96,6 +103,10 @@ class Creature < Card
 
   def add_abilities(abilities)
     @abilities += abilities.map { |a| a.new(self) }
+  end
+
+  def add_temp_abilities(abilities)
+    @abilities += abilities.map { |ab_class| ab = ab_class.new(self) ; ab.permanent =false; ab; }
   end
 
   def has_ability(ability)
@@ -132,6 +143,11 @@ class Creature < Card
     player.permanents.delete self
     player.graveyard << self
   end
+
+  def when_receive_dmg
+    event :dead if dead?
+  end
+
 
   def event(event)
     super

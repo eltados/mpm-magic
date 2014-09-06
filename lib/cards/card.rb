@@ -46,7 +46,7 @@ class Card < Hook
 
   def can?(action_class, target = nil)
     action(action_class).can_be_activated == true && \
-    ( target ==nil || action(action_class).can_target?(target) )
+    ( target ==nil || action(action_class).can_target(target) )
   end
 
   def execute! action_class
@@ -117,6 +117,12 @@ class Card < Hook
   def world
     player.world
   end
+
+
+  def phase
+    world.turn.phase
+  end
+
 
 
 

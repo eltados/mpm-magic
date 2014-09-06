@@ -143,9 +143,11 @@ class App <  Sinatra::Application
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
+      me.target_action = nil
       action.execute!
     else
       action.execute_with_target! Card.find(params[:target_id])
+      me.target_action =nil
     end
     notify!
     redirect "/game"
@@ -157,8 +159,8 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
-  get "/cancel_target" do
-    me.world.target_action = nil
+  get "/cancel_target_action" do
+    me.target_action = nil
     notify!
     redirect "/game"
   end

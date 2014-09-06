@@ -53,6 +53,9 @@ class Hook
   def when_hits_creature
   end
 
+  def when_receive_dmg
+  end
+
   def when_dead
   end
 

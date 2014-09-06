@@ -6,8 +6,8 @@ class TargetAction
     @action = action
   end
 
-  def can_target?(card)
-    @action.can_target?(card)
+  def can_target(card)
+    @action.can_target(card)
   end
 
 

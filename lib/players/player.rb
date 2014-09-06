@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health , :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
 
   def initialize(world=nil)
     @permanents = []
@@ -129,6 +129,11 @@ class Player <Hook
   def when_turn_ends
     @mana_pool.reset!
     @flags = {}
+  end
+
+  def when_phase_ends
+    puts  "when_phase_ends"
+    @target_action =nil
   end
 
   def when_phase_draw

@@ -15,7 +15,7 @@ class Fight
   end
 
   def self.resolve_dmg(attacker , defender)
-    defender.dmg += attacker.attack
+    defender.hit! attacker.attack
   end
 
 end

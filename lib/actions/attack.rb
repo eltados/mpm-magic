@@ -9,7 +9,7 @@ class Attack < Action
   end
 
   def can_be_activated
-    super && player.playing? && card.in_play? && world.turn.phase.is_a?(Combat) && \
+    super && player.playing? && phase.is_a?(Combat) && \
     card.can_attack
   end
 

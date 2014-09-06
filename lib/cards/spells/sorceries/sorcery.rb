@@ -1,9 +1,7 @@
-class Land < Card
-  attr_accessor :mana_produced
+class Sorcery < Spell
 
   def initialize(owner=nil)
     super(owner)
-    add_action Produce.new
     @mana_produced = 1
   end
 

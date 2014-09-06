@@ -1,4 +1,4 @@
-class Block < Action
+class Block < ActionWithTarget
 
   def initialize(owner=nil)
     super(owner)
@@ -9,30 +9,20 @@ class Block < Action
   end
 
   def can_be_activated
-    super \
+    card.in_play? \
     && !player.playing? \
-    && card.in_play? \
-    && world.turn.phase.is_a?(BlockPhase) \
+    && phase.is_a?(BlockPhase) \
     && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0 \
     && card.can_block_any(player.opponent.creatures.select { |c| c.flags[:attacking] })
   end
 
-  def execute!
-    super
-    a = TargetAction.new(card, self)
-    world.target_action =a
+  def can_target(target)
+    target.flags[:attacking] && card.can_block_creature(target) && ! target.flags[:blocked]
   end
-
-  def can_target?(target)
-    target.flags[:attacking] && card.can_block_creature(target)
-  end
-
-
 
   def execute_with_target!(target)
     world.logs << "#{player.name} blocks #{target.name} with #{card.name}"
     card.block! target
-    world.target_action =nil
   end
 
   def log

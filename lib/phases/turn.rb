@@ -29,6 +29,12 @@ class Turn
     @phases[@current_phase]
   end
 
+  def phase=(phase_class)
+    @phases.each_with_index do |p, i|
+      @current_phase = i if p.is_a? phase_class
+    end
+  end
+
   def end_turn!
     @current_phase = -1
     world.when_turn_ends

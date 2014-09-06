@@ -1,14 +1,14 @@
-class DrawAbility < Ability
+class HitAbility < Ability
 
 
   def initialize(card)
     super(card)
-    @action = DrawAction.new(card)
+    @action = HitAction.new(card)
   end
 
 
   def description
-    "{tap} : draw card"
+    "{tap} : deals 1 dommage to target creature"
   end
 
 
@@ -17,7 +17,7 @@ class DrawAbility < Ability
   end
 
   def img
-    "draw.png"
+    "hit.png"
   end
 
 end
