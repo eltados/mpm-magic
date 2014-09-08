@@ -77,7 +77,7 @@ class World
 
 
         50.times do
-          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell ]).shuffle[0].new(p)
+          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell , Enchant ]).shuffle[0].new(p)
         end
 
 
