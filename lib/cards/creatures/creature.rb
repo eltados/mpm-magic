@@ -51,6 +51,7 @@ class Creature < Card
   def block!(creature)
     @flags[:blocking] = true
     creature.flags[:blocked] = true
+    creature.flags[:blocked_by] = self
     @flags[:blocked_creature] = creature
   end
 

@@ -358,6 +358,21 @@ box-sizing: border-box;
   color:white;
 }
 
+
+.card .blockers{
+  background-color:#333;
+  border:1px solid black;
+  padding:0px;
+  min-width:18px;
+  font-weight:bold;
+  top:20px;
+  right:0px;
+  text-align:center;
+  position: absolute;
+  color:white;
+  width:100%;
+}
+
 .card .characteristics{
   background-color:#333;
   border:1px solid black;

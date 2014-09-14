@@ -133,10 +133,6 @@ class App <  Sinatra::Application
     world.p2.ai= true
     world.p2.world = world
     world.start!
-    # 1.times {  world.p1.permanents <<  WinterWall.new(me) }
-    # 1.times {  world.p1.permanents <<  Gob.new(me) }
-    # 1.times {  world.p2.permanents <<  Nightmare.new(world.p2)  }
-    # 1.times {  world.p2.permanents <<  Elf.new(world.p2)  }
     redirect "/game"
   end
 

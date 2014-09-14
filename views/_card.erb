@@ -33,6 +33,16 @@
     <%= erb :_ability, locals: {ability: ability }%>
   <% end %>
 </div>
+
+  <div class="blockers">
+<% if card.flags[:blocked_by]%>
+    <%= card.flags[:blocked_by].name %>
+<% end %>
+<% if card.flags[:blocked_creature]%>
+    <%= card.flags[:blocked_creature].name %>
+<% end %>
+  </div>
+
 <% if card.owner == me %>
 <div class="actions">
   <% card.actionable_actions.each do |action| %>
