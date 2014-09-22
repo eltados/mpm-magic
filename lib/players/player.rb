@@ -129,7 +129,7 @@ class Player <Hook
     end
 
     if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
-      return hand.sort_by(&:cost).reverse[0].execute! Discard
+      return hand.sort_by(&:cost).reverse.first.execute! Discard
     end
     return world.turn.next!
   end

@@ -89,7 +89,7 @@ class World
       # p1.hand << WarAxe.new(p1)
       # p1.hand << Lighting.new(p1)
       # p1.permanents << DarkMonk.new(p1)
-      # p1.permanents << TeferisImp.new(p1)
+      p1.permanents << TeferisImp.new(p1)
       # p1.permanents << WinterWall.new(p1)
       # p2.hand = []
       # p2.permanents << DarkMonk.new(p2)
