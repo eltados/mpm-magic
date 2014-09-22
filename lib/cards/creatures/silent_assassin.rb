@@ -5,7 +5,6 @@ class SilentAssassin < Creature
     @name = "Silent Assassin"
     @strength = 2
     @toughness = 1
-    @type = "Creature"
     @cost = 2 # BB
     @description =  "{3}{Black}: Destroy target blocking creature at end of combat."
     @img = "http://huntersinsight.files.wordpress.com/2010/07/assassin.jpg"

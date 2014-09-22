@@ -1,11 +1,11 @@
 <% card = locals[:card] %>
-<div id="card-<%= card.to_param%>" class="card  <%= card.flags.keys.join(' ') %> <%= 'target' if me.target_action && me.target_action.can_target(card) %>
+<div id="card-<%= card.to_param%>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %> <%= 'target' if me.target_action && me.target_action.can_target(card) %>
 <%= 'tapped' if card.tapped? %> ">
   <div class="header">
-    <% if !card.is_a? Land %>
+    <% if card.cost != 0 %>
       <div class="cost"><%= card.cost %></div>
     <% end %>
-    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %> </span></div>
+    <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>"><span><%= card.name %></span></div>
   </div>
 <% if me.target_action %>
   <% if me.target_action.can_target card %>
@@ -27,12 +27,22 @@
   <div class="characteristics">
     <span class="attack"><%= card.attack %></span>/<span class="health"><%= card.health %></span>
   </div>
+<% end %>
 <div class="abilities">
   <% card.abilities.each do |ability| %>
     <%= erb :_ability, locals: {ability: ability }%>
   <% end %>
 </div>
+
+  <div class="blockers">
+<% if card.flags[:blocked_by]%>
+    <%= card.flags[:blocked_by].name %>
 <% end %>
+<% if card.flags[:blocked_creature]%>
+    <%= card.flags[:blocked_creature].name %>
+<% end %>
+  </div>
+
 <% if card.owner == me %>
 <div class="actions">
   <% card.actionable_actions.each do |action| %>

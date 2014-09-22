@@ -12,7 +12,6 @@ class Creature < Card
 
   def initialize(owner=nil)
     super(owner)
-    @abilities = []
     @dmg = 0
     @attack_bonus = 0
     @strength = 1
@@ -33,7 +32,7 @@ class Creature < Card
 
   def hit!(hit_points)
     @dmg += hit_points
-    event :receive_dmg 
+    event :receive_dmg
   end
 
   def alive?
@@ -52,6 +51,7 @@ class Creature < Card
   def block!(creature)
     @flags[:blocking] = true
     creature.flags[:blocked] = true
+    creature.flags[:blocked_by] = self
     @flags[:blocked_creature] = creature
   end
 
@@ -60,8 +60,6 @@ class Creature < Card
     @flags[:blocked_creature].flags[:blocked] = nil
     @flags[:blocked_creature] = nil
   end
-
-
 
   def undo_attack!
     untap!
@@ -101,21 +99,11 @@ class Creature < Card
     true
   end
 
-  def add_abilities(abilities)
-    @abilities += abilities.map { |a| a.new(self) }
-  end
 
-  def add_temp_abilities(abilities)
-    @abilities += abilities.map { |ab_class| ab = ab_class.new(self) ; ab.permanent =false; ab; }
-  end
-
-  def has_ability(ability)
-    @abilities.any?{ |a| a.is_a? ability }
-  end
 
 
   def play!
-    abilities << SummoningSickness.new(self)
+    add_abilities [SummoningSickness]
     super
   end
 

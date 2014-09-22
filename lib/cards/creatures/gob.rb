@@ -5,7 +5,6 @@ class Gob < Creature
     @name = "Gob"
     @strength = 2
     @toughness = 2
-    @type = "Gobelin"
     @cost = 2
     @img = "http://bibliotheque-imperiale.com/images/thumb/4/42/Gobelinnuit.png/300px-Gobelinnuit.png";
     add_abilities  [ Haste ]

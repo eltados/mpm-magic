@@ -77,7 +77,7 @@ class World
 
 
         50.times do
-          p.deck << (Creature.all - [God , WinterWall]).shuffle[0].new(p)
+          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell , Enchant ]).shuffle[0].new(p)
         end
 
 
@@ -86,12 +86,13 @@ class World
         7.times { p.draw! }
 
       end
-      # p1.permanents << Nightmare.new(p1)
+      # p1.hand << WarAxe.new(p1)
+      # p1.hand << Lighting.new(p1)
       # p1.permanents << DarkMonk.new(p1)
       # p1.permanents << TeferisImp.new(p1)
       # p1.permanents << WinterWall.new(p1)
       # p2.hand = []
-      # # p2.permanents << DarkMonk.new(p2)
+      # p2.permanents << DarkMonk.new(p2)
       # p2.permanents << Rhino.new(p2)
       # 10.times {  p1.permanents << Mountain.new(p1) }
     end

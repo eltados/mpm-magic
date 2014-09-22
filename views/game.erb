@@ -15,15 +15,20 @@
 <div id="win" >
   <a href="/">YOU WIN !</a>
 </div>
-
 <% end %>
 
 <div id="hand" >
-  <% me.hand.sort_by(&:cost).each  do |card| %>
+  <% me.hand.sort_by(&:type).sort_by(&:cost).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>
 
+
+<div id="spells" >
+  <% me.spells.each  do |card| %>
+    <%= erb :_card, locals: {card: card   }%>
+  <% end %>
+</div>
 
 <div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
@@ -35,7 +40,7 @@
   Cards : <%= me.hand.size %>
 <% if me.target_action %>
   <br/>
-  <a href="/cancel_target_action">Cancel <%= me.target_action.action.name %> with <%= me.target_action.action.card.name %></a>
+  <a href="/cancel_target_action">Cancel <%= me.target_action.action.name %></a>
 <% end %>
 </div>
 

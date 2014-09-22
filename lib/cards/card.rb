@@ -1,6 +1,6 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions, :abilities, :type, :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions, :abilities, :cost, :flags, :description
 
 
 
@@ -17,6 +17,7 @@ class Card < Hook
 
   def initialize (owner = nil)
     @actions = []
+    @abilities = []
     add_action Discard.new
     add_action Play.new
     @cost = 0
@@ -65,6 +66,18 @@ class Card < Hook
     actions.any?{ |a| a.is_a? action }
   end
 
+
+  def add_abilities(abilities)
+    @abilities += abilities.map { |a| a.new(self) }
+  end
+
+  def add_temp_abilities(abilities)
+    @abilities += abilities.map { |ab_class| ab = ab_class.new(self) ; ab.permanent =false; ab; }
+  end
+
+  def has_ability(ability)
+    @abilities.any?{ |a| a.is_a? ability }
+  end
 
   def tap!
     @tapped = true
@@ -123,8 +136,9 @@ class Card < Hook
     world.turn.phase
   end
 
-
-
+  def type
+    self.class.superclass.to_s.underscore
+  end
 
   def when_turn_ends
     super
