@@ -88,6 +88,7 @@ class World
       end
       # p1.hand << WarAxe.new(p1)
       p1.hand << Lighting.new(p1)
+      p1.hand << DragonHatchling.new(p1)
       # p1.permanents << DarkMonk.new(p1)
       # p1.permanents << TeferisImp.new(p1)
       # p1.permanents << WinterWall.new(p1)

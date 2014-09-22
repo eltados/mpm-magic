@@ -183,7 +183,18 @@ class App <  Sinatra::Application
   end
 
 
-
+  get '/decks/base' do
+      session[:current_user] =  Player.new
+      me.world = World.new(Player.new ,Player.new )
+      @cards=[]
+      Deck.base.cards.each do |card_class|
+          card = card_class.new
+          card.owner = me
+          @cards << card
+      end
+      @cards = @cards.sort_by(&:cost)
+      erb :cards
+  end
 
 
   @@connections = []

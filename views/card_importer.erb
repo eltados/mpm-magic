@@ -44,8 +44,8 @@
 
 class #{@card['name'].gsub(/ |'/,'').camelcase} < Creature
 
-  def initialize
-    super
+  def initialize(owner=nil)
+    super(owner)
     @name = \"#{@card['name']}\"
     @strength = #{@card['power']}
     @toughness = #{@card['toughness']}
