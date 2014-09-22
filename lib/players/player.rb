@@ -147,8 +147,7 @@ class Player <Hook
     @flags = {}
   end
 
-  def when_phase_ends
-    puts  "when_phase_ends"
+  def when_phase_end
     @target_action =nil
   end
 
