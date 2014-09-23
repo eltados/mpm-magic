@@ -112,6 +112,8 @@ class Player <Hook
     end
 
     if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
+      # c = creatures.select { |c| c.can?(Attack) }
+
       return attack_all!
     end
 

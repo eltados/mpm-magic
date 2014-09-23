@@ -9,6 +9,7 @@ class VulturousZombie < Creature
     @description =  "Flying Whenever a card is put into an opponent's graveyard from anywhere, put a +1/+1 counter on Vulturous Zombie."
     @img = "http://www.wizards.com/magic/images/cardart/ALA/Predator_Dragon.jpg"
     @mtg_id = 89082
+add_abilities [ Flying ]
   end
 
 end
