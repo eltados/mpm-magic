@@ -99,7 +99,13 @@ class Creature < Card
     true
   end
 
+  def destroy!
+    event :dead
+  end
 
+  def sacrify!
+    event :dead
+  end
 
 
   def play!

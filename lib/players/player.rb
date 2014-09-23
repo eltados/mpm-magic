@@ -112,6 +112,8 @@ class Player <Hook
     end
 
     if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
+      # c = creatures.select { |c| c.can?(Attack) }
+
       return attack_all!
     end
 
@@ -129,7 +131,7 @@ class Player <Hook
     end
 
     if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
-      return hand.sort_by(&:cost).reverse[0].execute! Discard
+      return hand.sort_by(&:cost).reverse.first.execute! Discard
     end
     return world.turn.next!
   end
@@ -147,8 +149,7 @@ class Player <Hook
     @flags = {}
   end
 
-  def when_phase_ends
-    puts  "when_phase_ends"
+  def when_phase_end
     @target_action =nil
   end
 

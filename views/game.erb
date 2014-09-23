@@ -25,7 +25,7 @@
 
 
 <div id="spells" >
-  <% me.spells.each  do |card| %>
+  <% [me.spells , opponent.spells ].flatten.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 </div>

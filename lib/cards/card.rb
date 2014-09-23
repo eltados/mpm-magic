@@ -95,7 +95,7 @@ class Card < Hook
   end
 
   def in_play?
-    @owner.permanents.include? self
+    self.owner.permanents.include? self
   end
 
   def in_hand?

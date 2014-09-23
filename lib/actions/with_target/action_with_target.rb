@@ -5,6 +5,7 @@ class ActionWithTarget <Action
   end
 
   def can_be_activated
+    true
   end
 
   def can_target(target)
