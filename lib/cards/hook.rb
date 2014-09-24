@@ -2,61 +2,61 @@ class Hook
 
 
 
-  def when_phase_ends
+  def when_phase_ends(*args)
   end
 
-  def when_turn_ends
+  def when_turn_ends(*args)
   end
 
-  def when_my_turn_ends
+  def when_my_turn_ends(*args)
   end
 
-  def when_phase_untap
+  def when_phase_untap(*args)
   end
 
-  def when_phase_unkeep
+  def when_phase_unkeep(*args)
   end
 
-  def when_phase_draw
+  def when_phase_draw(*args)
   end
 
-  def when_tapped
+  def when_tapped(*args)
   end
 
-  def when_draw
-  end
-
-
-  def when_untapped
+  def when_draw(*args)
   end
 
 
-  def when_played
+  def when_untapped(*args)
   end
 
 
-  def when_phase_end_turn
+  def when_played(*args)
   end
 
-  def when_attacking
+
+  def when_phase_end_turn(*args)
   end
 
-  def when_blocking
+  def when_attacking(*args)
   end
 
-  def when_blocked
+  def when_blocking(*args)
   end
 
-  def when_hits_player
+  def when_blocked(*args)
   end
 
-  def when_hits_creature
+  def when_hits_player(*args)
   end
 
-  def when_receive_dmg
+  def when_hits_creature(*args)
   end
 
-  def when_dead
+  def when_receive_dmg(*args)
+  end
+
+  def when_dead(*args)
   end
 
 

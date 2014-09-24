@@ -1,9 +1,9 @@
 class Ability
 
   attr_accessor :card , :permanent
-  def initialize(card)
+  def initialize(card, permanent=true)
     @card = card
-    @permanent = true
+    @permanent = permanent
   end
 
   def permanent?

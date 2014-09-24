@@ -1,4 +1,3 @@
-
 $(document ).on( "click", "a.ajax" , function() {
   url = $( this ).attr("href") ;
   // alert("ajax");

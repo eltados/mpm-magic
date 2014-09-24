@@ -117,39 +117,40 @@ class Creature < Card
   define_modified_methods
 
 
-  def when_phase_ends
+  def when_phase_ends(*args)
     super
     event :dead if dead?
   end
 
-  def when_turn_ends
+  def when_turn_ends(*args)
     super
     @abilities.each do |ability|
       self.abilities.delete ability if ! ability.permanent?
     end
     @dmg = 0
     @attack_bonus = 0
+    @toughness_bonus = 0
   end
 
-  def when_dead
+  def when_dead(*args)
     super
     player.world.logs << "#{owner.name} loses his #{self.name}"
     player.permanents.delete self
     player.graveyard << self
   end
 
-  def when_receive_dmg
+  def when_receive_dmg(*args)
     event :dead if dead?
   end
 
 
-  def event(event)
-    super
+  def event(event, *args)
+    super(event , args)
     method = "when_#{event}".to_sym
     @abilities.select do |ability|
         ability.respond_to? method
     end.each  do |ability|
-      ability.send method
+      ability.send method, args
     end
   end
 

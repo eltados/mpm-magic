@@ -140,20 +140,20 @@ class Card < Hook
     self.class.superclass.to_s.underscore
   end
 
-  def when_turn_ends
+  def when_turn_ends(*args)
     super
     @flags = {}
   end
 
-  def when_phase_untap
+  def when_phase_untap(*args)
     super
     untap!
   end
 
 
-  def event(event)
+  def event(event , *args)
     method = "when_#{event}".to_sym
-    send method if self.respond_to? method.to_sym
+    send(method, args) if self.respond_to? method.to_sym
   end
 
 

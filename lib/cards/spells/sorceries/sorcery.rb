@@ -9,4 +9,5 @@ class Sorcery < Spell
         phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost)
   end
 
+
 end

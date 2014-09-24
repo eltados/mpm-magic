@@ -41,6 +41,9 @@
 <% if card.flags[:blocked_creature]%>
     <%= card.flags[:blocked_creature].name %>
 <% end %>
+<% if card.flags[:spell_target]%>
+    <%= card.flags[:spell_target].name %>
+<% end %>
   </div>
 
 <% if card.owner == me %>

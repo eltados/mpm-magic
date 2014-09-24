@@ -16,6 +16,7 @@ class Fight
 
   def self.resolve_dmg(attacker , defender)
     defender.hit! attacker.attack
+    attacker.event :hits_creature, defender , attacker.attack
   end
 
 end

@@ -5,7 +5,7 @@ class HitOpponent < Ability
     "The opponent loses 5 HP"
   end
 
-  def when_played
+  def when_played(*args)
     opponent.hits_player( 5 , card)
   end
 

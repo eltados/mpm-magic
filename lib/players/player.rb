@@ -39,6 +39,12 @@ class Player <Hook
     card.play!
   end
 
+
+  def create_token!(card)
+    permanents << card
+    card.play!
+  end
+
   def hits_player!(dommage , card)
     @health -= dommage
     card.flags[:hits_player] = dommage

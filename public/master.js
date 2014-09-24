@@ -3,6 +3,7 @@ var keymap = {
   'n' : "/next",
   'q' : "/auto",
   ']' : "/clear",
+  ' ' : "/next",
 };
 
 
@@ -29,6 +30,9 @@ es.onmessage = function(e) {
   $.ajax({
     url: window.location.href,
     success: function( data ) {
+      $('body').html(data);
+    },
+    error: function( data ) {
       $('body').html(data);
     }
   });

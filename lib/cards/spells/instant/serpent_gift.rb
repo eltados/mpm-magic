@@ -1,12 +1,12 @@
-class  Lighting < Instant
+class  SerpentGift < Instant
 
 
   def initialize(owner=nil)
     super(owner)
-    @name = 'Lighting'
-    @cost = 1 # 5B
-    @description =  "Deals 3 dommages to target creature"
-    @img = "http://images2.layoutsparks.com/1/44124/nerve-confusion-red-lightning.gif"
+    @name = 'Serpent\'s Gift'
+    @cost = 3 # 2G
+    @description =  "Target creature gains deathtouch until end of turn."
+    @img = "http://ts1.mm.bing.net/th?&id=HN.608051207726763793&w=300&h=300&c=0&pid=1.9&rs=0&p=0"
   end
 
   def play!
@@ -25,7 +25,7 @@ class  Lighting < Instant
 
   def execute_with_target!(target)
     super(target)
-    target.hit! 3
+    target.add_temp_abilities  [ DeathTouch]
   end
 
 
