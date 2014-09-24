@@ -41,6 +41,7 @@ class Player <Hook
 
 
   def create_token!(card)
+    card.cost = 0
     permanents << card
     card.play!
   end
