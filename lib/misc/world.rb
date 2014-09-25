@@ -69,6 +69,8 @@ class World
 
 
     def start!
+      playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
+
       [p1, p2].each do |p|
         p.hand = []
         p.permanents = []
@@ -91,7 +93,7 @@ class World
         7.times { p.draw! }
 
       end
-      p1.hand << WarAxe.new(p1)
+      # p1.hand << WarAxe.new(p1)
     #  p1.hand << Lighting.new(p1)
     #  p1.hand << DragonHatchling.new(p1)
       # p1.hand << Mob.new(p1)
