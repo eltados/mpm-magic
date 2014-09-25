@@ -1,7 +1,7 @@
 class RecklessBrute < Creature
 
   def initialize(owner=nil)
-    super(owner=nil)
+    super(owner)
     @name = "Reckless Brute"
     @strength = 3
     @toughness = 1
