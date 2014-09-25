@@ -23,7 +23,7 @@ class SummoningSickNessTest < Minitest::Test
   end
 
   def test_creature_with_haste_is_not_affected_by_summoning_sickness
-    gob = Gob.new @p1
+    gob = RecklessBrute.new @p1
     assert_equal true,  gob.has_ability(Haste)
     assert_equal false, gob.has_ability(SummoningSickness)
     assert_equal true, gob.can_attack

@@ -12,7 +12,6 @@ class Creature < Card
 
   def initialize(owner=nil)
     super(owner)
-    @abilities = []
     @dmg = 0
     @attack_bonus = 0
     @strength = 1
@@ -31,6 +30,11 @@ class Creature < Card
     strength + attack_bonus
   end
 
+  def hit!(hit_points)
+    @dmg += hit_points
+    event :receive_dmg
+  end
+
   def alive?
     health > 0
   end
@@ -47,6 +51,7 @@ class Creature < Card
   def block!(creature)
     @flags[:blocking] = true
     creature.flags[:blocked] = true
+    creature.flags[:blocked_by] = self
     @flags[:blocked_creature] = creature
   end
 
@@ -56,15 +61,15 @@ class Creature < Card
     @flags[:blocked_creature] = nil
   end
 
-
-
   def undo_attack!
     untap!
     flags[:attacking] = nil
   end
 
-  def can_be_played?
-    owner.mana_pool.can_pay? self.cost
+  def can_be_played
+    owner.playing? &&  ( phase.is_a?(Pre) ||
+        phase.is_a?(Post) ||
+        phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
   end
 
   def can_be_activated
@@ -94,18 +99,17 @@ class Creature < Card
     true
   end
 
-  def add_abilities(abilities)
-    @abilities += abilities.map { |a| a.new(self) }
+  def destroy!
+    event :dead
   end
 
-  def has_ability(ability)
-    @abilities.any?{ |a| a.is_a? ability }
+  def sacrify!
+    event :dead
   end
-
 
 
   def play!
-    abilities << SummoningSickness.new(self)
+    add_abilities [SummoningSickness]
     super
   end
 
@@ -113,34 +117,40 @@ class Creature < Card
   define_modified_methods
 
 
-  def when_phase_ends
+  def when_phase_ends(*args)
     super
     event :dead if dead?
   end
 
-  def when_turn_ends
+  def when_turn_ends(*args)
     super
     @abilities.each do |ability|
       self.abilities.delete ability if ! ability.permanent?
     end
     @dmg = 0
     @attack_bonus = 0
+    @toughness_bonus = 0
   end
 
-  def when_dead
+  def when_dead(*args)
     super
     player.world.logs << "#{owner.name} loses his #{self.name}"
     player.permanents.delete self
     player.graveyard << self
   end
 
-  def event(event)
-    super
+  def when_receive_dmg(*args)
+    event :dead if dead?
+  end
+
+
+  def event(event, *args)
+    super(event , args)
     method = "when_#{event}".to_sym
     @abilities.select do |ability|
         ability.respond_to? method
     end.each  do |ability|
-      ability.send method
+      ability.send method, args
     end
   end
 

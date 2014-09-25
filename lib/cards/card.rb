@@ -1,6 +1,6 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions, :abilities, :type, :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions, :abilities, :cost, :flags, :description
 
 
 
@@ -17,6 +17,7 @@ class Card < Hook
 
   def initialize (owner = nil)
     @actions = []
+    @abilities = []
     add_action Discard.new
     add_action Play.new
     @cost = 0
@@ -46,7 +47,7 @@ class Card < Hook
 
   def can?(action_class, target = nil)
     action(action_class).can_be_activated == true && \
-    ( target ==nil || action(action_class).can_target?(target) )
+    ( target ==nil || action(action_class).can_target(target) )
   end
 
   def execute! action_class
@@ -54,12 +55,29 @@ class Card < Hook
   end
 
   def action(action_class)
-    @actions.each do |a|
+    actions.each do |a|
       return a if a.is_a? action_class
     end
     return nil
   end
 
+
+  def has_action(action)
+    actions.any?{ |a| a.is_a? action }
+  end
+
+
+  def add_abilities(abilities)
+    @abilities += abilities.map { |a| a.new(self) }
+  end
+
+  def add_temp_abilities(abilities)
+    @abilities += abilities.map { |ab_class| ab = ab_class.new(self) ; ab.permanent =false; ab; }
+  end
+
+  def has_ability(ability)
+    @abilities.any?{ |a| a.is_a? ability }
+  end
 
   def tap!
     @tapped = true
@@ -77,7 +95,7 @@ class Card < Hook
   end
 
   def in_play?
-    @owner.permanents.include? self
+    self.owner.permanents.include? self
   end
 
   def in_hand?
@@ -85,7 +103,7 @@ class Card < Hook
   end
 
   def to_param
-    "#{object_id}-#{name}"
+    "#{object_id}-#{self.class.name.underscore}"
   end
 
   def self.find(id)
@@ -114,21 +132,28 @@ class Card < Hook
   end
 
 
+  def phase
+    world.turn.phase
+  end
 
-  def when_turn_ends
+  def type
+    self.class.superclass.to_s.underscore
+  end
+
+  def when_turn_ends(*args)
     super
     @flags = {}
   end
 
-  def when_phase_untap
+  def when_phase_untap(*args)
     super
     untap!
   end
 
 
-  def event(event)
+  def event(event , *args)
     method = "when_#{event}".to_sym
-    send method if self.respond_to? method.to_sym
+    send(method, args) if self.respond_to? method.to_sym
   end
 
 

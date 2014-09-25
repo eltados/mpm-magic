@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health , :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai,  :graveyard, :mana_pool, :flags, :played
 
   def initialize(world=nil)
     @permanents = []
@@ -39,6 +39,13 @@ class Player <Hook
     card.play!
   end
 
+
+  def create_token!(card)
+    card.cost = 0
+    permanents << card
+    card.play!
+  end
+
   def hits_player!(dommage , card)
     @health -= dommage
     card.flags[:hits_player] = dommage
@@ -46,9 +53,19 @@ class Player <Hook
   end
 
   def discard!(card)
+    return if ! hand.include? card
     hand.delete card
     graveyard << card
+    card.event :enters_graveyard
   end
+
+  def move_to_graveyard!(card)
+    return if ! permanents.include? card
+    permanents.delete card
+    graveyard << card
+    card.event :enters_graveyard
+  end
+
 
 
   def lands
@@ -59,6 +76,12 @@ class Player <Hook
   def creatures
     permanents.select do |card| card.is_a? Creature end
   end
+
+
+  def spells
+    permanents.select do |card| card.is_a? Spell end
+  end
+
 
 
   def attack_all!
@@ -90,12 +113,14 @@ class Player <Hook
       return land.execute!(Play)
     end
 
-    creature = hand.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
+    creature = hand.sort_by(&:cost).reverse.find {|c| puts c ; c.is_a?(Creature) && c.can?(Play) }
     if creature
       return creature.execute!(Play)
     end
 
     if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
+      # c = creatures.select { |c| c.can?(Attack) }
+
       return attack_all!
     end
 
@@ -113,7 +138,7 @@ class Player <Hook
     end
 
     if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
-      return hand.sort_by(&:cost).reverse[0].execute! Discard
+      return hand.sort_by(&:cost).reverse.first.execute! Discard
     end
     return world.turn.next!
   end
@@ -129,6 +154,10 @@ class Player <Hook
   def when_turn_ends
     @mana_pool.reset!
     @flags = {}
+  end
+
+  def when_phase_end
+    @target_action =nil
   end
 
   def when_phase_draw

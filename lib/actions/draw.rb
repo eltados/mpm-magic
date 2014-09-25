@@ -10,8 +10,7 @@ class DrawAction < Action
 
   def can_be_activated
     super && card.in_play? && (
-      world.turn.phase.is_a?(Pre) ||
-      world.turn.phase.is_a?(Combat) || world.turn.phase.is_a?(Post)
+      phase.is_a?(Pre) || phase.is_a?(Combat) || phase.is_a?(Post) || phase.is_a?(BlockPhase)
    )  &&  card.can_be_activated
   end
 

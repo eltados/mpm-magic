@@ -5,7 +5,6 @@ class GlistenerElf < Creature
     @name = 'Glistener Elf'
     @strength = 1
     @toughness = 1
-    @type = "Creature"
     @cost = 1 # G
     @description =  "Infect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)"
     @img = "http://www.tentonhammer.com/image/view/50524"

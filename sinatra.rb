@@ -133,19 +133,17 @@ class App <  Sinatra::Application
     world.p2.ai= true
     world.p2.world = world
     world.start!
-    # 1.times {  world.p1.permanents <<  WinterWall.new(me) }
-    # 1.times {  world.p1.permanents <<  Gob.new(me) }
-    # 1.times {  world.p2.permanents <<  Nightmare.new(world.p2)  }
-    # 1.times {  world.p2.permanents <<  Elf.new(world.p2)  }
     redirect "/game"
   end
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
+      me.target_action = nil
       action.execute!
     else
       action.execute_with_target! Card.find(params[:target_id])
+      me.target_action =nil
     end
     notify!
     redirect "/game"
@@ -157,8 +155,8 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
-  get "/cancel_target" do
-    me.world.target_action = nil
+  get "/cancel_target_action" do
+    me.target_action = nil
     notify!
     redirect "/game"
   end
@@ -175,7 +173,7 @@ class App <  Sinatra::Application
     session[:current_user] =  Player.new
     me.world = World.new(Player.new ,Player.new )
     @cards=[]
-    Creature.all.each do |card_class|
+    [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.each do |card_class|
         card = card_class.new
         card.owner = me
         @cards << card
@@ -185,7 +183,18 @@ class App <  Sinatra::Application
   end
 
 
-
+  get '/decks/base' do
+      session[:current_user] =  Player.new
+      me.world = World.new(Player.new ,Player.new )
+      @cards=[]
+      Deck.base.cards.each do |card_class|
+          card = card_class.new
+          card.owner = me
+          @cards << card
+      end
+      @cards = @cards.sort_by(&:cost)
+      erb :cards
+  end
 
 
   @@connections = []
