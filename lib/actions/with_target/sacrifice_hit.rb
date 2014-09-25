@@ -18,6 +18,7 @@ class SacrificeHitAction < ActionWithTarget
   end
 
   def execute_with_target!(target)
+    super(target)
     card.sacrify!
     target.hit! 4
     player.target_action =nil

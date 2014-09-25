@@ -21,7 +21,7 @@ class Block < ActionWithTarget
   end
 
   def execute_with_target!(target)
-    world.logs << "#{player.name} blocks #{target.name} with #{card.name}"
+    super(target)
     card.block! target
   end
 

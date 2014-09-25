@@ -15,6 +15,7 @@ class UndoBlock < Action
   end
 
   def execute!
+    super
     card.undo_block!
   end
 

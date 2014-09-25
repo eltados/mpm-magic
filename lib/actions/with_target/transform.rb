@@ -18,6 +18,7 @@ class TransformAction < ActionWithTarget
   end
 
   def execute_with_target!(target)
+    super(target)
     card.tap!
     target.attack_bonus += target.attack
     player.target_action =nil

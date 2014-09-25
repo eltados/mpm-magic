@@ -134,7 +134,7 @@ class Creature < Card
 
   def when_dead(*args)
     super
-    player.world.logs << "#{owner.name} loses his #{self.name}"
+    player.world.log Log.new( description: "#{owner.name} loses his #{self.name}", card:self)
     player.permanents.delete self
     player.graveyard << self
   end

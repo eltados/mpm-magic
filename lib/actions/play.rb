@@ -13,7 +13,7 @@ class Play < Action
   end
 
   def execute!
-  super
+    super
     player.play! card
   end
 

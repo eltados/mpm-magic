@@ -1,0 +1,10 @@
+<% log = locals[:log] %>
+<% puts log.description %>
+<div class="log" title="<%= h log.description%>" style="background-image: url('<%= log.card.img %>')">
+  <% if log.action %>
+    <div  class="action" style="background-image: url('<%= log.action.img %>')" >&nbsp;</div>
+  <% end %>
+  <% if log.target %>
+    <div  class="target" style="background-image: url('<%= log.target.img %>')" >&nbsp;</div>
+  <% end %>
+</div>

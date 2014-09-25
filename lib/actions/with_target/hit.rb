@@ -18,6 +18,7 @@ class HitAction < ActionWithTarget
   end
 
   def execute_with_target!(target)
+    super(target)
     card.tap!
     target.hit! 1
     player.target_action =nil

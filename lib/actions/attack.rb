@@ -14,6 +14,7 @@ class Attack < Action
   end
 
   def execute!
+    super
     card.attack!
   end
 

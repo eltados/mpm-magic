@@ -17,4 +17,9 @@ class ActionWithTarget <Action
   end
 
 
+  def execute_with_target!(target)
+    world.log Log.new(description: self.log , card: card, target: target , action:self)
+  end
+
+
 end

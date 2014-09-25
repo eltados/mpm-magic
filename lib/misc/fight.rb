@@ -9,9 +9,9 @@ class Fight
     attacker.event :blocked
   end
 
-  def self.attack_player!(creature ,player)
+  def self.attack_player!(creature , player)
     player.hits_player!( creature.attack , creature )
-    player.world.logs << "#{player.name} loses #{creature.attack} HP (#{creature.name})"
+    player.world.log Log.new(description:"#{player.name} loses #{creature.attack} HP (#{creature.name})", card: creature)
   end
 
   def self.resolve_dmg(attacker , defender)

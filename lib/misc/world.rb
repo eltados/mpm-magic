@@ -50,6 +50,11 @@ class World
       "#{object_id}-world"
     end
 
+    def log(log)
+      log.world = self
+      logs << log
+    end
+
     def self.find(id)
       ObjectSpace._id2ref(id.to_i)
     end
