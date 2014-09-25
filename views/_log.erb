@@ -1,6 +1,5 @@
 <% log = locals[:log] %>
-<% puts log.description %>
-<div class="log" title="<%= h log.description%>" style="background-image: url('<%= log.card.img %>')">
+<div class="log" title="<%= h log.description%>" style="background-image: url('<%= log.card == me ? 'me.png' :  log.card.img %>')">
   <% if log.action %>
     <% if log.action.is_a? Action %>
     <div  class="action" style="background-image: url('<%= log.action.img %>')" >&nbsp;</div>

@@ -163,6 +163,9 @@ class App <  Sinatra::Application
 
   get '/auto' do
     me.auto_play! if me.active?
+    while(me.world.active_player.ai == true) do
+      me.world.active_player.auto_play!
+    end
     notify!
     redirect "/game"
   end
