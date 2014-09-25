@@ -174,13 +174,15 @@ border: 0px;
 }
 
 #logs{
-  overflow: hidden;
+  overflow-x: none;
   position: absolute;
+  overflow-y: hidden;
   top: 130;
   left: 0px;
   z-index: 50;
   padding-left: 5px;
   width:53px;
+  height: 50%;
 }
 
 
@@ -283,6 +285,7 @@ box-sizing: border-box;
   text-align:left;
   margin:2px;
   border-radius: 5px;
+  z-index: 60;
 }
 
 
@@ -501,6 +504,7 @@ a{
   margin-top:5px;
   background-color:#666;
   background-size: 40px 40px;
+  opacity:50%;
 }
 
 .log .action{
@@ -509,10 +513,10 @@ a{
   left:-5px;
   background-size: 16px 16px;
   height:18px;
-  width:19px;
+  min-width: 19px;
+
   font-size:16px;
   font-weight:bold;
-  color:white;
   background-color:#CCC;
   border:1px solid black;
   border-radius: 5px;
@@ -525,10 +529,9 @@ a{
   right:-5px;
   background-size: 16px 16px;
   height:18px;
-  width:19px;
+  min-width: 19px;
   font-size:16px;
   font-weight:bold;
-  color:white;
   background-color:#CCC;
   border:1px solid black;
   border-radius: 5px;

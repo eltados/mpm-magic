@@ -2,7 +2,13 @@
 <% puts log.description %>
 <div class="log" title="<%= h log.description%>" style="background-image: url('<%= log.card.img %>')">
   <% if log.action %>
+    <% if log.action.is_a? Action %>
     <div  class="action" style="background-image: url('<%= log.action.img %>')" >&nbsp;</div>
+    <% elsif log.action.is_a? String %>
+    <div  class="action" ><%= log.action.to_s %></div>
+    <% else %>
+    <div  class="action" style="background-image: url('<%= log.action.to_sym %>.png')" >&nbsp;</div>
+    <% end %>
   <% end %>
   <% if log.target %>
     <div  class="target" style="background-image: url('<%= log.target.img %>')" >&nbsp;</div>

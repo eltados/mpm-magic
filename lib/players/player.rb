@@ -13,6 +13,10 @@ class Player <Hook
     @health = 20
   end
 
+  def img
+    "http://simpleicon.com/wp-content/uploads/user1.png"
+  end
+
   def alive?
     health > 0
   end
@@ -50,6 +54,7 @@ class Player <Hook
     @health -= dommage
     card.flags[:hits_player] = dommage
     card.event :hits_player
+    world.log Log.new(description:"#{card.name} hits #{name} :  - #{dommage} HP", card: self ,target:card, action: "-#{dommage}")
   end
 
   def discard!(card)
@@ -155,6 +160,8 @@ class Player <Hook
     @mana_pool.reset!
     @flags = {}
   end
+
+
 
   def when_phase_end
     @target_action =nil

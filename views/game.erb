@@ -22,11 +22,6 @@
 </div>
 
 
-<div id="spells" >
-  <% [me.spells , opponent.spells ].flatten.each  do |card| %>
-    <%= erb :_card, locals: {card: card   }%>
-  <% end %>
-</div>
 
 <div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>

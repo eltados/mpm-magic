@@ -92,7 +92,7 @@ class World
 
       end
       # p1.hand << WarAxe.new(p1)
-#      p1.hand << Lighting.new(p1)
+    #  p1.hand << Lighting.new(p1)
     #  p1.hand << DragonHatchling.new(p1)
       # p1.hand << Mob.new(p1)
       # p1.hand << TitanicGrowth.new(p1)

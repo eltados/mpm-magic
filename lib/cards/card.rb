@@ -12,9 +12,6 @@ class Card < Hook
    [ ]
   end
 
-
-
-
   def initialize (owner = nil)
     @actions = []
     @abilities = []

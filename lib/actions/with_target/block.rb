@@ -25,8 +25,4 @@ class Block < ActionWithTarget
     card.block! target
   end
 
-  def log
-    "#{player.name} blocks with #{card.name}"
-  end
-
 end
