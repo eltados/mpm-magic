@@ -1,10 +1,10 @@
 <% if !me %>
-<h1>
+
+
 <form action="/login" method="GET">
   Name : <input type="text" value="<%= "Player #{request.ip}"%>" name="name"/>
   <input type="submit" value="Login" />
 </form>
-</h1>
 
 
 
