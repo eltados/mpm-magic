@@ -113,7 +113,7 @@ class Player <Hook
       return land.execute!(Play)
     end
 
-    creature = hand.sort_by(&:cost).reverse.find {|c| c.is_a?(Creature) && c.can?(Play) }
+    creature = hand.sort_by(&:cost).reverse.find {|c| puts c ; c.is_a?(Creature) && c.can?(Play) }
     if creature
       return creature.execute!(Play)
     end
