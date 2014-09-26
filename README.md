@@ -9,6 +9,36 @@ http://mpm-magic.herokuapp.com/
 
 [ ![Codeship Status for eltados/mpm-magic](https://codeship.io/projects/968f0260-1207-0132-a2a8-4ec5f4cbfced/status?branch=master)](https://codeship.io/projects/33180)
 
+
+Running your local copy : 
+
+Install ruby version 2.0.0 using RVM 
+
+```
+\curl -sSL https://get.rvm.io | bash
+
+rvm install 2.0.0
+
+rvm use 2.0.0
+```
+
+Clone the repo and cd to the repo folder
+
+Install the dependencies 
+```
+bundle install
+```
+
+Start the application
+```
+thin start
+```
+
+Go to http://127.0.0.1:3000/cards
+
+Profit !
+
+
 contribute  
 
  * fork the project
