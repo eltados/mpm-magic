@@ -12,7 +12,7 @@ http://mpm-magic.herokuapp.com/
 
 Running your local copy : 
 
-Install ruby version 2.0.0 using RVM 
+Install ruby version 2.0.0 using RVM  :  http://rvm.io/rvm/install
 
 ```
 \curl -sSL https://get.rvm.io | bash
