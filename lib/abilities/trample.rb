@@ -1,7 +1,7 @@
 class Trample < Ability
 
   def description
-    "This creature does extra player dommage when blocked"
+    "This creature does extra player damage when blocked"
   end
 
   def when_blocked(*args)
