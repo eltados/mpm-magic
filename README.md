@@ -33,13 +33,14 @@ Start the application
 ```
 thin start
 ```
+Go to http://127.0.0.1:3000/cards
 
 Start the application using default http port
 ```
 rvmsudo thin start -p 80
 ```
 
-Go to http://127.0.0.1:3000/cards
+Go to http://127.0.0.1/cards
 
 Profit !
 
