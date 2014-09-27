@@ -49,5 +49,11 @@ contribute
  * fork the project
  * add a creature by copying an existing one.
  * make a pull request
+ * 
+You can also use this command to track the changes on the other forks  :
+```
+git remote add eltados https://github.com/eltados/mpm-magic.git
+git diff eltados/master
+```
  
 Enjoy
