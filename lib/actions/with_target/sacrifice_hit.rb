@@ -4,7 +4,7 @@ class SacrificeHitAction < ActionWithTarget
     super(owner)
     @name = "Explode"
     @img ="hit.png"
-    @description ="{Sacrifice} : deal 4 dommage to target creature"
+    @description ="{Sacrifice} : deal 4 damage to target creature"
     @priority =2
   end
 

@@ -65,7 +65,9 @@ class Card < Hook
 
 
   def add_abilities(abilities)
-    @abilities += abilities.map { |a| a.new(self) }
+    @abilities += abilities.map { |a|
+      a.new(self)
+     }
   end
 
   def add_temp_abilities(abilities)

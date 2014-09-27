@@ -50,11 +50,11 @@ class Player <Hook
     card.play!
   end
 
-  def hits_player!(dommage , card)
-    @health -= dommage
-    card.flags[:hits_player] = dommage
+  def hits_player!(damage , card)
+    @health -= damage
+    card.flags[:hits_player] = damage
     card.event :hits_player
-    world.log Log.new(description:"#{card.name} hits #{name} :  - #{dommage} HP", card: self ,target:card, action: "-#{dommage}")
+    world.log Log.new(description:"#{card.name} hits #{name} :  - #{damage} HP", card: self ,target:card, action: "-#{damage}")
   end
 
   def discard!(card)

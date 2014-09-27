@@ -5,8 +5,8 @@ class DeathTouch < Ability
   end
 
   def when_hits_creature(*args)
-    creature, dommage = args.flatten
-    creature.destroy! if dommage > 0
+    creature, damage = args.flatten
+    creature.destroy! if damage > 0
   end
 
 
