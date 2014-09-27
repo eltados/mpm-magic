@@ -76,7 +76,7 @@
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    Opponent is playing ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
+    <a href="/game">Opponent is playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 
 </div>
