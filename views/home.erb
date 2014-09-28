@@ -1,9 +1,8 @@
 <% if !me %>
-
-
+<br/>
 <form action="/login" method="GET">
-  Name : <input type="text" value="<%= "Player #{request.ip}"%>" name="name"/>
-  <input type="submit" value="Login" />
+  <input style="width:80% ; font-size:250%;" type="text" value="" placeholder="Login as" name="name" autofocus required />
+  <input type="submit" value="Login" style="width:19% ;font-size:250%;  " />
 </form>
 
 
