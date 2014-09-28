@@ -15,7 +15,7 @@ class Deck
    Deck.new({
     Mountain => 10,
     Forest => 10,
-    Lighting => 4,
+    Lighting => 4
 
    })
   end

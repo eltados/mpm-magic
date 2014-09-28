@@ -5,10 +5,12 @@ class NightmareAbility < Ability
   end
 
   def toughness(original)
+    return original if card.player.nil?
     original + card.player.lands.size
   end
 
   def strength(original)
+    return original if card.player.nil?
     original + card.player.lands.size
   end
 
