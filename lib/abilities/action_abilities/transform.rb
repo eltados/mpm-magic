@@ -1,8 +1,8 @@
-class TransformAbility < ActionAbility
+class ProduceAbility < ActionAbility
 
 
   def initialize(card)
-    super(card , TransformAction)
+    super(card , Produce)
   end
 
 end

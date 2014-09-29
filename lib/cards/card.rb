@@ -135,6 +135,10 @@ class Card < Hook
     world.turn.phase
   end
 
+  def can_be_activated
+    !tapped?
+  end
+
   def type
     self.class.superclass.to_s.underscore
   end
