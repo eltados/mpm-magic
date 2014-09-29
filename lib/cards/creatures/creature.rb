@@ -3,7 +3,7 @@ class Creature < Card
   attr_accessor  :strength, :toughness, :dmg,  :attack_bonus
 
   def self.modified_methods
-    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block , :can_be_activated , :attack!, undo_attack! ]
+    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block , :can_be_activated , :attack!, :undo_attack! ]
   end
 
   def self.modified_methods_with_param
