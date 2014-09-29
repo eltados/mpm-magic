@@ -5,7 +5,7 @@ class  Lighting < Instant
     super(owner)
     @name = 'Lighting'
     @cost = 1 # 5B
-    @description =  "Deals 3 dommages to target creature"
+    @description =  "Deals 3 damages to target creature"
     @img = "http://images2.layoutsparks.com/1/44124/nerve-confusion-red-lightning.gif"
   end
 

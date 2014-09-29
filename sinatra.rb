@@ -163,6 +163,9 @@ class App <  Sinatra::Application
 
   get '/auto' do
     me.auto_play! if me.active?
+    while(me.world.active_player.ai == true) do
+      me.world.active_player.auto_play!
+    end
     notify!
     redirect "/game"
   end
@@ -170,13 +173,8 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    session[:current_user] =  Player.new
-    me.world = World.new(Player.new ,Player.new )
-    @cards=[]
-    [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.each do |card_class|
-        card = card_class.new
-        card.owner = me
-        @cards << card
+    @cards= [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.map do |card_class|
+        card_class.new
     end
     @cards = @cards.sort_by(&:cost)
     erb :cards
@@ -184,15 +182,9 @@ class App <  Sinatra::Application
 
 
   get '/decks/base' do
-      session[:current_user] =  Player.new
-      me.world = World.new(Player.new ,Player.new )
-      @cards=[]
-      Deck.base.cards.each do |card_class|
-          card = card_class.new
-          card.owner = me
-          @cards << card
+      @cards= Deck.base.cards.map do |card_class|
+          card_class.new
       end
-      @cards = @cards.sort_by(&:cost)
       erb :cards
   end
 

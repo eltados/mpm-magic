@@ -4,7 +4,7 @@ class SacrificeHitAction < ActionWithTarget
     super(owner)
     @name = "Explode"
     @img ="hit.png"
-    @description ="{Sacrifice} : deal 4 dommage to target creature"
+    @description ="{Sacrifice} : deal 4 damage to target creature"
     @priority =2
   end
 
@@ -18,6 +18,7 @@ class SacrificeHitAction < ActionWithTarget
   end
 
   def execute_with_target!(target)
+    super(target)
     card.sacrify!
     target.hit! 4
     player.target_action =nil

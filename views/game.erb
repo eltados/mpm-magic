@@ -1,10 +1,8 @@
-<!-- <div id="logs" >
-  <ul>
+<div id="logs" >
     <% @world.logs.reverse.each do |log| %>
-    <li><%= log %></li>
+      <%= erb :_log, locals: { log: log }%>
     <% end %>
-  </ul>
-</div> -->
+</div>
 
 
 <% if me.health <= 0 %>
@@ -24,11 +22,6 @@
 </div>
 
 
-<div id="spells" >
-  <% [me.spells , opponent.spells ].flatten.each  do |card| %>
-    <%= erb :_card, locals: {card: card   }%>
-  <% end %>
-</div>
 
 <div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
@@ -83,7 +76,7 @@
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    Opponent is playing ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
+    <a href="/game">Opponent is playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 
 </div>

@@ -13,6 +13,10 @@ class Player <Hook
     @health = 20
   end
 
+  def img
+    "player.png"
+  end
+
   def alive?
     health > 0
   end
@@ -46,10 +50,11 @@ class Player <Hook
     card.play!
   end
 
-  def hits_player!(dommage , card)
-    @health -= dommage
-    card.flags[:hits_player] = dommage
+  def hits_player!(damage , card)
+    @health -= damage
+    card.flags[:hits_player] = damage
     card.event :hits_player
+    world.log Log.new(description:"#{card.name} hits #{name} :  - #{damage} HP", card: self ,target:card, action: "-#{damage}")
   end
 
   def discard!(card)
@@ -113,7 +118,7 @@ class Player <Hook
       return land.execute!(Play)
     end
 
-    creature = hand.sort_by(&:cost).reverse.find {|c| puts c ; c.is_a?(Creature) && c.can?(Play) }
+    creature = hand.sort_by(&:cost).reverse.find {|c|  c.is_a?(Creature) && c.can?(Play) }
     if creature
       return creature.execute!(Play)
     end
@@ -155,6 +160,8 @@ class Player <Hook
     @mana_pool.reset!
     @flags = {}
   end
+
+
 
   def when_phase_end
     @target_action =nil

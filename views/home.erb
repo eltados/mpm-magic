@@ -1,9 +1,8 @@
 <% if !me %>
-
-
+<br/>
 <form action="/login" method="GET">
-  Name : <input type="text" value="<%= "Player #{request.ip}"%>" name="name"/>
-  <input type="submit" value="Login" />
+  <input style="margin: 15px; font-size:250%;" type="text" value="" placeholder="Login as" name="name" autofocus required />
+  <input type="submit" value="Login" style="margin: 15px; width:19% ;font-size:250%;  " />
 </form>
 
 
@@ -18,7 +17,7 @@
 
   <% if !me.world %>
 
-<h3>Multiplayer</h3>
+<h3>Multiplayer <a href="/">[Refresh]</a></h3>
 <ul>
     <li><a href="/game/new">Create game</a></li>
     <% @players.reject{ |p| p == me || p.world == nil }.map(&:world).each do |world| %>

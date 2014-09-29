@@ -1,7 +1,7 @@
 class Haste < Ability
 
   def description
-    "This creature does extra player dommage when blocked"
+    "This creature is not affected by summoning sickness."
   end
 
   def when_played(*args)

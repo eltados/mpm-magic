@@ -41,7 +41,7 @@ class Action
 
 
   def execute!
-    world.logs << log
+    world.log Log.new(description: self.log , card: card, action:self)
   end
 
   def can_target(target)

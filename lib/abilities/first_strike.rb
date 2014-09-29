@@ -1,7 +1,7 @@
 class FirstStrike < Ability
 
   def description
-    "The creature deals the dommage first"
+    "The creature deals the damage first"
   end
 
 

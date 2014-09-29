@@ -4,7 +4,7 @@ class HitAction < ActionWithTarget
     super(owner)
     @name = "Hit"
     @img ="hit.png"
-    @description ="{Tap} : deal 1 dommage to target creature"
+    @description ="{Tap} : deal 1 damage to target creature"
     @priority =2
   end
 
@@ -18,6 +18,7 @@ class HitAction < ActionWithTarget
   end
 
   def execute_with_target!(target)
+    super(target)
     card.tap!
     target.hit! 1
     player.target_action =nil

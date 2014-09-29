@@ -1,7 +1,5 @@
 class Hook
 
-
-
   def when_phase_ends(*args)
   end
 

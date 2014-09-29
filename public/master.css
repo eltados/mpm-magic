@@ -48,6 +48,7 @@ z-index:100;
   width:120px;
   overflow-x: none;
   background:green;
+  z-index:70;
 }
 
 
@@ -174,41 +175,16 @@ border: 0px;
 }
 
 #logs{
-  width : 50px;
-  max-height: 200px;
-  overflow:auto;
-  position:absolute;
-  bottom:0px;
-  right:0px;
-  z-index:50;
-  background-color:#CCC;
-  border:1px solid black;
-  opacity:0.25;
-  padding:3px;
-
-/*z-index:50;*/
-opacity:0.50;
-height: 400px;
-width: 300px;
-overflow-x:auto;
+  overflow-x: none;
+  position: absolute;
+  overflow-y: hidden;
+  top: 130;
+  left: 0px;
+  z-index: 50;
+  padding-left: 5px;
+  width:53px;
+  height: 50%;
 }
-
-
-/*#logs:hover{
-  overflow-x:auto;
-  z-index:500;
-  opacity:0.75;
-  height: 400px;
-  width: 300px;
-  bottom:0;
-}*/
-
-
-#logs:hover{
-  z-index:500;
-  opacity:0.90;
-}
-
 
 
 
@@ -310,6 +286,7 @@ box-sizing: border-box;
   text-align:left;
   margin:2px;
   border-radius: 5px;
+  z-index: 60;
 }
 
 
@@ -516,6 +493,52 @@ a{
 .target{
   border:5px solid blue;
 }
+
+
+.log{
+  height:40px;
+  width:40px;
+  border-radius: 10px;
+  border:1px solid black;
+  position:relative;
+  margin:2px;
+  margin-top:5px;
+  background-color:#666;
+  background-size: 40px 40px;
+  opacity:50%;
+}
+
+.log .action{
+  position:absolute;
+  bottom:-5px;
+  left:-5px;
+  background-size: 16px 16px;
+  height:18px;
+  min-width: 19px;
+
+  font-size:16px;
+  font-weight:bold;
+  background-color:#CCC;
+  border:1px solid black;
+  border-radius: 5px;
+  height:20px;
+}
+
+.log .target{
+  position:absolute;
+  bottom:-5px;
+  right:-5px;
+  background-size: 16px 16px;
+  height:18px;
+  min-width: 19px;
+  font-size:16px;
+  font-weight:bold;
+  background-color:#CCC;
+  border:1px solid black;
+  border-radius: 5px;
+  height:20px;
+}
+
 
 
 /*SVG stuff*/

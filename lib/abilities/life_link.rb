@@ -1,7 +1,7 @@
 class LifeLink < Ability
 
   def description
-    "when this creature deal dommage gain the same amount of HP"
+    "when this creature deal damage gain the same amount of HP"
   end
 
   def when_hits_player(*args)

@@ -1,6 +1,5 @@
 class HitOpponent < Ability
 
-
   def description
     "The opponent loses 5 HP"
   end
