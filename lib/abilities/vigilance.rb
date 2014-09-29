@@ -4,13 +4,8 @@ class Vigilance < Ability
     "Attacking doesn't cause this creature to tap."
   end
 
-  def attack!
-    flags[:attacking] = true
+  def attack_requires_tap
+    false
   end
-
-  def undo_attack!
-    flags[:attacking] = nil
-  end
-
 
 end

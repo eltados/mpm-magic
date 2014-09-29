@@ -3,7 +3,7 @@ class Creature < Card
   attr_accessor  :strength, :toughness, :dmg,  :attack_bonus
 
   def self.modified_methods
-    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block , :can_be_activated , :attack!, :undo_attack! ]
+    super + [:strength , :toughness, :dmg, :attack_bonus, :can_attack , :can_block , :can_be_activated , :attack_requires_tap ]
   end
 
   def self.modified_methods_with_param
@@ -44,7 +44,7 @@ class Creature < Card
   end
 
   def attack!
-    tap!
+    tap! if attack_requires_tap
     flags[:attacking] = true
   end
 
@@ -62,7 +62,7 @@ class Creature < Card
   end
 
   def undo_attack!
-    untap!
+    untap! if attack_requires_tap
     flags[:attacking] = nil
   end
 
@@ -97,6 +97,10 @@ class Creature < Card
 
   def can_be_blocked_by(creature)
     true
+  end
+
+  def attack_requires_tap
+      true
   end
 
   def destroy!
