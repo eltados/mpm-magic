@@ -4,7 +4,7 @@ class Vigilance < Ability
     "Attacking doesn't cause this creature to tap."
   end
 
-  def attack_requires_tap
+  def attack_requires_tap( original )
     false
   end
 
