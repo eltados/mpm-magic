@@ -12,6 +12,7 @@ if development?
   require "better_errors"
   require 'sinatra/reloader'
 end
+
 require_all 'lib'
 
 

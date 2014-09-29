@@ -31,7 +31,7 @@ class Player <Hook
 
 
   def draw!
-    raise 'No More Card to Draw'   if deck.size ==0
+    raise 'No More Card to Draw' if deck.size == 0
     hand << deck.shift
     # when_draw
   end

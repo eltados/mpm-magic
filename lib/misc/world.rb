@@ -76,8 +76,8 @@ class World
         p.permanents = []
         p.graveyard = []
         p.deck = []
-
-        20.times do
+        
+        15.times do
           p.deck << Mountain.new(p)
           p.deck << Forest.new(p)
         end
@@ -86,6 +86,7 @@ class World
         50.times do
           p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell , Enchant ]).shuffle[0].new(p)
         end
+
 
 
         p.deck.shuffle!
