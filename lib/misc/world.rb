@@ -27,6 +27,12 @@ class World
       [@p1, @p2 ]
     end
 
+    def winner
+      return p2 if p1.dead?
+      return p1 if p2.dead?
+      nil
+    end
+
     def switch_playing_player!
       @playing_player  = defending_player
     end
