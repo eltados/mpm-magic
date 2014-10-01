@@ -115,12 +115,12 @@ class World
       # p1.hand << SerpentGift.new(p1)
       # p1.hand << KrenkoCommand.new(p1)
       # p1.hand << UnholyStrength.new(p1)
-      p1.permanents << TeferisImp.new(p1)
+      # p1.permanents << TeferisImp.new(p1)
       # p1.permanents << God.new(p1)
       # p2.hand = []
     #  p2.permanents << DarkMonk.new(p2)
     #  p2.permanents << Rhino.new(p2)
-     10.times {  p1.permanents << Mountain.new(p1) }
+    #  10.times {  p1.permanents << Mountain.new(p1) }
 
     end
 
