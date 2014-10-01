@@ -11,6 +11,12 @@ class World
       @p2.world = self if(@p2 != nil)
     end
 
+
+    def abilities_for(card)
+      # return [Nightmare.new(card)] if card.is_a?(TeferisImp)
+      []
+    end
+
     def defending_player
       @playing_player == @p1 ? @p2 : @p1
     end
@@ -90,7 +96,7 @@ class World
 
 
         50.times do
-          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell , Enchant ]).shuffle[0].new(p)
+          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell  ]).shuffle[0].new(p)
         end
 
 
@@ -100,20 +106,21 @@ class World
         7.times { p.draw! }
 
       end
-      # p1.hand << WarAxe.new(p1)
+    # p1.hand << GloriousAnthem.new(p1)
     #  p1.hand << Lighting.new(p1)
+    #  p1.hand << UnholyStrength.new(p1)
     #  p1.hand << DragonHatchling.new(p1)
       # p1.hand << Mob.new(p1)
       # p1.hand << TitanicGrowth.new(p1)
       # p1.hand << SerpentGift.new(p1)
       # p1.hand << KrenkoCommand.new(p1)
       # p1.hand << UnholyStrength.new(p1)
-      # p1.permanents << TeferisImp.new(p1)
+      p1.permanents << TeferisImp.new(p1)
       # p1.permanents << God.new(p1)
       # p2.hand = []
     #  p2.permanents << DarkMonk.new(p2)
     #  p2.permanents << Rhino.new(p2)
-    #  10.times {  p1.permanents << Mountain.new(p1) }
+     10.times {  p1.permanents << Mountain.new(p1) }
 
     end
 

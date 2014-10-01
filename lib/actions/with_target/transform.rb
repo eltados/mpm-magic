@@ -24,5 +24,9 @@ class TransformAction < ActionWithTarget
     player.target_action =nil
   end
 
+  def positive?
+    true
+  end
+
 
 end

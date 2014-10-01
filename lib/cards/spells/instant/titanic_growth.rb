@@ -28,5 +28,4 @@ class  TitanicGrowth < Instant
     target.dmg -= 4 # a bit hacky
   end
 
-
 end

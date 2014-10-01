@@ -9,7 +9,7 @@ class AutoFight < Minitest::Test
 
   def test_run_games
    world = nil
-   timeout = 15
+   timeout = 5
    i = 0
    begin
       Timeout::timeout(timeout) do
@@ -32,18 +32,6 @@ class AutoFight < Minitest::Test
         end
       end
     rescue Timeout::Error
-      # stat = {}
-      # winners = {}
-      # worlds.each do |world|
-      #   winners[world.winner.name] = 0 if winners[world.winner.name] == nil
-      #   winners[world.winner.name] += 1
-      # end
-      # stat[:win_rate] = winners.map do |key,value| {key => "#{value * 100 / worlds.size}%" } end.reduce(:merge)
-      # worlds.map do |world| world.turn.number end.inject{|sum,x| sum + x } / worlds.size.to_f
-      # stat[:turn] = worlds.map do |world| world.turn.number end.inject{|sum,x| sum + x } / worlds.size.to_f
-      # stat[:games_per_min] = worlds.size * 60  / timeout.to_f
-      # stat[:games] = worlds.size
-      # puts stat.to_json
       puts "#{i} games ( #{i * 60 / timeout.to_f } per min )"
     rescue Exception => e
       assert(false, """

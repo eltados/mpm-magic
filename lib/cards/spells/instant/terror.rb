@@ -27,6 +27,8 @@ class  Terror < Instant
     super(target)
     target.destroy!
   end
-
+  def positive?
+    false
+  end
 
 end

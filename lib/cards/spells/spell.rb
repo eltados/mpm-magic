@@ -14,5 +14,12 @@ class Spell < Card
            .new(self.name , "#{self.type}.png" , self.description, true)]
   end
 
+  def can_be_played
+     owner.mana_pool.can_pay?(self.cost)
+  end
+
+  def positive?
+    true
+  end
 
 end

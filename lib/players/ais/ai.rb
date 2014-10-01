@@ -20,6 +20,10 @@ class Ai
     @player.creatures
   end
 
+  def permanents
+    @player.permanents
+  end
+
   def attack_all!
     @player.attack_all!
   end

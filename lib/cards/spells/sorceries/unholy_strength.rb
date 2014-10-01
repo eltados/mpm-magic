@@ -1,5 +1,4 @@
-# super hack enchant
-class  UnholyStrength < Instant
+class  UnholyStrength < Sorcery
 
 
   def initialize(owner=nil)
@@ -21,9 +20,7 @@ class  UnholyStrength < Instant
   end
 
   def can_be_played
-    owner.playing? && ( phase.is_a?(Pre) || phase.is_a?(Post) ) \
-    && owner.mana_pool.can_pay?(self.cost) \
-    && [player.opponent.creatures, player.creatures ].flatten.any?{ |p| self.can_target(p) }
+    super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
   def execute_with_target!(target)
