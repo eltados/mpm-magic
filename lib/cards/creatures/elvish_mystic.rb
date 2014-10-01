@@ -6,7 +6,7 @@ class ElvishMystic < Creature
     @strength = 1
     @toughness = 1
     @type = "Creature"
-    @cost = 1 # G
+    @cost = 2 # G
     @description =  "{Tap}: Add {Green} to your mana pool."
     @img = "http://media.wizards.com/images/magic/daily/wallpapers/da1288_thumb.jpg"
     @mtg_id = 370744
