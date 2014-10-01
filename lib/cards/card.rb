@@ -164,8 +164,9 @@ class Card < Hook
 
 
   def abilities
-    return @abilities  if(player == nil)
-    [@abilities , world.abilities_for(self)].flatten
+    return @abilities
+    # return @abilities  if(player == nil)
+    # [@abilities , world.abilities_for(self)].flatten
   end
 
 
