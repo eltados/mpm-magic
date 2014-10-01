@@ -1,11 +1,4 @@
-class SimpleAi
-
-  extend Forwardable
-  def_delegators :@player, :hand, :world, :opponent, :creatures, :attack_all!
-
-  def initialize(player=nil)
-    @player = player
-  end
+class SimpleAi < Ai
 
   def play!
     land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
@@ -41,6 +34,9 @@ class SimpleAi
     if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
       return hand.sort_by(&:cost).reverse.first.execute! Discard
     end
+
     return world.turn.next!
+
   end
+
 end
