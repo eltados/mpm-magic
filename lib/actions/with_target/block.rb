@@ -17,7 +17,7 @@ class Block < ActionWithTarget
   end
 
   def can_target(target)
-    target.flags[:attacking] && card.can_block_creature(target) && ! target.flags[:blocked]
+    target.flags[:attacking] && card.can_block_creature(target)
   end
 
   def execute_with_target!(target)

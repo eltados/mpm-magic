@@ -36,7 +36,7 @@
 
   <div class="blockers">
 <% if card.flags[:blocked_by]%>
-    <%= card.flags[:blocked_by].name %>
+    <%= card.flags[:blocked_by].map(&:name).join(", ") %>
 <% end %>
 <% if card.flags[:blocked_creature]%>
     <%= card.flags[:blocked_creature].name %>

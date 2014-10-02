@@ -9,7 +9,8 @@ class AutoFight < Minitest::Test
 
   def test_run_games
    world = nil
-   timeout = 5
+   timeout = 70
+   max_game_length = 5
    i = 0
    begin
       Timeout::timeout(timeout) do
@@ -22,10 +23,12 @@ class AutoFight < Minitest::Test
           p2.name = "Player 2"
           world = World.new(p1, p2)
           world.start!
-
-          while(! p1.dead? && ! p2.dead? ) do
-            world.active_player.auto_play!
+          Timeout::timeout(max_game_length  , Exception.new("Too long game")) do
+            while(! p1.dead? && ! p2.dead? ) do
+              world.active_player.auto_play!
+            end
           end
+
           i+= 1
           print "."
           assert true, "This game did not crash"
@@ -36,6 +39,9 @@ class AutoFight < Minitest::Test
     rescue Exception => e
       assert(false, """
 One of the game failed. Here are some details about the game :
+
+=== permanents ===
+#{world.players.map(&:creatures).flatten.map(&:name).join("\n")}
 
 === logs ===
 #{world.logs.map(&:description).join("\n")}

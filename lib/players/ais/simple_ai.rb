@@ -36,7 +36,7 @@ class SimpleAi < Ai
           !a.is_a?(Produce) &&
           !a.is_a?(Block) &&
           !a.is_a?(Attack) }
-    if action
+    if action &&  @player.target_action  == nil
       return action.execute!
     end
 
