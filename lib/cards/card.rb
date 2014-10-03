@@ -126,6 +126,10 @@ class Card < Hook
     @owner
   end
 
+  def opponent
+    player.opponent
+  end
+
   def world
     player.world
   end

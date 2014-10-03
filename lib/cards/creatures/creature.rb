@@ -146,7 +146,7 @@ class Creature < Card
   end
 
   def when_receive_dmg(*args)
-    # event :dead if dead?
+    event :dead if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
 
 

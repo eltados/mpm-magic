@@ -2,7 +2,8 @@ require 'rubygems'
 require 'require_all'
 require "minitest/autorun"
 require_all '.'
-
+class FightTooLong < StandardError
+end
 class AutoFight < Minitest::Test
   def setup
   end
@@ -23,7 +24,7 @@ class AutoFight < Minitest::Test
           p2.name = "Player 2"
           world = World.new(p1, p2)
           world.start!
-          Timeout::timeout(max_game_length  , Exception.new("Too long game")) do
+          Timeout::timeout(max_game_length  , FightTooLong) do
             while(! p1.dead? && ! p2.dead? ) do
               world.active_player.auto_play!
             end

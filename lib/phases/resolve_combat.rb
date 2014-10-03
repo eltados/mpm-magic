@@ -16,6 +16,10 @@ class ResolveCombat < Phase
       creature.event :blocked_finished
     end
 
+    world.opponent.creatures.select { |c| c.flags[:blocking]  }.each do |creature|
+      creature.event :blocking_finished
+    end
+
     world.playing_player.creatures.select { |c| c.flags[:attacking] && !c.flags[:blocked] }.each do |creature|
       Fight.attack_player!(creature , world.opponent )
     end

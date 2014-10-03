@@ -33,6 +33,10 @@ class World
       [@p1, @p2 ]
     end
 
+    def creatures
+      [@p1, @p2 ].map(&:creatures).flatten
+    end
+
     def winner
       return p2 if p1.dead?
       return p1 if p2.dead?
@@ -107,12 +111,13 @@ class World
 
       end
     # p1.hand << GloriousAnthem.new(p1)
-    #  p1.hand << Lighting.new(p1)
     #  p1.hand << UnholyStrength.new(p1)
     #  p1.permanents << DragonHatchling.new(p1)
-    #  p1.permanents << DarkMonk.new(p1)
-    #  p1.permanents << VulturousZombie.new(p1)
-    #  p1.permanents << Mob.new(p1)
+     p1.permanents << DarkMonk.new(p1)
+     p1.permanents << VulturousZombie.new(p1)
+     p1.permanents << Mob.new(p1)
+     p1.hand << Lighting.new(p1)
+     p1.hand << SeismicShudder.new(p1)
       # p1.hand << TitanicGrowth.new(p1)
       # p1.hand << SerpentGift.new(p1)
       # p1.hand << KrenkoCommand.new(p1)
@@ -121,9 +126,13 @@ class World
       # p1.permanents << God.new(p1)
       # p2.hand = []
     #  p2.permanents << Mob.new(p2)
+     p2.permanents << Spider.new(p2)
+     p2.permanents << Dragon.new(p2)
+     p2.permanents << Rhino.new(p2)
     #  p2.permanents << StormtideLeviathan.new(p2)
     #  p2.permanents << Rhino.new(p2)
-    #  10.times {  p1.permanents << Mountain.new(p1) }
+     10.times {  p1.permanents << Mountain.new(p1) }
+    #  2.times {  p2.permanents << Mountain.new(p2) }
 
     end
 
