@@ -42,14 +42,13 @@
 <%=
 """
 
-class #{@card['name'].gsub(/ |'/,'').camelcase} < Creature
+class #{@card['name'].gsub(/ |'/,'').camelcase} < #{@card['type']}
 
   def initialize(owner=nil)
     super(owner)
     @name = \"#{@card['name']}\"
     @strength = #{@card['power']}
     @toughness = #{@card['toughness']}
-    @type = \"#{@card['type']}\"
     @cost = #{@card['manaCost'].to_i + @card['manaCost'].scan(/[^0-9]/m).size} # #{@card['manaCost']}
     @description =  \"#{@card['description'].gsub("\n",' ').gsub("\"",'\\"')}\"
     @img = \"#{params['img']}\"
