@@ -1,4 +1,4 @@
-class Enchant < Spell
+class Enchantment < Spell
 
   def initialize(owner=nil)
     super(owner)

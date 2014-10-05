@@ -9,6 +9,7 @@ gem 'activesupport'
 
 
 group :development do
+  gem 'chunky_png'
   gem 'minitest'
   gem 'shotgun'
   gem "better_errors"

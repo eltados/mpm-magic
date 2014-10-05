@@ -139,6 +139,7 @@ class Card < Hook
     world.turn.phase
   end
 
+
   def can_be_activated
     !tapped?
   end
