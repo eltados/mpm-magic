@@ -7,11 +7,11 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
-require 'chunky_png'
 
 
 
 if development?
+  require 'chunky_png'
   require "better_errors"
   require 'sinatra/reloader'
 end
