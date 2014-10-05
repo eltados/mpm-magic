@@ -66,6 +66,7 @@ One of the game failed. Here are some details about the game :
 
 """)
     end
+
     puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     # puts "=== profiler world==="
