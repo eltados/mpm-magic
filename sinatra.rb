@@ -199,10 +199,10 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    @cards= [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.map do |card_class|
-        card_class.new
+    @cards= [Card.all].flatten.map(&:new).sort do |a, b|
+     [a.type, a.cost ] <=> [b.type, b.cost]
     end
-    @cards = @cards.sort_by(&:cost)
+
     erb :cards
   end
 

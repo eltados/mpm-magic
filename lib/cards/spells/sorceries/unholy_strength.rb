@@ -6,7 +6,7 @@ class  UnholyStrength < Sorcery
     @name = 'Unholy Strength'
     @cost = 1 # B
     @description =  "Enchanted creature gets +2/+1."
-    @img = "http://ts1.mm.bing.net/th?&id=HN.608005672480541004&w=300&h=300&c=0&pid=1.9&rs=0&p=0"
+    @img = "cards/87.png"
   end
 
   def play!

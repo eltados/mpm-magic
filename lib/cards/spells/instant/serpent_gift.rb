@@ -6,7 +6,7 @@ class  SerpentGift < Instant
     @name = 'Serpent\'s Gift'
     @cost = 3 # 2G
     @description =  "Target creature gains deathtouch until end of turn."
-    @img = "http://ts1.mm.bing.net/th?&id=HN.608051207726763793&w=300&h=300&c=0&pid=1.9&rs=0&p=0"
+    @img = "cards/249666.png"
   end
 
   def play!
