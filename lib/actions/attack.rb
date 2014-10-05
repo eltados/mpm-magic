@@ -9,8 +9,7 @@ class Attack < Action
   end
 
   def can_be_activated
-    super && player.playing? && phase.is_a?(Combat) && \
-    card.can_attack
+    super && player.playing? && phase.is_a?(Combat) && card.can_attack
   end
 
   def execute!

@@ -16,7 +16,7 @@ class AutoFight < Minitest::Unit::TestCase
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
    world = nil
-   timeout = 15
+   timeout = 5
    max_game_length = 3
    winner = {}
    winner[:p1] = 0
@@ -55,10 +55,10 @@ class AutoFight < Minitest::Unit::TestCase
 One of the game failed. Here are some details about the game :
 
 === permanents ===
-#{world.players.map(&:creatures).flatten.map(&:name).join("\n")}
+#{world.players.map(&:creatures).flatten.map(&:name).sort.join("\n")}
 
 === logs ===
-#{world.logs.map(&:description).join("\n")}
+#{world.logs.map(&:description).join("\n") if true}
 
 === exception ===
 #{e.message}

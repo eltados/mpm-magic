@@ -315,6 +315,10 @@ box-sizing: border-box;
   background-color:yellow;
 }
 
+.card.enchantment .header {
+  background-color:#EEEEEE;
+}
+
 
 
 .card .header span{

@@ -1,7 +1,7 @@
 class Card < Hook
 
   attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description
-  attr_reader :abilities
+  # attr_reader :abilities
 
   @@all = {}
 
@@ -152,6 +152,10 @@ class Card < Hook
   end
 
 
+  def inspect
+    "#<#{self.class.name}:#{object_id}>"
+  end
+
   def can_be_activated
     !tapped?
   end
@@ -176,29 +180,35 @@ class Card < Hook
     send(method, args) if self.respond_to? method.to_sym
   end
 
+  def destroy!
+    event :destroyed
+  end
 
+  def sacrify!
+    event :destroyed
+  end
 
-
-
-  def abilities
-    return @abilities
-    # return @abilities  if(player == nil)
-    # [@abilities , world.abilities_for(self)].flatten
+  def when_destroyed(*args)
+    super
+    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: :die)
+    player.permanents.delete self
+    player.graveyard << self
   end
 
 
 
-
-
   def __modify(original_value , method )
-    abilities.select do |ability|
+    abilities.flatten.select do |ability|
         ability.respond_to? method
     end.reduce(original_value) do |val,ability|
         ability.send( method, val)
     end
   end
 
-
+  def abilities
+    return @abilities  if player == nil || world == nil || world.enchantments == nil
+    [@abilities, world.abilities_for(self)].flatten
+  end
 
   def __modify_with_param(original_value , method, param )
     abilities.select do |ability|

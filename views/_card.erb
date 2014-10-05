@@ -24,7 +24,7 @@
 <% end %>
 
 <% if card.is_a? Creature %>
-  <div class="characteristics" title="<%= card.strength%>/<%= card.toughness%>">
+  <div class="characteristics" title="<%= card.strength%>/<%= card.toughness%> <%= card.actions.map(&:name).join(',') %>">
     <span class="attack <%= 'bonus' if card.attack > card.strength %> <%= 'malus' if card.attack < card.strength %> "><%= card.attack %></span>
     /
     <span class="health <%= 'bonus' if card.health > card.toughness %> <%= 'malus' if card.health < card.toughness %> " ><%= card.health %></span>

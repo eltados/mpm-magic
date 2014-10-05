@@ -11,6 +11,7 @@ require 'active_support/all'
 
 
 if development?
+  $ENV = ENV 
   require 'chunky_png'
   require "better_errors"
   require 'sinatra/reloader'

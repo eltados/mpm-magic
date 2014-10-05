@@ -105,17 +105,10 @@ class Creature < Card
       true
   end
 
-  def destroy!
-    event :dead
-  end
-
-  def sacrify!
-    event :dead
-  end
 
 
   def play!
-    add_abilities [SummoningSickness]
+    add_abilities [SummoningSickness] if ! has_ability(Haste)
     super
   end
 
@@ -125,7 +118,7 @@ class Creature < Card
 
   def when_phase_ends(*args)
     super
-    event :dead if dead?
+    event :destroyed if dead?
   end
 
   def when_turn_ends(*args)
@@ -138,15 +131,10 @@ class Creature < Card
     @toughness_bonus = 0
   end
 
-  def when_dead(*args)
-    super
-    player.world.log Log.new( description: "#{self.name} died", card:self , action: :die)
-    player.permanents.delete self
-    player.graveyard << self
-  end
+
 
   def when_receive_dmg(*args)
-    event :dead if dead? && !world.turn.phase.is_a?(ResolveCombat)
+    event :destroyed if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
 
 
