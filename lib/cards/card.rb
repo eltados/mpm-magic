@@ -3,6 +3,7 @@ class Card < Hook
   attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description
   attr_reader :abilities
 
+  @@all = nil
 
   def self.modified_methods
     [ :actions ]
@@ -118,7 +119,15 @@ class Card < Hook
   end
 
   def self.all
-      ObjectSpace.each_object(self.singleton_class).reject{ |c| c == self }
+        @@all ||= ObjectSpace.each_object(self.singleton_class).reject{ |c|
+          c == self ||
+          c == Creature ||
+          c == Land ||
+          c == Sorcery ||
+          c == Instant ||
+          c == Spell ||
+          c == Enchantment
+        }
   end
 
 

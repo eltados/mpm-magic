@@ -1,16 +1,22 @@
 require 'rubygems'
 require 'require_all'
 require "minitest/autorun"
+require "method_profiler"
 require_all '.'
+
+
 class FightTooLong < StandardError
 end
-class AutoFight < Minitest::Test
+
+class AutoFight < Minitest::Unit::TestCase
   def setup
   end
 
   def test_run_games
+  #  profiler = MethodProfiler.observe(World)
+  #  profiler_card = MethodProfiler.observe(Card)
    world = nil
-   timeout = 70
+   timeout = 10
    max_game_length = 5
    i = 0
    begin
@@ -53,6 +59,11 @@ One of the game failed. Here are some details about the game :
 
 """)
     end
+    # puts "=== profiler world==="
+    # puts profiler.report
+    #
+    # puts "=== profiler world==="
+    # puts profiler_card.report
   end
 
 end
