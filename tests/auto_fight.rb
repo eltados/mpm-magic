@@ -16,8 +16,11 @@ class AutoFight < Minitest::Unit::TestCase
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
    world = nil
-   timeout = 10
-   max_game_length = 5
+   timeout = 15
+   max_game_length = 3
+   winner = {}
+   winner[:p1] = 0
+   winner[:p2] = 0
    i = 0
    begin
       Timeout::timeout(timeout) do
@@ -35,7 +38,11 @@ class AutoFight < Minitest::Unit::TestCase
               world.active_player.auto_play!
             end
           end
-
+          if p1.alive?
+            winner[:p1] += 1
+          else
+            winner[:p2] += 1
+          end
           i+= 1
           print "."
           assert true, "This game did not crash"
@@ -59,6 +66,8 @@ One of the game failed. Here are some details about the game :
 
 """)
     end
+    puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
+    puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     # puts "=== profiler world==="
     # puts profiler.report
     #

@@ -85,7 +85,8 @@ class World
 
 
     def start!
-      playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
+      # playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
+      @playing_player =  ( Random.new.rand(2) == 0 ) ? @p1 : @p2
 
       [p1, p2].each do |p|
         p.hand = []
