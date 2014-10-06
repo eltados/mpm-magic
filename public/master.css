@@ -80,6 +80,7 @@ z-index:100;
   font-size:115%;
   overflow-x: none;
   background:green;
+  z-index: 1000;
 }
 
 #cancel{
