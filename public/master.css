@@ -545,6 +545,10 @@ a{
   color:red;
 }
 
+
+#spinner{
+  display:none;
+}
 /*SVG stuff*/
 .arrow{
   stroke:black;

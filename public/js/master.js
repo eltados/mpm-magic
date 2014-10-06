@@ -6,6 +6,20 @@ var keymap = {
   ' ' : "/next",
 };
 
+showSpinner = false;
+$( document ).ajaxStart(function() {
+  showSpinner = true;
+  setTimeout( function(){
+     if(showSpinner){
+      $( "#spinner" ).show();
+     }
+  }, 300);
+});
+
+$( document ).ajaxComplete(function() {
+  showSpinner = false;
+  $( "#spinner" ).hide();
+});
 
 
 if(window.location.pathname  == "/game"){

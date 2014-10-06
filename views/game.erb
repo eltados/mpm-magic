@@ -72,6 +72,7 @@
         <% else %>
         Next
         <% end %>
+        <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif" id="spinner"/>
     </a>
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
