@@ -7,12 +7,6 @@ class Land < Card
     @mana_produced = 1
   end
 
-
-  def produce!
-    tap!
-    owner.mana_pool.mana += @mana_produced
-  end
-
   def can_be_played
     owner.playing? && ( phase.is_a?(Pre) ||
         phase.is_a?(Post) ||

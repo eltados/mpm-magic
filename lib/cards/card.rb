@@ -1,8 +1,9 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions, :abilities, :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description
+  attr_reader :abilities
 
-
+  @@all = {}
 
   def self.modified_methods
     [ :actions ]
@@ -75,7 +76,7 @@ class Card < Hook
   end
 
   def has_ability(ability)
-    @abilities.any?{ |a| a.is_a? ability }
+    abilities.any?{ |a| a.is_a? ability }
   end
 
   def tap!
@@ -118,12 +119,27 @@ class Card < Hook
   end
 
   def self.all
-      ObjectSpace.each_object(self.singleton_class).reject{ |c| c == self }
+
+        @@all[self] = ObjectSpace.each_object(self.singleton_class).reject{ |c|
+          c == self ||
+          c == Creature ||
+          c == Land ||
+          c == Sorcery ||
+          c == Instant ||
+          c == Spell ||
+          c == Enchantment
+        }  if @@all[self].nil?
+
+        @@all[self]
   end
 
 
   def player
     @owner
+  end
+
+  def opponent
+    player.opponent
   end
 
   def world
@@ -133,6 +149,11 @@ class Card < Hook
 
   def phase
     world.turn.phase
+  end
+
+
+  def can_be_activated
+    !tapped?
   end
 
   def type
@@ -159,10 +180,18 @@ class Card < Hook
 
 
 
+  def abilities
+    return @abilities
+    # return @abilities  if(player == nil)
+    # [@abilities , world.abilities_for(self)].flatten
+  end
+
+
+
 
 
   def __modify(original_value , method )
-    @abilities.select do |ability|
+    abilities.select do |ability|
         ability.respond_to? method
     end.reduce(original_value) do |val,ability|
         ability.send( method, val)
@@ -172,7 +201,7 @@ class Card < Hook
 
 
   def __modify_with_param(original_value , method, param )
-    @abilities.select do |ability|
+    abilities.select do |ability|
         ability.respond_to? method
     end.reduce(original_value) do |val,ability|
         ability.send( method, val , param)

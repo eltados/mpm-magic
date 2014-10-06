@@ -539,7 +539,13 @@ a{
   height:20px;
 }
 
+.bonus{
+  color:green;
+}
 
+.malus{
+  color:red;
+}
 
 /*SVG stuff*/
 .arrow{

@@ -23,7 +23,9 @@ rvm use 2.0.0
 ```
 
 Clone the repo and cd to the repo folder
-
+```
+sudo apt-get install libmagickwand-dev
+```
 Install the dependencies 
 ```
 bundle install

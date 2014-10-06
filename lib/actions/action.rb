@@ -48,7 +48,9 @@ class Action
     true
   end
 
-
+  def positive?
+    false
+  end
 
   def log
     "#{card.owner.name} #{name.downcase}s #{card.name}"

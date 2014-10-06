@@ -99,10 +99,17 @@
       <% opponent.lands.sort_by(&:name).each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <br>
+      <br/>
+      <% if opponent.spells %>
+      <% opponent.spells.each  do |card| %>
+        <%= erb :_card, locals: {card: card   }%>
+      <% end %>
+      <br/>
+      <% end %>
       <% opponent.creatures.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
+
     <% end %>
   </div>
 </div>
@@ -120,6 +127,12 @@
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
   <br/>
+  <% if me.spells %>
+    <% me.spells.each  do |card| %>
+      <%= erb :_card, locals: {card: card   }%>
+    <% end %>
+    <br/>
+  <% end %>
   <% me.lands.sort_by(&:name).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>

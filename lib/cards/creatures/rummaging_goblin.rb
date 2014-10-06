@@ -10,6 +10,7 @@ class RummagingGoblin < Creature
     @description =  "{Tap}, Discard a card: Draw a card."
     @img = "http://images.rtsguru.com/articles/images/3000/2683/popup/techies.jpg"
     @mtg_id = 249705
+    add_abilities [ DrawAbility ]
   end
 
 end

@@ -51,13 +51,15 @@ class Creature < Card
   def block!(creature)
     @flags[:blocking] = true
     creature.flags[:blocked] = true
-    creature.flags[:blocked_by] = self
+    creature.flags[:blocked_by] = [] if creature.flags[:blocked_by] == nil
+    creature.flags[:blocked_by] << self
     @flags[:blocked_creature] = creature
   end
 
   def undo_block!
     @flags[:blocking] = nil
     @flags[:blocked_creature].flags[:blocked] = nil
+    @flags[:blocked_creature].flags[:blocked_by].delete  self
     @flags[:blocked_creature] = nil
   end
 
@@ -144,7 +146,7 @@ class Creature < Card
   end
 
   def when_receive_dmg(*args)
-    event :dead if dead?
+    event :dead if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
 
 

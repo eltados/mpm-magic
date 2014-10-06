@@ -3,7 +3,7 @@ class SacrificeHitAction < ActionWithTarget
   def initialize(owner=nil)
     super(owner)
     @name = "Explode"
-    @img ="hit.png"
+    @img ="explose.png"
     @description ="{Sacrifice} : deal 4 damage to target creature"
     @priority =2
   end

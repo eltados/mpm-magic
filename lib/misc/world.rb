@@ -11,6 +11,12 @@ class World
       @p2.world = self if(@p2 != nil)
     end
 
+
+    def abilities_for(card)
+      # return [Nightmare.new(card)] if card.is_a?(TeferisImp)
+      []
+    end
+
     def defending_player
       @playing_player == @p1 ? @p2 : @p1
     end
@@ -25,6 +31,16 @@ class World
 
     def players
       [@p1, @p2 ]
+    end
+
+    def creatures
+      [@p1, @p2 ].map(&:creatures).flatten
+    end
+
+    def winner
+      return p2 if p1.dead?
+      return p1 if p2.dead?
+      nil
     end
 
     def switch_playing_player!
@@ -69,7 +85,8 @@ class World
 
 
     def start!
-      playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
+      # playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
+      @playing_player =  ( Random.new.rand(2) == 0 ) ? @p1 : @p2
 
       [p1, p2].each do |p|
         p.hand = []
@@ -84,7 +101,7 @@ class World
 
 
         50.times do
-          p.deck << (Card.all - [God , WinterWall, Creature, Land, Sorcery, Instant, Spell , Enchant ]).shuffle[0].new(p)
+          p.deck << (Card.all - [God , WinterWall  ]).reject{ |c| c.respond_to?( :disabled? ) && c.disabled? }.shuffle[0].new(p)
         end
 
 
@@ -94,20 +111,29 @@ class World
         7.times { p.draw! }
 
       end
-      # p1.hand << WarAxe.new(p1)
+    # p1.hand << GloriousAnthem.new(p1)
+    #  p1.hand << UnholyStrength.new(p1)
+    #  p1.permanents << DragonHatchling.new(p1)
+    #  p1.permanents << DarkMonk.new(p1)
+    #  p1.permanents << VulturousZombie.new(p1)
+    #  p1.permanents << Mob.new(p1)
     #  p1.hand << Lighting.new(p1)
-    #  p1.hand << DragonHatchling.new(p1)
-      # p1.hand << Mob.new(p1)
+    #  p1.hand << SeismicShudder.new(p1)
       # p1.hand << TitanicGrowth.new(p1)
       # p1.hand << SerpentGift.new(p1)
       # p1.hand << KrenkoCommand.new(p1)
       # p1.hand << UnholyStrength.new(p1)
       # p1.permanents << TeferisImp.new(p1)
-      p1.permanents << God.new(p1)
+      # p1.permanents << God.new(p1)
       # p2.hand = []
-    #  p2.permanents << DarkMonk.new(p2)
+    #  p2.permanents << Mob.new(p2)
+    #  p2.permanents << Spider.new(p2)
+    #  p2.permanents << Dragon.new(p2)
+    #  p2.permanents << Rhino.new(p2)
+    #  p2.permanents << StormtideLeviathan.new(p2)
     #  p2.permanents << Rhino.new(p2)
     #  10.times {  p1.permanents << Mountain.new(p1) }
+    #  2.times {  p2.permanents << Mountain.new(p2) }
 
     end
 

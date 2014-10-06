@@ -24,8 +24,10 @@
 <% end %>
 
 <% if card.is_a? Creature %>
-  <div class="characteristics">
-    <span class="attack"><%= card.attack %></span>/<span class="health"><%= card.health %></span>
+  <div class="characteristics" title="<%= card.strength%>/<%= card.toughness%>">
+    <span class="attack <%= 'bonus' if card.attack > card.strength %> <%= 'malus' if card.attack < card.strength %> "><%= card.attack %></span>
+    /
+    <span class="health <%= 'bonus' if card.health > card.toughness %> <%= 'malus' if card.health < card.toughness %> " ><%= card.health %></span>
   </div>
 <% end %>
 <div class="abilities">
@@ -36,7 +38,7 @@
 
   <div class="blockers">
 <% if card.flags[:blocked_by]%>
-    <%= card.flags[:blocked_by].name %>
+    <%= card.flags[:blocked_by].map(&:name).join(", ") %>
 <% end %>
 <% if card.flags[:blocked_creature]%>
     <%= card.flags[:blocked_creature].name %>

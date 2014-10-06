@@ -7,8 +7,17 @@ class ResolveCombat < Phase
 
   def execute
 
-    world.opponent.creatures.select { |c| c.flags[:blocking] }.each do |creature|
-      Fight.fight!(creature.flags[:blocked_creature] , creature )
+    world.opponent.creatures.select { |c| c.flags[:blocking] }.each do |defending_creature|
+      attacking_creature = defending_creature.flags[:blocked_creature]
+      Fight.fight!(attacking_creature , defending_creature )
+    end
+
+    world.playing_player.creatures.select { |c| c.flags[:attacking] && c.flags[:blocked]  }.each do |creature|
+      creature.event :blocked_finished
+    end
+
+    world.opponent.creatures.select { |c| c.flags[:blocking]  }.each do |creature|
+      creature.event :blocking_finished
     end
 
     world.playing_player.creatures.select { |c| c.flags[:attacking] && !c.flags[:blocked] }.each do |creature|

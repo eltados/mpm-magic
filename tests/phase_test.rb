@@ -3,12 +3,12 @@ require 'require_all'
 require "minitest/autorun"
 require_all '.'
 
-class PhaseTest < Minitest::Test
+class PhaseTest < Minitest::Unit::TestCase
   def setup
     @p1 = Player.new
     @p2 = Player.new
     @world = World.new(@p1, @p2)
-    
+
   end
 
   def test_phase

@@ -19,14 +19,18 @@ class  Lighting < Instant
   end
 
   def can_be_played
-    owner.mana_pool.can_pay?(self.cost) && \
-    [player.opponent.creatures, player.creatures ].flatten.any?{ |p| self.can_target(p) }
+    super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
   def execute_with_target!(target)
     super(target)
     target.hit! 3
   end
+
+  def positive?
+    false
+  end
+
 
 
 end

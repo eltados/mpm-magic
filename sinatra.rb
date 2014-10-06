@@ -8,7 +8,10 @@ require 'json'
 require 'open-uri'
 require 'active_support/all'
 
+
+
 if development?
+  require 'chunky_png'
   require "better_errors"
   require 'sinatra/reloader'
 end
@@ -52,6 +55,28 @@ class App <  Sinatra::Application
       me.world.p1 == me ?  me.world.p2 :  me.world.p1
     end
 
+  end
+
+  def dl_and_crop(id)
+    img_url = "http://api.mtgdb.info/content/card_images/#{id}.jpeg"
+    jpg_path="/tmp/#{id}_full.jpeg"
+    if !File.exist?(jpg_path)
+      file = open(img_url).read
+      File.open(jpg_path, 'wb') do |file|
+        file << open(img_url).read
+      end
+    end
+    png_path="/tmp/#{id}_full.png"
+    png_cropped_path="/tmp/#{id}.png"
+    File.delete(png_path) if File.exist?(png_path)
+    `mogrify -format png #{jpg_path}`
+    image = ChunkyPNG::Image.from_file(png_path)
+    File.delete(png_cropped_path) if File.exist?(png_cropped_path)
+    image.crop!(27,40,169,128).save(png_cropped_path)
+    File.delete(png_path) if File.exist?(png_path)
+    File.delete(jpg_path) if File.exist?(jpg_path)
+    File.rename( png_cropped_path, "#{ENV['PWD']}/public/cards/#{id}.png" )
+    return true
   end
 
   def initialize
@@ -174,10 +199,10 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    @cards= [Creature.all , Land.all, Sorcery.all, Instant.all].flatten.map do |card_class|
-        card_class.new
+    @cards= [Card.all].flatten.map(&:new).sort do |a, b|
+     [a.type, a.cost ] <=> [b.type, b.cost]
     end
-    @cards = @cards.sort_by(&:cost)
+
     erb :cards
   end
 
@@ -221,15 +246,59 @@ class App <  Sinatra::Application
   get '/env' do
     ENV.inspect
   end
+
+  def create_card(id)
+    json = JSON.parse(RestClient.get("http://api.mtgdb.info/cards/#{id}"))
+    file = """
+class #{json['name'].gsub(/ |'|-/,'').camelcase} < #{json['type']}
+
+  def initialize(owner=nil)
+    super(owner)
+    @name = \"#{json['name']}\"
+"""
+    if json['type'] ==  'Creature'
+    file +="""
+    @strength = #{json['power']}
+    @toughness = #{json['toughness']}"""
+    end
+    file +="""
+    @cost = #{json['manaCost'].to_i + json['manaCost'].scan(/[^0-9]/m).size} # #{json['manaCost']}
+    @description =  \"#{json['description'].gsub("\n",' ').gsub("\"",'\\"')}\"
+    @img = \"cards/#{json['id']}.png\"
+    @mtg_id = #{json['id']}
+  end
+
+  def disabled?; true end
+
+end
+    """
+    File.open( "#{ENV['PWD']}/lib/cards/imported/#{json['name'].gsub(/ |'/,'').underscore}.rb", 'w') { |f| f.write(file) }
+  end
+
+  get '/import/:id' do
+    dl_and_crop(params[:id])
+    create_card(params[:id])
+    "Imported !"
+  end
+
   get '/card_importer' do
-    params[:name] ||= "zombie"
+    params[:name] ||= "random"
     params[:img_query] ||= params[:name]
-    response = RestClient.get "http://api.mtgdb.info/search/#{URI::encode(params[:name])}?start=0&limit=0"
+    if params[:name] == "random"
+      responses = []
+      8.times do
+        responses << RestClient.get("http://api.mtgdb.info/cards/random")
+      end
+      response = "[#{responses.join(',')}]"
+      # response = "[]"
+    else
+      response = RestClient.get "http://api.mtgdb.info/search/#{URI::encode(params[:name])}?start=0&limit=0"
+    end
     @cards = JSON.parse(response)
     @cards = @cards.uniq{ |c| c['name'] }.sort_by{ |c| c['name'] }
-    @card = @cards.find{ |c| c['id'] == params[:id].to_i}
-    res = RestClient::Resource.new( "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27#{URI::encode(params[:img_query])}%27&$format=json&ImageFilters=%27Size%3AMedium%27", '', '7IU5fLJU28Y49NTV0zTLIuEQm+lS5So82uWaqpUIOF8' )
-    @images= JSON.parse(res.get)
+    # @card = @cards.find{ |c| c['id'] == params[:id].to_i}
+    # res = RestClient::Resource.new( "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27#{URI::encode(params[:img_query])}%27&$format=json&ImageFilters=%27Size%3AMedium%27", '', '7IU5fLJU28Y49NTV0zTLIuEQm+lS5So82uWaqpUIOF8' )
+    # @images= JSON.parse(res.get)
     erb :card_importer , layout: false
   end
 

@@ -3,7 +3,7 @@ require 'require_all'
 require "minitest/autorun"
 require_all '.'
 
-class DrawAbilityTest < Minitest::Test
+class DrawAbilityTest < Minitest::Unit::TestCase
   def setup
     @p1 = Player.new
   end

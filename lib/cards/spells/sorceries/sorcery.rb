@@ -5,8 +5,13 @@ class Sorcery < Spell
   end
 
   def can_be_played
-    owner.playing? && ( phase.is_a?(Pre) ||
+    super && ( phase.is_a?(Pre) ||
         phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost)
+  end
+
+  def execute_with_target!(target)
+    self.flags[:spell_target] = target
+    player.target_action =nil
   end
 
 
