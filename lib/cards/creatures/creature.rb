@@ -124,7 +124,7 @@ class Creature < Card
   def when_turn_ends(*args)
     super
     @abilities.each do |ability|
-      self.abilities.delete ability if ! ability.permanent?
+      @abilities.delete ability if ! ability.permanent?
     end
     @dmg = 0
     @attack_bonus = 0

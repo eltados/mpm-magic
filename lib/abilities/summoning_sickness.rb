@@ -8,7 +8,6 @@ class SummoningSickness < Ability
     false
   end
 
-
   def can_attack(original)
     false
   end

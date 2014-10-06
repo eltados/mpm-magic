@@ -13,7 +13,6 @@ class ConcordantCrossroads < Enchantment
 
   def play!
     super
-    world.enchantments << self
   end
 
   def affects(card)

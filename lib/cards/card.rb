@@ -38,7 +38,6 @@ class Card < Hook
     @actions <<  action
   end
 
-
   def remove_action action
     @actions.delete action(action) if(action(action) )
   end

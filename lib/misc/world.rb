@@ -1,6 +1,6 @@
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player,  :logs, :enchantments
+    attr_accessor :p1, :p2, :turn, :playing_player,  :logs
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
@@ -9,12 +9,15 @@ class World
       @logs =[]
       @p1.world = self if(@p1 != nil)
       @p2.world = self if(@p2 != nil)
-      @enchantments = []
+    end
+
+
+    def enchantments
+      permanents.select{ |p| p.is_a?(Enchantment) &&  p.respond_to?(:affects) }
     end
 
 
     def abilities_for(card)
-      return []
       enchantments.select{|e| e.affects(card) && e.in_play? }.map do |e|
         e.provided_abilities.map do |ab|
           ab.new(card)
@@ -78,7 +81,7 @@ class World
 
 
     def dev?
-      $ENV && $ENV['RACK_ENV'] == development
+      $ENV && $ENV['RACK_ENV'] == "development"
       # true
     end
 

@@ -13,6 +13,7 @@ class AutoFight < Minitest::Unit::TestCase
   end
 
   def test_run_games
+    # return true;
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
    world = nil
@@ -49,7 +50,7 @@ class AutoFight < Minitest::Unit::TestCase
         end
       end
     rescue Timeout::Error
-      puts "#{i} games ( #{i * 60 / timeout.to_f } per min )"
+      puts "#{i} games ( #{ i * 60 / timeout.to_f } per min )"
     rescue Exception => e
       assert(false, """
 One of the game failed. Here are some details about the game :
@@ -60,6 +61,9 @@ One of the game failed. Here are some details about the game :
 === logs ===
 #{world.logs.map(&:description).join("\n") if true}
 
+=== turns ===
+#{world.turn.number}
+
 === exception ===
 #{e.message}
 #{e.backtrace.join("\n")}
@@ -67,6 +71,7 @@ One of the game failed. Here are some details about the game :
 """)
     end
 
+    puts "turns: #{world.turn.number}"
     puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     # puts "=== profiler world==="
