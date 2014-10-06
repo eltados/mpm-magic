@@ -9,7 +9,7 @@ class SacrificeHitAction < ActionWithTarget
   end
 
   def can_be_activated
-    card.in_play?
+    card.in_play?  && card.can_be_activated
   end
 
 

@@ -112,7 +112,7 @@ class World
         end
 
 
-        45.times do
+        43.times do
           p.deck << (Card.all - [God , WinterWall  ] - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
@@ -126,13 +126,15 @@ class World
 
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
-    if dev?
+    if dev? && false
       # p1.hand << ConcordantCrossroads.new(p1)
     #   #  p1.hand << UnholyStrength.new(p1)
-       p1.permanents << OrcishArtillery.new(p1)
+       p1.hand << OrcishArtillery.new(p1)
+       p1.hand << ManaRing.new(p1)
     #    p1.permanents << DarkMonk.new(p1)
     #   #  p1.permanents << VulturousZombie.new(p1)
-    #    p1.permanents << Mob.new(p1)
+       p1.hand << Mob.new(p1)
+      #  p1.permanents << Mob.new(p1)
     #    p1.hand << AuraBlast.new(p1)
     #    p1.hand << VampiricFeast.new(p1)
     #    p1.hand << Mob.new(p1)
@@ -153,8 +155,8 @@ class World
     #   #  p2.permanents << Rhino.new(p2)
     #   #  p2.permanents << StormtideLeviathan.new(p2)
     #   #  p2.permanents << Rhino.new(p2)
-    #    10.times {  p1.permanents << Mountain.new(p1) }
-    #   #  2.times {  p2.permanents << Mountain.new(p2) }
+      #  1.times {  p1.permanents << Mountain.new(p1) }
+      #  2.times {  p2.permanents << Mountain.new(p2) }
     end
     end
 
