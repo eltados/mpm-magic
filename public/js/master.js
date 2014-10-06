@@ -13,7 +13,7 @@ $( document ).ajaxStart(function() {
      if(showSpinner){
       $( "#spinner" ).show();
      }
-  }, 300);
+  }, 1000);
 });
 
 $( document ).ajaxComplete(function() {
