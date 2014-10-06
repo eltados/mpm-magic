@@ -11,7 +11,6 @@ class RevivingDose < Instant
     @mtg_id = 22941
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

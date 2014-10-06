@@ -16,11 +16,11 @@ class ConcordantCrossroads < Enchantment
   end
 
   def affects(card)
-    card.is_a?(Creature) && card.player == self.player && card.in_play?
+    card.is_a?(Creature)  && card.in_play?
   end
 
   def provided_abilities
-    [PlusOnePlusOne]
+    [Haste]
   end
 
 

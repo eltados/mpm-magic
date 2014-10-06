@@ -13,7 +13,6 @@ class Halberdier < Creature
     @mtg_id = 29751
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

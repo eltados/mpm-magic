@@ -113,7 +113,7 @@ class World
 
 
         45.times do
-          p.deck << (Card.all - [God , WinterWall  ] - Land.all).reject{ |c| c.respond_to?( :disabled? ) && c.disabled? }.shuffle[0].new(p)
+          p.deck << (Card.all - [God , WinterWall  ] - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
 
@@ -123,32 +123,38 @@ class World
         7.times { p.draw! }
 
       end
+
+      @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
+
     if dev?
-      p1.hand << ConcordantCrossroads.new(p1)
-      #  p1.hand << UnholyStrength.new(p1)
-      #  p1.permanents << DragonHatchling.new(p1)
-       p1.permanents << DarkMonk.new(p1)
-      #  p1.permanents << VulturousZombie.new(p1)
-       p1.permanents << Mob.new(p1)
-       p1.hand << AuraBlast.new(p1)
-       p1.hand << Mob.new(p1)
-      #  p1.hand << Lighting.new(p1)
-      #  p1.hand << SeismicShudder.new(p1)
-        # p1.hand << TitanicGrowth.new(p1)
-        # p1.hand << SerpentGift.new(p1)
-        # p1.hand << KrenkoCommand.new(p1)
-        # p1.hand << UnholyStrength.new(p1)
+      # p1.hand << ConcordantCrossroads.new(p1)
+    #   #  p1.hand << UnholyStrength.new(p1)
+       p1.permanents << OrcishArtillery.new(p1)
+    #    p1.permanents << DarkMonk.new(p1)
+    #   #  p1.permanents << VulturousZombie.new(p1)
+    #    p1.permanents << Mob.new(p1)
+    #    p1.hand << AuraBlast.new(p1)
+    #    p1.hand << VampiricFeast.new(p1)
+    #    p1.hand << Mob.new(p1)
+    #   #  p1.hand << Lighting.new(p1)
+    #   #  p1.hand << SeismicShudder.new(p1)
+    #     # p1.hand << TitanicGrowth.new(p1)
+    #     # p1.hand << SerpentGift.new(p1)
+    #     # p1.hand << KrenkoCommand.new(p1)
+    #     # p1.hand << UnholyStrength.new(p1)
         # p1.permanents << TeferisImp.new(p1)
-        # p1.permanents << God.new(p1)
-        # p2.hand = []
+    #     # p1.permanents << God.new(p1)
+    #     # p2.hand = []
        p2.permanents << Mob.new(p2)
-       p2.permanents << Spider.new(p2)
-      #  p2.permanents << Dragon.new(p2)
-      #  p2.permanents << Rhino.new(p2)
-      #  p2.permanents << StormtideLeviathan.new(p2)
-      #  p2.permanents << Rhino.new(p2)
-       10.times {  p1.permanents << Mountain.new(p1) }
-      #  2.times {  p2.permanents << Mountain.new(p2) }
+    #    p2.permanents << Spider.new(p2)
+    #    10.times { p2.permanents << Mountain.new(p2) }
+    #    p2.permanents << ConcordantCrossroads.new(p2)
+    #   #  p2.permanents << Dragon.new(p2)
+    #   #  p2.permanents << Rhino.new(p2)
+    #   #  p2.permanents << StormtideLeviathan.new(p2)
+    #   #  p2.permanents << Rhino.new(p2)
+    #    10.times {  p1.permanents << Mountain.new(p1) }
+    #   #  2.times {  p2.permanents << Mountain.new(p2) }
     end
     end
 

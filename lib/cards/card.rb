@@ -187,6 +187,10 @@ class Card < Hook
     event :destroyed
   end
 
+  def self.disabled?
+    false
+  end
+
   def when_destroyed(*args)
     super
     player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: :die)

@@ -11,7 +11,7 @@ require 'active_support/all'
 
 
 if development?
-  $ENV = ENV 
+  $ENV = ENV
   require 'chunky_png'
   require "better_errors"
   require 'sinatra/reloader'
@@ -269,7 +269,7 @@ class #{json['name'].gsub(/ |'|-/,'').camelcase} < #{json['type']}
     @mtg_id = #{json['id']}
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
     """

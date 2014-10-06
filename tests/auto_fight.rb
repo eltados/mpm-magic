@@ -16,9 +16,10 @@ class AutoFight < Minitest::Unit::TestCase
     # return true;
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
+  #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 5
-   max_game_length = 3
+   timeout = 10
+   max_game_length = 5
    winner = {}
    winner[:p1] = 0
    winner[:p2] = 0
@@ -74,11 +75,13 @@ One of the game failed. Here are some details about the game :
     puts "turns: #{world.turn.number}"
     puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
-    # puts "=== profiler world==="
+    # puts "=== profiler world ==="
     # puts profiler.report
-    #
-    # puts "=== profiler world==="
+    # #
+    # puts "=== profiler card ==="
     # puts profiler_card.report
+    # puts "=== profiler mana ==="
+    # puts profiler_mana.report
   end
 
 end

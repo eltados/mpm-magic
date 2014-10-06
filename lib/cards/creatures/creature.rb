@@ -57,15 +57,15 @@ class Creature < Card
   end
 
   def undo_block!
-    @flags[:blocking] = nil
-    @flags[:blocked_creature].flags[:blocked] = nil
+    @flags.delete :blocking
+    @flags[:blocked_creature].flags.delete :blocked
     @flags[:blocked_creature].flags[:blocked_by].delete  self
-    @flags[:blocked_creature] = nil
+    @flags.delete :blocked_creature
   end
 
   def undo_attack!
     untap! if attack_requires_tap
-    flags[:attacking] = nil
+    @flags.delete :attacking
   end
 
   def can_be_played

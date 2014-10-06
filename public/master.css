@@ -214,6 +214,7 @@ overflow-y: auto;
   vertical-align:bottom;
   position:relative;
   overflow-x:auto;
+  /*overflow: hidden;*/
   /*padding-bottom:15px;*/
 }
 
@@ -245,13 +246,6 @@ overflow-y: auto;
   margin-left:16px !important  ;
 }
 
-
-.blocking{
-  transform: rotate(10deg);
-  -moz-transform:rotate(10deg);
-  -o-transform:rotate(10deg);
-  -webkit-transform:rotate(10deg);
-}
 
 
 
@@ -544,7 +538,7 @@ a{
 }
 
 .bonus{
-  color:green;
+  color:#00d900;
 }
 
 .malus{

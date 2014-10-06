@@ -13,7 +13,6 @@ class WolverinePack < Creature
     @mtg_id = 4027
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

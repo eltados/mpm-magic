@@ -11,7 +11,6 @@ class ShivsEmbrace < Enchantment
     @mtg_id = 5721
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    
