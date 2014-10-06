@@ -42,7 +42,9 @@ class SimpleAi < Ai
 
 
     if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
-
+      creatures = creatures.select { |c| c.can?(Attack) }
+      return attack_all! if(opponent.creatures.size == 0)
+      
       return attack_all!
     end
 

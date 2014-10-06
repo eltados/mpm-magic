@@ -21,6 +21,15 @@ $( document ).ajaxComplete(function() {
   $( "#spinner" ).hide();
 });
 
+$(document ).on( "click", ".abilities img" , function() {
+  alert($( this ).attr("title"));
+});
+
+$(document ).on( "click", ".log" , function() {
+  alert($( this ).attr("title"));
+});
+
+
 
 if(window.location.pathname  == "/game"){
 
