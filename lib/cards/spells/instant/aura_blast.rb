@@ -11,11 +11,6 @@ class AuraBlast < Instant
   end
 
 
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
   def can_target(target)
     target.is_a? Enchantment
   end
@@ -25,7 +20,7 @@ class AuraBlast < Instant
     [player.opponent.permanents, player.permanents ].flatten.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     target.destroy!
     player.draw!

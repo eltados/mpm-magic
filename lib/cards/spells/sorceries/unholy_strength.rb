@@ -9,12 +9,6 @@ class  UnholyStrength < Sorcery
     @img = "cards/87.png"
   end
 
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
-
   def can_target(target)
     target.is_a? Creature
   end
@@ -23,7 +17,7 @@ class  UnholyStrength < Sorcery
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     target.strength += 2
     target.toughness += 1

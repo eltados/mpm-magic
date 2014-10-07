@@ -1,9 +1,6 @@
 class SimpleAi < Ai
 
   def play!
-    land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
-
-
     if @player.target_action != nil
         target_action = @player.target_action
         if target_action.action.positive?
@@ -16,6 +13,7 @@ class SimpleAi < Ai
       end
     end
 
+    land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
     if land
       return land.execute!(Play)
     end

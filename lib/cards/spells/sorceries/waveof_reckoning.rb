@@ -17,4 +17,5 @@ class WaveofReckoning < Sorcery
       creature.hit! creature.attack
     end
   end
+
 end

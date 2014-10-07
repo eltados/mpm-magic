@@ -11,11 +11,6 @@ class VampiricFeast < Sorcery
     @mtg_id = 4243
   end
 
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
   def can_target(target)
     target.is_a? Creature
   end
@@ -24,7 +19,7 @@ class VampiricFeast < Sorcery
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     target.hit! 4
     @owner.health += 4

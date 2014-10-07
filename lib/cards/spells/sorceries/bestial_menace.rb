@@ -9,7 +9,8 @@ class BestialMenace < Sorcery
     @mtg_id = 247535
   end
 
-  def when_played(*args)
+  def play!
+    super
     @owner.create_token! Snake.new( @owner )
     @owner.create_token! Wolf.new( @owner )
     @owner.create_token! Elephant.new( @owner )

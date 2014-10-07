@@ -9,11 +9,6 @@ class  Terror < Instant
     @img = "http://fc07.deviantart.net/images/i/2003/6/8/7/Magic_The_Gathering_painting.jpg"
   end
 
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
   def can_target(target)
     target.is_a? Creature
   end
@@ -23,10 +18,11 @@ class  Terror < Instant
     [player.opponent.creatures, player.creatures ].flatten.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     target.destroy!
   end
+
   def positive?
     false
   end

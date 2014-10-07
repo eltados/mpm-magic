@@ -1,5 +1,7 @@
 <% card = locals[:card] %>
-<div id="card-<%= card.to_param%>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %> <%= 'target' if me && me.target_action && me.target_action.can_target(card) %>
+<div id="card-<%= card.to_param%>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
+<%= 'source' if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
+<%= 'possible_target' if me && me.target_action && me.target_action.can_target(card) %>
 <%= 'tapped' if card.tapped? %> ">
   <div class="header">
     <% if card.cost != 0 %>
@@ -19,6 +21,9 @@
   <% if me.target_action.can_target card %>
     <% close = true %>
     <a href="<%= "/action/#{me.target_action.action.to_param}/#{card.to_param}"%>" class="ajax">
+  <% elsif me.target_action.action && me.target_action.action.card  == card %>
+    <% close = true %>
+    <a href="/cancel_target_action" class="ajax" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.description %>">
   <% end %>
 <% elsif me  && card.owner == me && card.main_action %>
   <% close = true %>
@@ -53,8 +58,8 @@
 <% if card.flags[:blocked_creature]%>
     <%= card.flags[:blocked_creature].name %>
 <% end %>
-<% if card.flags[:spell_target]%>
-    <%= card.flags[:spell_target].name %>
+<% if card.flags[:target]%>
+    <%= card.flags[:target].name %>
 <% end %>
   </div>
 
@@ -62,6 +67,10 @@
 <div class="actions">
   <% card.actionable_actions.each do |action| %>
     <%= erb :_action, locals: {action: action }%>
+  <% end %>
+  <% if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
+    <a href="/cancel_target_action" class="action ajax"><img src="undo.png" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.description %>"></a>
+    </a>
   <% end %>
 </div>
 <% end %>

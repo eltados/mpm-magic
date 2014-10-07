@@ -11,12 +11,6 @@ class EchoingCourage < Instant
     @mtg_id = 370393
   end
 
-
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
   def can_target(target)
     target.is_a? Creature
   end
@@ -25,7 +19,7 @@ class EchoingCourage < Instant
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     world.creatures.select{ |c| target.name == c.name }.each do |creature|
       creature.attack_bonus += 2

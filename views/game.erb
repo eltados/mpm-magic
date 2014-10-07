@@ -44,6 +44,14 @@
   Cards : <%= opponent.hand.size %>
   <br/>
   AI : <%= opponent.ai %>
+<br/>
+Stack :
+
+  <ol>
+  <% @world.stack.reverse.each do |item| %>
+    <li><%=h item.inspect %></li>
+  <% end %>
+  </ol>
 </div>
 
 

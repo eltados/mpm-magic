@@ -489,8 +489,12 @@ a{
   background:#666;
 }
 
-.target{
+.possible_target{
   border:5px solid blue;
+}
+
+.source{
+  outline:5px solid #CCC !important;
 }
 
 

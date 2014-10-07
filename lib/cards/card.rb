@@ -17,7 +17,11 @@ class Card < Hook
     @actions = []
     @abilities = []
     add_action Discard.new
-    add_action Play.new
+    if !requires_target?
+      add_action Play.new(self)
+    else
+      add_action PlayWithTarget.new(self)
+    end
     @cost = 0
     @tapped = false
     @flags = {}
@@ -26,6 +30,16 @@ class Card < Hook
 
   def play!
     pay_cost!
+    event :played
+  end
+
+  def requires_target?
+    respond_to?(:can_target)
+  end
+
+  def play_with_target!(target)
+    pay_cost!
+ # TODO
     event :played
   end
 
@@ -43,7 +57,9 @@ class Card < Hook
   end
 
   def can?(action_class, target = nil)
-    action(action_class).can_be_activated == true && \
+    a = action(action_class)
+    return false if a.nil?
+    a.can_be_activated == true && \
     ( target ==nil || action(action_class).can_target(target) )
   end
 

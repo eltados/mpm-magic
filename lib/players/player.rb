@@ -48,6 +48,13 @@ class Player <Hook
   end
 
 
+  def play_with_target!(card, target)
+    return if ! hand.include? card
+    hand.delete card
+    permanents << card
+    card.play_with_target!(target)
+  end
+
   def create_token!(card)
     card.cost = 0
     permanents << card
