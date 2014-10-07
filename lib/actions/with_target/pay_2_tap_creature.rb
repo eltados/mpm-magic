@@ -15,13 +15,14 @@ class Pay2TapCreature < ActionWithTarget
 
 
   def can_target(target)
-      target.is_a?(Creature) && target.in_play? && !target.tapped?
+       can_be_activated && target.is_a?(Creature) && target.in_play? && target.tapped?
   end
 
   def execute_with_target!(target)
     super(target)
     card.player.mana_pool.pay! @cost
-    target.tap!
+    target.untap!
+    card.tap!
     player.target_action =nil
   end
 
