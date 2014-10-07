@@ -52,15 +52,19 @@
 
 
   <div class="blockers">
+<% if card.flags[:target]%>
+    <%= card.flags[:target].name %>
+<% end %>
+<% if card.flags[:target_by]%>
+    <%= card.flags[:target_by].name %>
+<% end %>
 <% if card.flags[:blocked_by]%>
     <%= card.flags[:blocked_by].map(&:name).join(", ") %>
 <% end %>
 <% if card.flags[:blocked_creature]%>
     <%= card.flags[:blocked_creature].name %>
 <% end %>
-<% if card.flags[:target]%>
-    <%= card.flags[:target].name %>
-<% end %>
+
   </div>
 
 <% if card.owner == me && me %>
