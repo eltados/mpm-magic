@@ -14,7 +14,7 @@ class PlayWithTarget < ActionWithTarget
 
 
   def can_target(target)
-      target.is_a?(Creature) && target.in_play? && !target.tapped?
+      card.can_target(target)
   end
 
   def execute_with_target!(target)

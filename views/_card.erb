@@ -17,15 +17,17 @@
       <span><%= card.name %></span>
     </div>
   </div>
+<% close = false %>
 <% if me && me.target_action %>
   <% if me.target_action.can_target card %>
     <% close = true %>
-    <a href="<%= "/action/#{me.target_action.action.to_param}/#{card.to_param}"%>" class="ajax">
+    <a href="<%= "/action/#{me.target_action.action.to_param}/#{card.to_param}"%>" title="<%= me.target_action.action.card.name %> : <%= me.target_action.action.card.description %>" class="ajax">
   <% elsif me.target_action.action && me.target_action.action.card  == card %>
     <% close = true %>
-    <a href="/cancel_target_action" class="ajax" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.description %>">
+    <a href="/cancel_target_action" class="ajax" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.card.description %>">
   <% end %>
-<% elsif me  && card.owner == me && card.main_action %>
+<% end %>
+<% if !close  && me  && card.owner == me && card.main_action %>
   <% close = true %>
   <a href="/action/<%= "#{card.main_action.to_param}" %>" title="<%= card.main_action.name %>" class="ajax">
 <% end %>
@@ -55,7 +57,7 @@
 <% if card.flags[:target]%>
     <%= card.flags[:target].name %>
 <% end %>
-<% if card.flags[:target_by]%>
+<% if card.flags[:target_by] && card.flags[:blocked_by].nil? %>
     <%= card.flags[:target_by].name %>
 <% end %>
 <% if card.flags[:blocked_by]%>

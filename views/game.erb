@@ -31,10 +31,6 @@
   <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
   Cards : <%= me.hand.size %>
-<% if me.target_action %>
-  <br/>
-  <a href="/cancel_target_action">Cancel <%= me.target_action.action.name %></a>
-<% end %>
 </div>
 
 <div id="opponent">
@@ -44,6 +40,7 @@
   Cards : <%= opponent.hand.size %>
   <br/>
   AI : <%= opponent.ai %>
+<% if false %>
 <br/>
 Stack :
 
@@ -52,6 +49,7 @@ Stack :
     <li><%=h item.inspect %></li>
   <% end %>
   </ol>
+<% end %>
 </div>
 
 

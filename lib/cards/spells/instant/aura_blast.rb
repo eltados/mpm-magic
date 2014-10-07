@@ -12,12 +12,12 @@ class AuraBlast < Instant
 
 
   def can_target(target)
-    target.is_a? Enchantment
+    target.is_a?(Enchantment)
   end
 
+
   def can_be_played
-    owner.mana_pool.can_pay?(self.cost) && \
-    [player.opponent.permanents, player.permanents ].flatten.any?{ |p| self.can_target(p) }
+    super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
   def play_with_target!(target)

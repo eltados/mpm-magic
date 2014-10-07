@@ -129,10 +129,12 @@ class World
 
     if dev?
       # p1.hand << ConcordantCrossroads.new(p1)
-    #   #  p1.hand << UnholyStrength.new(p1)
+       p1.hand << AuraBlast.new(p1)
        p1.permanents << BookofRass.new(p1)
        p1.hand << WarAxe.new(p1)
-       p1.permanents << DarkMonk.new(p1)
+       p1.hand << Rhino.new(p1)
+       p1.hand << Terror.new(p1)
+       p1.hand << Rhino.new(p1)
        p1.permanents << JandorsSaddlebags.new(p1)
     #   #  p1.permanents << VulturousZombie.new(p1)
        p1.hand << WaveofReckoning.new(p1)
@@ -155,7 +157,7 @@ class World
        p2.permanents << Mob.new(p2)
        p2.permanents << Spider.new(p2)
     #    10.times { p2.permanents << Mountain.new(p2) }
-    #    p2.permanents << ConcordantCrossroads.new(p2)
+       p2.permanents << ConcordantCrossroads.new(p2)
     #   #  p2.permanents << Dragon.new(p2)
     #   #  p2.permanents << Rhino.new(p2)
     #   #  p2.permanents << StormtideLeviathan.new(p2)
