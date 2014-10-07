@@ -13,7 +13,7 @@ class Whirlwind < Sorcery
 
   def play!
     super
-    world.permanents.select{ |c| c.is_a?(Creature) && !c.has_ability(Flying)}.each do |creature_without_flying|
+    world.permanents.select{ |c| c.is_a?(Creature) && c.has_ability(Flying)}.each do |creature_without_flying|
       creature_without_flying.destroy!
     end
   end
