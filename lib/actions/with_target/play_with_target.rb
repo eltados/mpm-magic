@@ -3,8 +3,8 @@ class PlayWithTarget < ActionWithTarget
   def initialize(owner=nil)
     super(owner)
     @name = "Play"
-    @img ="nightmare.png"
-    @description ="Play this card"
+    @img ="play.png"
+    @description = owner.name
     @priority =1
   end
 
