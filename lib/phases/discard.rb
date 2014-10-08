@@ -9,7 +9,8 @@ class DiscardPhase < Phase
   end
 
   def cannot_pass_to_next_because
-    "You have too many cards. Please discard a card." if world.playing_player.hand.size >= 8
+    puts "world.turn.number = #{world.turn.number}"
+    "You have too many cards. Please discard a card." if world.active_player.hand.size >= 8 && world.turn.number > 1
   end
 
 end

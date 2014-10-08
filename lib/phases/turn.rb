@@ -8,7 +8,7 @@ class Turn
     end
 
     @current_phase = 2
-    @number = 1
+    @number = 0
     @world = world
   end
 
