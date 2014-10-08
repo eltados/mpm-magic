@@ -1,8 +1,9 @@
 class Ability
 
-  attr_accessor :card , :permanent
+  attr_accessor :card , :permanent , :value
   def initialize(card, permanent:true)
     @card = card
+    @value = 2
     @permanent = permanent
   end
 

@@ -58,9 +58,12 @@ z-index:100;
   left:5;
   padding:5px;
   z-index:100;
-  font-size:115%;
+  font-size: 90%;
   overflow-x: none;
   background:green;
+  text-align:center;
+  border:2px solid black;
+  border-radius: 5px;
 
 }
 
@@ -77,10 +80,13 @@ z-index:100;
   left:5;
   padding:5px;
   z-index:100;
-  font-size:115%;
+  font-size: 90%;
   overflow-x: none;
   background:green;
   z-index: 1000;
+  text-align:center;
+  border:2px solid black;
+  border-radius: 5px;
 }
 
 #cancel{

@@ -13,13 +13,13 @@ class AutoFight < Minitest::Unit::TestCase
   end
 
   def test_run_games
-    # return true;
+  # skip("reason for skipping the test")
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
   #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 10
-   max_game_length = 5
+   timeout = 5
+   max_game_length = 3
    winner = {}
    winner[:p1] = 0
    winner[:p2] = 0

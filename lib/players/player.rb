@@ -150,4 +150,8 @@ class Player <Hook
     draw!
   end
 
+  def to_s
+    "#<Player:#{object_id} name=#{name}>"
+  end
+
 end

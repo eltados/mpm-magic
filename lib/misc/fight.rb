@@ -1,24 +1,37 @@
 class Fight
 
+  def initialize(attacker , defender)
+    @attacker = attacker
+    @defender = defender
+    @reports = []
+  end
 
-  def self.fight!(attacker , defender)
+  def fight!
 
-    resolve_dmg( defender, attacker)
-    resolve_dmg( attacker, defender)
+    @attacker.flags[:unassigned_blocking_damage] -=  resolve_dmg( @attacker, @defender)
+    resolve_dmg( @defender, @attacker)
 
-    attacker.flags[:unassigned_blocking_damage] = defender.health < 0 ?  - defender.health  : 0
-    attacker.event :blocked
+    @attacker.event :blocked
+    @reports
   end
 
   def self.attack_player!(creature , player)
     player.hits_player!( creature.attack , creature )
   end
 
-  def self.resolve_dmg(attacker , defender)
-    dmg = attacker.attack
-    dmg = attacker.flags[:unassigned_blocking_damage] if attacker.flags[:unassigned_blocking_damage] != nil && attacker.flags[:unassigned_blocking_damage] > 0
+  def resolve_dmg(attacker , defender)
+    attack = attacker.attack
+
+    attack = attacker.flags[:unassigned_blocking_damage] if attacker.flags[:unassigned_blocking_damage]
+
+    dmg = defender.health >= attack ?  attack : defender.health
     defender.hit! dmg
+
+    @reports << "#{attacker.name} deals #{dmg} damage to #{defender.name}"
+
     attacker.event :hits_creature, defender , dmg
+
+    return  dmg
   end
 
 end

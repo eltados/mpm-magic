@@ -30,16 +30,20 @@
 <div id="me">
   <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
+  <img src="me.png" /><br/>
+  <%= me.name %>
+<br/>
   Cards : <%= me.hand.size %>
 </div>
 
 <div id="opponent">
   <span class="hp <%= hp_color opponent.health %>"><%= opponent.health %> HP </span><br>
+  <img src="<%= opponent.img %>" />
+
+  <br/>
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-  <br/>
-  AI : <%= opponent.ai %>
 <% if false %>
 <br/>
 Stack :

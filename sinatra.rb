@@ -166,7 +166,6 @@ class App <  Sinatra::Application
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
-      puts "#{action} => #{action.respond_to?(:execute_with_target!)}"
       if !action.respond_to?(:execute_with_target!)
         me.target_action = nil
         # me.world.stack.push action
