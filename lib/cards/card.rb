@@ -184,6 +184,7 @@ class Card < Hook
     @flags = {}
   end
 
+
   def when_phase_untap(*args)
     super
     untap!

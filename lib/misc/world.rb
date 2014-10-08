@@ -127,7 +127,7 @@ class World
 
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
-    if dev?
+    if dev? && false
       # p1.hand << ConcordantCrossroads.new(p1)
        p1.hand << AuraBlast.new(p1)
        p1.permanents << BookofRass.new(p1)
