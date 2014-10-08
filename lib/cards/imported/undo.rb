@@ -11,7 +11,6 @@ class Undo < Sorcery
     @mtg_id = 6540
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

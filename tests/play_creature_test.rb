@@ -42,4 +42,5 @@ class PlayCreatureTest < Minitest::Unit::TestCase
     assert_equal  true , @play.can_be_activated
   end
 
+
 end

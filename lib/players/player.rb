@@ -32,7 +32,10 @@ class Player <Hook
 
 
   def draw!
-    raise 'No More Card to Draw' if deck.size == 0
+    if deck.size == 0
+      health = 0
+      return
+    end
     hand << deck.shift
     # when_draw
   end
@@ -44,6 +47,13 @@ class Player <Hook
     card.play!
   end
 
+
+  def play_with_target!(card, target)
+    return if ! hand.include? card
+    hand.delete card
+    permanents << card
+    card.play_with_target!(target)
+  end
 
   def create_token!(card)
     card.cost = 0

@@ -11,6 +11,6 @@ class SyggRiverCutthroat < Creature
     @mtg_id = 147377
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end

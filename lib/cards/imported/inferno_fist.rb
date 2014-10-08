@@ -11,7 +11,6 @@ class InfernoFist < Enchantment
     @mtg_id = 383277
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

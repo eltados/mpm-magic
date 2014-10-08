@@ -1,20 +1,29 @@
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player,  :logs
+    attr_accessor :p1, :p2, :turn, :playing_player,  :logs, :stack
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
       @turn = Turn.new(self)
       @playing_player = @p1
       @logs =[]
+      @stack =[]
       @p1.world = self if(@p1 != nil)
       @p2.world = self if(@p2 != nil)
     end
 
 
+    def enchantments
+      permanents.select{ |p| p.is_a?(Enchantment) &&  p.respond_to?(:affects) }
+    end
+
+
     def abilities_for(card)
-      # return [Nightmare.new(card)] if card.is_a?(TeferisImp)
-      []
+      enchantments.select{|e| e.affects(card) && e.in_play? }.map do |e|
+        e.provided_abilities.map do |ab|
+          ab.new(card)
+        end
+      end
     end
 
     def defending_player
@@ -71,6 +80,12 @@ class World
       logs << log
     end
 
+
+    def dev?
+      $ENV && $ENV['RACK_ENV'] == "development"
+      # true
+    end
+
     def self.find(id)
       ObjectSpace._id2ref(id.to_i)
     end
@@ -85,8 +100,7 @@ class World
 
 
     def start!
-      # playing_player =  ( Random.new.rand(2) == 0 || @p2.ai) ? @p1 : @p2
-      @playing_player =  ( Random.new.rand(2) == 0 ) ? @p1 : @p2
+      @playing_player =  ( Random.new.rand(2) == 0 || ( @p2.ai && !@p1.ai ) ) ? @p1 : @p2
 
       [p1, p2].each do |p|
         p.hand = []
@@ -94,14 +108,13 @@ class World
         p.graveyard = []
         p.deck = []
 
-        15.times do
-          p.deck << Mountain.new(p)
-          p.deck << Forest.new(p)
+        17.times do
+          p.deck << Land.all.sample.new(p)
         end
 
 
-        50.times do
-          p.deck << (Card.all - [God , WinterWall  ]).reject{ |c| c.respond_to?( :disabled? ) && c.disabled? }.shuffle[0].new(p)
+        43.times do
+          p.deck << (Card.all - [God , WinterWall  ] - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
 
@@ -111,30 +124,47 @@ class World
         7.times { p.draw! }
 
       end
-    # p1.hand << GloriousAnthem.new(p1)
-    #  p1.hand << UnholyStrength.new(p1)
-    #  p1.permanents << DragonHatchling.new(p1)
-    #  p1.permanents << DarkMonk.new(p1)
-    #  p1.permanents << VulturousZombie.new(p1)
-    #  p1.permanents << Mob.new(p1)
-    #  p1.hand << Lighting.new(p1)
-    #  p1.hand << SeismicShudder.new(p1)
-      # p1.hand << TitanicGrowth.new(p1)
-      # p1.hand << SerpentGift.new(p1)
-      # p1.hand << KrenkoCommand.new(p1)
-      # p1.hand << UnholyStrength.new(p1)
-      # p1.permanents << TeferisImp.new(p1)
-      # p1.permanents << God.new(p1)
-      # p2.hand = []
-    #  p2.permanents << Mob.new(p2)
-    #  p2.permanents << Spider.new(p2)
-    #  p2.permanents << Dragon.new(p2)
-    #  p2.permanents << Rhino.new(p2)
-    #  p2.permanents << StormtideLeviathan.new(p2)
-    #  p2.permanents << Rhino.new(p2)
-    #  10.times {  p1.permanents << Mountain.new(p1) }
-    #  2.times {  p2.permanents << Mountain.new(p2) }
 
+      @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
+
+    if dev? && false
+      # p1.hand << ConcordantCrossroads.new(p1)
+       p1.hand << AuraBlast.new(p1)
+       p1.permanents << BookofRass.new(p1)
+       p1.hand << WarAxe.new(p1)
+       p1.hand << Rhino.new(p1)
+       p1.hand << Terror.new(p1)
+       p1.hand << Rhino.new(p1)
+       p1.permanents << JandorsSaddlebags.new(p1)
+    #   #  p1.permanents << VulturousZombie.new(p1)
+       p1.hand << WaveofReckoning.new(p1)
+       p1.permanents << Mob.new(p1)
+       p1.permanents << Spider.new(p1)
+       p1.hand << JandorsSaddlebags.new(p1)
+      #  p1.permanents << Mob.new(p1)
+    #    p1.hand << AuraBlast.new(p1)
+    #    p1.hand << VampiricFeast.new(p1)
+    #    p1.hand << Mob.new(p1)
+       p1.hand << Lighting.new(p1)
+    #   #  p1.hand << SeismicShudder.new(p1)
+    #     # p1.hand << TitanicGrowth.new(p1)
+    #     # p1.hand << SerpentGift.new(p1)
+    #     # p1.hand << KrenkoCommand.new(p1)
+    #     # p1.hand << UnholyStrength.new(p1)
+        # p1.permanents << TeferisImp.new(p1)
+    #     # p1.permanents << God.new(p1)
+    #     # p2.hand = []
+       p2.permanents << Mob.new(p2)
+       p2.permanents << Spider.new(p2)
+    #    10.times { p2.permanents << Mountain.new(p2) }
+       p2.permanents << ConcordantCrossroads.new(p2)
+    #   #  p2.permanents << Dragon.new(p2)
+    #   #  p2.permanents << Rhino.new(p2)
+    #   #  p2.permanents << StormtideLeviathan.new(p2)
+    #   #  p2.permanents << Rhino.new(p2)
+       10.times {  p1.permanents << Mountain.new(p1) }
+      #  2.times {  p2.permanents << Mountain.new(p2) }
+    end
     end
 
 

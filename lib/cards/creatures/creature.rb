@@ -57,15 +57,15 @@ class Creature < Card
   end
 
   def undo_block!
-    @flags[:blocking] = nil
-    @flags[:blocked_creature].flags[:blocked] = nil
+    @flags.delete :blocking
+    @flags[:blocked_creature].flags.delete :blocked
     @flags[:blocked_creature].flags[:blocked_by].delete  self
-    @flags[:blocked_creature] = nil
+    @flags.delete :blocked_creature
   end
 
   def undo_attack!
     untap! if attack_requires_tap
-    flags[:attacking] = nil
+    @flags.delete :attacking
   end
 
   def can_be_played
@@ -105,17 +105,10 @@ class Creature < Card
       true
   end
 
-  def destroy!
-    event :dead
-  end
-
-  def sacrify!
-    event :dead
-  end
 
 
   def play!
-    add_abilities [SummoningSickness]
+    add_abilities [SummoningSickness] if ! has_ability(Haste)
     super
   end
 
@@ -125,28 +118,23 @@ class Creature < Card
 
   def when_phase_ends(*args)
     super
-    event :dead if dead?
+    event :destroyed if dead?
   end
 
   def when_turn_ends(*args)
     super
     @abilities.each do |ability|
-      self.abilities.delete ability if ! ability.permanent?
+      @abilities.delete ability if ! ability.permanent?
     end
     @dmg = 0
     @attack_bonus = 0
     @toughness_bonus = 0
   end
 
-  def when_dead(*args)
-    super
-    player.world.log Log.new( description: "#{self.name} died", card:self , action: :die)
-    player.permanents.delete self
-    player.graveyard << self
-  end
+
 
   def when_receive_dmg(*args)
-    event :dead if dead? && !world.turn.phase.is_a?(ResolveCombat)
+    event :destroyed if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
 
 

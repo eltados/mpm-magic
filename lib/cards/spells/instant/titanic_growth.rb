@@ -9,11 +9,6 @@ class  TitanicGrowth < Instant
     @img = "cards/221203.png"
   end
 
-  def play!
-    super
-    player.target_action = TargetAction.new(self, self)
-  end
-
   def can_target(target)
     target.is_a? Creature
   end
@@ -22,7 +17,7 @@ class  TitanicGrowth < Instant
     owner.mana_pool.can_pay?(self.cost) && [player.opponent.creatures, player.creatures ].flatten.any?{ |p| self.can_target(p) }
   end
 
-  def execute_with_target!(target)
+  def play_with_target!(target)
     super(target)
     target.attack_bonus += 4
     target.dmg -= 4 # a bit hacky

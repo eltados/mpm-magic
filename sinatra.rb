@@ -11,6 +11,7 @@ require 'active_support/all'
 
 
 if development?
+  $ENV = ENV
   require 'chunky_png'
   require "better_errors"
   require 'sinatra/reloader'
@@ -165,13 +166,21 @@ class App <  Sinatra::Application
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
     if !params[:target_id]
-      me.target_action = nil
-      action.execute!
+      puts "#{action} => #{action.respond_to?(:execute_with_target!)}"
+      if !action.respond_to?(:execute_with_target!)
+        me.target_action = nil
+        # me.world.stack.push action
+        action.execute!
+        notify!
+      else
+        me.target_action = TargetAction.new(action.owner, action)
+      end
     else
       action.execute_with_target! Card.find(params[:target_id])
       me.target_action =nil
+      notify!
     end
-    notify!
+
     redirect "/game"
   end
 
@@ -268,7 +277,7 @@ class #{json['name'].gsub(/ |'|-/,'').camelcase} < #{json['type']}
     @mtg_id = #{json['id']}
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
     """

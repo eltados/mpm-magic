@@ -1,6 +1,6 @@
 <% action = locals[:action] %>
 <% if action.can_be_activated %>
   <a href="/action/<%= "#{action.to_param}" %>" class="action ajax">
-  <img src="<%= action.img %>" title="<%= action.name %> : <%= action.description %>">
+  <img src="<%= action.img %>" title="<%= action.name %> : <%= action.description %>" class="<%= ' selected ' if me && me.target_action && me.target_action.action == action %>">
   </a>
 <% end %>

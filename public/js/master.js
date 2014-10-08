@@ -6,6 +6,29 @@ var keymap = {
   ' ' : "/next",
 };
 
+showSpinner = false;
+$( document ).ajaxStart(function() {
+  showSpinner = true;
+  setTimeout( function(){
+     if(showSpinner){
+      $( "#spinner" ).show();
+     }
+  }, 1000);
+});
+
+$( document ).ajaxComplete(function() {
+  showSpinner = false;
+  $( "#spinner" ).hide();
+});
+
+$(document ).on( "click", ".abilities img" , function() {
+  alert($( this ).attr("title"));
+});
+
+$(document ).on( "click", ".log" , function() {
+  alert($( this ).attr("title"));
+});
+
 
 
 if(window.location.pathname  == "/game"){

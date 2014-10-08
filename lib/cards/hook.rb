@@ -57,6 +57,9 @@ class Hook
   def when_dead(*args)
   end
 
+  def when_destroyed(*args)
+  end
+
 
 
   #

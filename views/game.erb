@@ -31,10 +31,6 @@
   <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
   Cards : <%= me.hand.size %>
-<% if me.target_action %>
-  <br/>
-  <a href="/cancel_target_action">Cancel <%= me.target_action.action.name %></a>
-<% end %>
 </div>
 
 <div id="opponent">
@@ -44,6 +40,16 @@
   Cards : <%= opponent.hand.size %>
   <br/>
   AI : <%= opponent.ai %>
+<% if false %>
+<br/>
+Stack :
+
+  <ol>
+  <% @world.stack.reverse.each do |item| %>
+    <li><%=h item.inspect %></li>
+  <% end %>
+  </ol>
+<% end %>
 </div>
 
 
@@ -72,6 +78,7 @@
         <% else %>
         Next
         <% end %>
+        <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif" id="spinner"/>
     </a>
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
@@ -100,43 +107,39 @@
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
       <br/>
+      <% opponent.creatures.each  do |card| %>
+        <%= erb :_card, locals: {card: card   }%>
+      <% end %>
       <% if opponent.spells %>
       <% opponent.spells.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <br/>
-      <% end %>
-      <% opponent.creatures.each  do |card| %>
-        <%= erb :_card, locals: {card: card   }%>
       <% end %>
 
     <% end %>
   </div>
-</div>
 
-
-  </div>
 
 </td></tr>
 
-  <tr d="my_playground_tr" height="60%" ><td>
+  <tr id="my_playground_tr" height="60%" ><td>
 
 <div id="my_playground">
   <div style="padding-bottom:125px;">
   <% me.creatures.sort_by(&:cost).reverse.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
-  <br/>
   <% if me.spells %>
     <% me.spells.each  do |card| %>
       <%= erb :_card, locals: {card: card   }%>
     <% end %>
-    <br/>
   <% end %>
+
+  <br/>
   <% me.lands.sort_by(&:name).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
-</div>
+  </div>
 </div>
 
 </td></tr>

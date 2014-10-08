@@ -11,7 +11,6 @@ class Exile < Instant
     @mtg_id = 15350
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

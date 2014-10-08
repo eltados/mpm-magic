@@ -3,7 +3,7 @@ class Block < ActionWithTarget
   def initialize(owner=nil)
     super(owner)
     @name = "Block"
-    @img ="http://icons.iconarchive.com/icons/rafiqul-hassan/blogger/24/Shield-icon.png"
+    @img ="block.png"
     @description ="Block"
     @priority = 1
   end

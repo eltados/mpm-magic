@@ -12,4 +12,14 @@ class GloriousAnthem < Enchantment
     super
   end
 
+
+  def affects(card)
+    card.is_a?(Creature) && card.player == self.player && card.in_play?
+  end
+
+  def provided_abilities
+    [PlusOnePlusOne]
+  end
+
+
 end

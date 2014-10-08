@@ -13,11 +13,13 @@ class AutoFight < Minitest::Unit::TestCase
   end
 
   def test_run_games
+    # return true;
   #  profiler = MethodProfiler.observe(World)
   #  profiler_card = MethodProfiler.observe(Card)
+  #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 15
-   max_game_length = 3
+   timeout = 10
+   max_game_length = 5
    winner = {}
    winner[:p1] = 0
    winner[:p2] = 0
@@ -49,16 +51,19 @@ class AutoFight < Minitest::Unit::TestCase
         end
       end
     rescue Timeout::Error
-      puts "#{i} games ( #{i * 60 / timeout.to_f } per min )"
+      puts "#{i} games ( #{ i * 60 / timeout.to_f } per min )"
     rescue Exception => e
       assert(false, """
 One of the game failed. Here are some details about the game :
 
 === permanents ===
-#{world.players.map(&:creatures).flatten.map(&:name).join("\n")}
+#{world.players.map(&:creatures).flatten.map(&:name).sort.join("\n")}
 
 === logs ===
-#{world.logs.map(&:description).join("\n")}
+#{world.logs.map(&:description).join("\n") if true}
+
+=== turns ===
+#{world.turn.number}
 
 === exception ===
 #{e.message}
@@ -67,13 +72,16 @@ One of the game failed. Here are some details about the game :
 """)
     end
 
+    puts "turns: #{world.turn.number}"
     puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
-    # puts "=== profiler world==="
+    # puts "=== profiler world ==="
     # puts profiler.report
-    #
-    # puts "=== profiler world==="
+    # #
+    # puts "=== profiler card ==="
     # puts profiler_card.report
+    # puts "=== profiler mana ==="
+    # puts profiler_mana.report
   end
 
 end

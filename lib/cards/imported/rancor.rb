@@ -11,7 +11,6 @@ class Rancor < Enchantment
     @mtg_id = 12433
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    

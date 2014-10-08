@@ -13,7 +13,6 @@ class CudgelTroll < Creature
     @mtg_id = 221895
   end
 
-  def disabled?; true end
+  def self.disabled?; true end
 
 end
-    
