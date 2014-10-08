@@ -10,5 +10,7 @@ class God < Creature
     add_abilities  [ LifeLink, Trample, Boost, Flying, Haste, NightmareAbility, Vigilance  ] # WallAbility ]
   end
 
-
+  def self.disabled?
+    true
+  end
 end

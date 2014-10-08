@@ -10,4 +10,8 @@ class Snake < Creature
     add_abilities  [  ]
   end
 
+  def self.disabled?
+    true
+  end
+
 end

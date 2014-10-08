@@ -9,5 +9,7 @@ class WinterWall < Creature
     @img = "http://img4.wikia.nocookie.net/__cb20110305193555/gameofthrones/images/thumb/f/f5/The_Wall.jpg/500px-The_Wall.jpg"
     add_abilities [ WallAbility ]
   end
-
+  def self.disabled?
+    true
+  end
 end

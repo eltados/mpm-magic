@@ -14,7 +14,7 @@
     <% if card.flags[:blocking] %>
       <img src="block.png" title="Blocking" height="18" style="margin-left:-3px;"/>
     <% end %>
-      <span><%= card.name %></span>
+      <span><%= "* " if card.class.disabled? %><%= card.name %></span>
     </div>
   </div>
 <% close = false %>

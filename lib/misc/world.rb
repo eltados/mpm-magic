@@ -114,7 +114,7 @@ class World
 
 
         43.times do
-          p.deck << (Card.all - [God , WinterWall  ] - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
+          p.deck << (Card.all - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
 
