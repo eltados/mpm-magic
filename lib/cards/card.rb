@@ -190,7 +190,6 @@ class Card < Hook
     untap!
   end
 
-
   def event(event , *args)
     method = "when_#{event}".to_sym
     send(method, args) if self.respond_to? method.to_sym

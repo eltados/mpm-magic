@@ -89,6 +89,14 @@ class App <  Sinatra::Application
     erb :home
   end
 
+
+  get "/game.yaml" do
+    content_type 'text/yaml'
+    yaml = me.world.to_yaml
+    YAML.load(yaml)
+    yaml
+  end
+
   get "/game" do
     redirect "/clear" if me == nil || me.world == nil || !me.world.ready?
     @world = me.world

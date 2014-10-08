@@ -16,14 +16,14 @@
 <% end %>
 
 <div id="hand" >
-  <% me.hand.sort_by(&:type).sort_by(&:cost).each  do |card| %>
-    <%= erb :_card, locals: {card: card   }%>
+  <% me.hand.sort do |a, b| [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]  end.each  do |card| %>
+    <%= erb :_card, locals: {card: card }%>
   <% end %>
 </div>
 
 
 
-<div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
+<div id="turn" class="<%= me == @world.playing_player ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 

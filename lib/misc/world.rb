@@ -122,12 +122,13 @@ class World
         p.deck.shuffle!
 
         7.times { p.draw! }
+        p.hand.each{ |c| c.flags.delete :new }
 
       end
 
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
-    if dev?
+    if dev? && false
       p1.hand = []
        p1.hand << AuraBlast.new(p1)
        p1.permanents << BookofRass.new(p1)
@@ -160,6 +161,7 @@ class World
     #   #  p2.permanents << StormtideLeviathan.new(p2)
     #   #  p2.permanents << Rhino.new(p2)
        10.times {  p1.permanents << Mountain.new(p1) }
+       20.times {  p1.hand << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end
     end
@@ -172,6 +174,8 @@ class World
 
     def when_turn_ends
       permanents.each{ |p|  p.event :turn_ends }
+      p1.hand.each{ |p|  p.event :turn_ends }
+      p2.hand.each{ |p|  p.event :turn_ends }
       players.map &:when_turn_ends # TODO
       playing_player.when_my_turn_ends #TODO
       switch_playing_player!

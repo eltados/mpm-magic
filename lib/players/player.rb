@@ -15,7 +15,7 @@ class Player <Hook
   end
 
   def img
-    "player.png"
+    @ai ? "ai.png" : "player.png"
   end
 
   def alive?
@@ -36,7 +36,9 @@ class Player <Hook
       health = 0
       return
     end
-    hand << deck.shift
+    card = deck.shift
+    card.flags[:new] = true
+    hand << card
     # when_draw
   end
 
