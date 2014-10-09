@@ -106,7 +106,10 @@ class App <  Sinatra::Application
 
   get "/next" do
     redirect "/game" if params[:current_phase] != nil &&  params[:current_phase] != me.world.turn.phase.name
-    me.world.turn.next! if me.active?
+    redirect "/game" if !me.active?
+
+    me.world.turn.next!
+
     while(me.world.active_player.ai == true) do
       me.world.active_player.auto_play!
     end
