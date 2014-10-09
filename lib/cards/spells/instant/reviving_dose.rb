@@ -11,6 +11,10 @@ class RevivingDose < Instant
     @mtg_id = 22941
   end
 
-  def self.disabled?; true end
+  def play!
+    super
+    player.heal_player!(3 , self)
+    player.draw!
+  end
 
 end

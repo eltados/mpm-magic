@@ -1,6 +1,8 @@
 class SimpleAi < Ai
 
   def play!
+
+
     if @player.target_action != nil
         target_action = @player.target_action
         if target_action.action.positive?

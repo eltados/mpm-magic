@@ -31,12 +31,7 @@ class Ability
   end
 
   def img
-    "#{id}.png"
-  end
-
-
-  def description
-    ""
+    "#{id.to_s.split('/')[-1]}.png"
   end
 
   def to_sym
@@ -53,6 +48,10 @@ class Ability
 
   def inspect
     "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
+  end
+
+  def description
+    card.description
   end
 
 

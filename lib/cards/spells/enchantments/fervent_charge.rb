@@ -11,7 +11,13 @@ class FerventCharge < Enchantment
     @mtg_id = 28011
   end
 
-  def self.disabled?; true end
+  def affects(card)
+    card.is_a?(Creature) && card.player == self.player && card.in_play? && card.flags[:attacking]
+  end
+
+  def provided_abilities
+    [PlusTwoPlusTwo]
+  end
+
 
 end
-    
