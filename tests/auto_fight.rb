@@ -18,7 +18,7 @@ class AutoFight < Minitest::Unit::TestCase
   #  profiler_card = MethodProfiler.observe(Card)
   #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 5
+   timeout = 10
    max_game_length = 3
    winner = {}
    winner[:p1] = 0

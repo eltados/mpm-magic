@@ -103,6 +103,7 @@ class World
       @playing_player =  ( Random.new.rand(2) == 0 || ( @p2.ai && !@p1.ai ) ) ? @p1 : @p2
 
       [p1, p2].each do |p|
+
         p.hand = []
         p.permanents = []
         p.graveyard = []
@@ -117,16 +118,20 @@ class World
           p.deck << (Card.all - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
-
-
         p.deck.shuffle!
 
-        7.times { p.draw! }
+        # redraw if no land ... 
+        while(! p.hand.any?{ |c| c.is_a?(Land) })
+          p.hand = []
+          7.times { p.draw! }
+        end
+
         p.hand.each{ |c| c.flags.delete :new }
 
       end
       @logs =[]
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
+
 
     if dev? && true
       # p1.hand = []
