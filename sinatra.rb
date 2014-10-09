@@ -7,6 +7,7 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
+require 'newrelic_rpm'
 
 
 
