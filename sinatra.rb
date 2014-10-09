@@ -105,6 +105,7 @@ class App <  Sinatra::Application
   end
 
   get "/next" do
+    redirect "/game" if params[:current_phase] != nil &&  params[:current_phase] != me.world.turn.phase.name
     me.world.turn.next! if me.active?
     while(me.world.active_player.ai == true) do
       me.world.active_player.auto_play!
@@ -217,7 +218,7 @@ class App <  Sinatra::Application
 
   get '/cards' do
     @cards= [Card.all].flatten.map(&:new).sort do |a, b|
-     [a.type, a.cost ] <=> [b.type, b.cost]
+     [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]
     end
 
     erb :cards

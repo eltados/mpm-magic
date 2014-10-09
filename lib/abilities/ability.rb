@@ -15,6 +15,9 @@ class Ability
     card.player
   end
 
+  def world
+    card.player.world
+  end
 
   def opponent
     card.player.opponent
@@ -27,7 +30,7 @@ class Ability
 
 
   def name
-     self.class.name.underscore.gsub('_', ' ').gsub(' ability', '').humanize
+     self.class.name.underscore.gsub('_', ' ').gsub(' ability', '').gsub(' inner/ability', '').humanize
   end
 
   def img

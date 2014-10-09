@@ -33,7 +33,7 @@
 <% end %>
 
 
-  <div class="image" style="background-image: url('<%= card.img %>');">&nbsp;</div>
+  <div class="image" style="background-image: url('<%= card.img %>');" title="<%= card.name %><%= "\n#{card.description}" if card.description%>">&nbsp;</div>
 <% if close %>
   </a>
 <% end %>
@@ -46,6 +46,11 @@
   </div>
 <% end %>
 <div class="abilities">
+  <% if card.is_a? Spell %>
+    <%= erb :_ability, locals: {
+      ability: Struct.new(:name, :img, :description , :permanent?).new(card.name , "#{card.type}.png" , card.description, true)
+    }%>
+  <% end %>
   <% card.abilities.each do |ability| %>
     <%= erb :_ability, locals: {ability: ability }%>
   <% end %>

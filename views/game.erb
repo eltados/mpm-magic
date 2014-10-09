@@ -16,7 +16,7 @@
 <% end %>
 
 <div id="hand" >
-  <% me.hand.sort do |a, b| [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]  end.each  do |card| %>
+  <% me.hand.sort do |a, b| [a.is_a?(Land)? 0: 1, a.cost, a.type  ] <=> [b.is_a?(Land)? 0: 1, b.cost , b.type]  end.each  do |card| %>
     <%= erb :_card, locals: {card: card }%>
   <% end %>
 </div>
@@ -44,7 +44,7 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-<% if false %>
+<% if  false%>
 <br/>
 Stack :
 
@@ -58,10 +58,10 @@ Stack :
 
 
 
-<div id="next">
+<div id="next" class="<%='waiting' if !me.active? %>">
 
-  <% if me.active? & @world.turn.phase.can_pass_to_next? %>
-    <a href="/next" accesskey="n" class="ajax">
+  <% if me.active? && @world.turn.phase.can_pass_to_next? %>
+    <a href="/next?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
         <% if @world.turn.phase.is_a?(Draw) %>
         Start
         <% elsif @world.turn.phase.is_a?(Post) %>
@@ -87,7 +87,7 @@ Stack :
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    <a href="/game">Opponent is playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
+    <a href="/game">Opponent is <br/> playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 
 </div>
@@ -129,7 +129,7 @@ Stack :
   <tr id="my_playground_tr" height="60%" ><td>
 
 <div id="my_playground">
-  <div style="padding-bottom:125px;">
+  <div style="padding-bottom:130px;">
   <% me.creatures.sort_by(&:cost).reverse.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>

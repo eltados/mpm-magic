@@ -7,7 +7,7 @@ class Turn
       phase.new self
     end
 
-    @current_phase = 1
+    @current_phase = 0
     @number = 0
     @world = world
   end

@@ -25,7 +25,11 @@ $(document ).on( "click", ".abilities img" , function() {
   alert($( this ).attr("title"));
 });
 
-$(document ).on( "click", ".log" , function() {
+$(document ).on( "click", ".card .name" , function() {
+  alert($( this ).attr("title"));
+});
+
+$(document ).on( "click", "div.log" , function() {
   alert($( this ).attr("title"));
 });
 

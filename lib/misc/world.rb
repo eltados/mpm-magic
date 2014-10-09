@@ -128,43 +128,43 @@ class World
       @logs =[]
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
-    if dev?
-      p1.hand = []
-       p1.hand << AuraBlast.new(p1)
-       p1.permanents << FerventCharge.new(p1)
-       p1.hand << Terror.new(p1)
-       p1.permanents << JandorsSaddlebags.new(p1)
-       p1.permanents << Wolf.new(p1)
-      #  p1.hand << WaveofReckoning.new(p1)
-       p1.permanents << Mob.new(p1)
-       p1.permanents << Spider.new(p1)
-      #  p1.hand << JandorsSaddlebags.new(p1)
-       p1.permanents << RuthlessCullblade.new(p1)
-       p1.permanents << Rhino.new(p1)
+    if dev? && true
+      # p1.hand = []
+    #    p1.hand << AuraBlast.new(p1)
+    #    p1.permanents << FerventCharge.new(p1)
+    #    p1.hand << Terror.new(p1)
+    #    p1.permanents << JandorsSaddlebags.new(p1)
+    #    p1.permanents << Wolf.new(p1)
+    #   #  p1.hand << WaveofReckoning.new(p1)
+    #    p1.permanents << Mob.new(p1)
+    #    p1.permanents << Spider.new(p1)
+    #   #  p1.hand << JandorsSaddlebags.new(p1)
+    #    p1.permanents << RuthlessCullblade.new(p1)
+    #    p1.permanents << Rhino.new(p1)
        p1.permanents << PhyrexianArena.new(p1)
-       p1.hand << RevivingDose.new(p1)
-       p1.hand << Undo.new(p1)
-    #    p1.hand << VampiricFeast.new(p1)
-    #    p1.hand << Mob.new(p1)
-       p1.hand << Lighting.new(p1)
-       p1.hand << AwakentheBear.new(p1)
-    #   #  p1.hand << SeismicShudder.new(p1)
-    #     # p1.hand << TitanicGrowth.new(p1)
-    #     # p1.hand << SerpentGift.new(p1)
-    #     # p1.hand << KrenkoCommand.new(p1)
-    #     # p1.hand << UnholyStrength.new(p1)
-        # p1.permanents << TeferisImp.new(p1)
-    #     # p1.permanents << God.new(p1)
-    #     # p2.hand = []
-      #  p2.permanents << Mob.new(p2)
-      #  p2.permanents << Spider.new(p2)
-    #    10.times { p2.permanents << Mountain.new(p2) }
-      #  p2.permanents << ConcordantCrossroads.new(p2)
-       p2.permanents << WolverinePack.new(p2)
-    #   #  p2.permanents << Rhino.new(p2)
-    #   #  p2.permanents << StormtideLeviathan.new(p2)
-    #   #  p2.permanents << Rhino.new(p2)
-       10.times {  p1.permanents << Mountain.new(p1) }
+    #    p1.hand << RevivingDose.new(p1)
+    #    p1.hand << Undo.new(p1)
+    # #    p1.hand << VampiricFeast.new(p1)
+    # #    p1.hand << Mob.new(p1)
+    #    p1.hand << Lighting.new(p1)
+    #    p1.hand << AwakentheBear.new(p1)
+    # #   #  p1.hand << SeismicShudder.new(p1)
+    # #     # p1.hand << TitanicGrowth.new(p1)
+    # #     # p1.hand << SerpentGift.new(p1)
+    # #     # p1.hand << KrenkoCommand.new(p1)
+    # #     # p1.hand << UnholyStrength.new(p1)
+    #     # p1.permanents << TeferisImp.new(p1)
+    # #     # p1.permanents << God.new(p1)
+    # #     # p2.hand = []
+    #   #  p2.permanents << Mob.new(p2)
+    #   #  p2.permanents << Spider.new(p2)
+    # #    10.times { p2.permanents << Mountain.new(p2) }
+    #   #  p2.permanents << ConcordantCrossroads.new(p2)
+    #    p2.permanents << WolverinePack.new(p2)
+    # #   #  p2.permanents << Rhino.new(p2)
+    # #   #  p2.permanents << StormtideLeviathan.new(p2)
+    # #   #  p2.permanents << Rhino.new(p2)
+    #    10.times {  p1.permanents << Mountain.new(p1) }
       #  20.times {  p1.hand << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end

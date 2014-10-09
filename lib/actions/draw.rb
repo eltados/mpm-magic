@@ -17,7 +17,7 @@ class DrawAction < Action
   def execute!
     super
     card.tap!
-    player.draw!
+    player.draw!(card)
   end
 
 

@@ -145,14 +145,6 @@ class Creature < Card
   end
 
 
-  def event(event, *args)
-    super(event , args)
-    method = "when_#{event}".to_sym
-    @abilities.select do |ability|
-        ability.respond_to? method
-    end.each  do |ability|
-      ability.send method, args
-    end
-  end
+
 
 end

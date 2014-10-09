@@ -15,13 +15,12 @@ class PhyrexianArena < Enchantment
 
   class InnerAbility < Ability
 
-    def when_phase_ends
-      return if !card.in_play? || world.turn.phase != Upkeep || !player.active?
-      player.hits_player!(1, card)
-      player.draw!(1, card)
+    def when_phase_ends(*args)
+      if card.in_play? && world.turn.phase.name.to_s  == 'Unkeep' &&  world.playing_player == card.player
+        player.hits_player!(1, card)
+        player.draw!(card)
+      end
     end
-
-
   end
 
 end

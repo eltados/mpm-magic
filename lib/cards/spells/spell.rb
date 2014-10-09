@@ -9,11 +9,6 @@ class Spell < Card
     @owner.move_to_graveyard! self
   end
 
-  def abilities
-    [Struct.new(:name, :img, :description , :permanent?)
-           .new(self.name , "#{self.type}.png" , self.description, true)]
-  end
-
   def can_be_played
      owner.mana_pool.can_pay?(self.cost)
   end
