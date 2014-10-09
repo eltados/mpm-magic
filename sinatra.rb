@@ -35,6 +35,11 @@ class App <  Sinatra::Application
   end
 
   helpers do
+
+    def dev?
+      $ENV && $ENV['RACK_ENV'] == "development"
+    end
+
     def h(text)
       Rack::Utils.escape_html(text)
     end
