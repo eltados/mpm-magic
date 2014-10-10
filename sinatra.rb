@@ -140,7 +140,7 @@ class App <  Sinatra::Application
     session[:current_user] =  Player.new
     me.name = params[:name]
     @players << me
-    notify!
+    # notify!
     redirect "/"
   end
 
@@ -180,6 +180,15 @@ class App <  Sinatra::Application
     world.p2.world = world
     world.start!
     redirect "/game"
+  end
+
+  get "/game/ai2" do
+
+    session[:current_user] =  Player.new
+    me.name = "Mathieu"
+    @players << me
+
+    redirect "/game/ai"
   end
 
   get "/action/:action_id/?:target_id?" do
