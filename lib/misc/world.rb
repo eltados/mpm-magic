@@ -120,7 +120,7 @@ class World
 
         p.deck.shuffle!
 
-        # redraw if no land ... 
+        # redraw if no land ...
         while(! p.hand.any?{ |c| c.is_a?(Land) })
           p.hand = []
           7.times { p.draw! }
@@ -140,13 +140,13 @@ class World
     #    p1.hand << Terror.new(p1)
     #    p1.permanents << JandorsSaddlebags.new(p1)
     #    p1.permanents << Wolf.new(p1)
-    #   #  p1.hand << WaveofReckoning.new(p1)
+      # 10.times { p1.hand << WarAxe.new(p1) }
     #    p1.permanents << Mob.new(p1)
     #    p1.permanents << Spider.new(p1)
     #   #  p1.hand << JandorsSaddlebags.new(p1)
     #    p1.permanents << RuthlessCullblade.new(p1)
     #    p1.permanents << Rhino.new(p1)
-       p1.permanents << PhyrexianArena.new(p1)
+      #  p1.permanents << PhyrexianArena.new(p1)
     #    p1.hand << RevivingDose.new(p1)
     #    p1.hand << Undo.new(p1)
     # #    p1.hand << VampiricFeast.new(p1)
@@ -169,7 +169,7 @@ class World
     # #   #  p2.permanents << Rhino.new(p2)
     # #   #  p2.permanents << StormtideLeviathan.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
-    #    10.times {  p1.permanents << Mountain.new(p1) }
+      #  30.times {  p1.permanents << Mountain.new(p1) }
       #  20.times {  p1.hand << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end

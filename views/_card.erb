@@ -1,5 +1,5 @@
 <% card = locals[:card] %>
-<div id="card-<%= card.to_param%>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
+<div id="<%= card.js_id %>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
 <%= ' source ' if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
 <%= ' possible_target ' if me && me.target_action && me.target_action.can_target(card) %>
 <%= ' tapped ' if card.tapped? %> ">

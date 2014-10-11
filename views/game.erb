@@ -5,6 +5,8 @@
 </div>
 
 
+
+
 <% if me.health <= 0 %>
 <div id="lose" >
   <a href="/">YOU LOSE !</a>
@@ -27,7 +29,7 @@
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
-<div id="me">
+<div class="me" id="<%= me.js_id %>" >
   <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
   <img src="me.png" /><br/>
@@ -36,7 +38,8 @@
   Cards : <%= me.hand.size %>
 </div>
 
-<div id="opponent">
+<div class="opponent" id="<%= opponent.js_id %>">
+
   <span class="hp <%= hp_color opponent.health %>"><%= opponent.health %> HP </span><br>
   <img src="<%= opponent.img %>" />
 
@@ -44,6 +47,7 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
+<a id="test" >test</a>
 <% if  false%>
 <br/>
 Stack :
@@ -89,6 +93,22 @@ Stack :
   <% else %>
     <a href="/game">Opponent is <br/> playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
+
+<% if false %>
+<script>
+function progress(percent, $element , speed) {
+    var progressBarWidth = percent * $element.width() / 100;
+    $element.find('div').animate({ width: progressBarWidth }, speed).html( "&nbsp;");
+}
+$(document).ready(function(){
+  progress(100, $('#progressBar'),3000);
+});
+
+
+</script>
+  <div id="progressBar"><div></div></div>
+
+<% end %>
 
 </div>
 
@@ -148,3 +168,7 @@ Stack :
 
 </td></tr>
  </table>
+
+<script>
+var lastUpdate = <%= "#{Time.new.to_i}" %>;
+</script>

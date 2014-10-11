@@ -62,6 +62,11 @@ class App <  Sinatra::Application
       me.world.p1 == me ?  me.world.p2 :  me.world.p1
     end
 
+    def world
+      me.world
+    end
+
+
   end
 
   def dl_and_crop(id)
@@ -217,6 +222,12 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
+  get "/notify" do
+    world.log Log.new(description:"WHattttt" , card: opponent , action: HitAction.new)
+    notify!
+    redirect "/game"
+  end
+
   get "/cancel_target_action" do
     me.target_action = nil
     notify!
@@ -251,27 +262,37 @@ class App <  Sinatra::Application
   end
 
 
-  @@connections = []
+  @@connections = {}
   @@notifications = []
 
-  def notify!(msg={})
-    notification = msg.to_json
+  def notify!(msg='')
 
-    @@notifications << notification
+    notification = '' # msg.to_json
+
+    # @@notifications << notification
 
     # @@notifications.shift if @@notifications.length > 10
-    @@connections.each { |out| out << "data: #{notification}\n\n"}
+    if me!=nil && me.world !=nil && opponent != nil && @@connections[opponent] != nil
+      msg = me.world.logs[-1].to_json
+      # msg = '{"time":"2014-10-10T22:57:37.740+01:00","card":"18623600-mpm","action":"hit","target":"me"}'
+      puts "notify #{opponent} : #{msg}"
+      @@connections[opponent] << "data: #{msg}\n\n"
+    else
+      # puts "no body to notify"
+
+    end
   end
 
 
   get '/comet', provides: 'text/event-stream' do
+    # puts me
     stream :keep_open do |out|
-      @@connections << out
+      @@connections[me] = out
 
       #out.callback on stream close evt.
       out.callback {
         #delete the connection
-        @@connections.delete(out)
+        @@connections.delete me
       }
     end
   end

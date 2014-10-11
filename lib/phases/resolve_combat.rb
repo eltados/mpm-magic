@@ -19,7 +19,7 @@ class ResolveCombat < Phase
         fight_report << f.fight!
         defending_creatures_hash[defending_creature] = :done
       end
-      world.log Log.new(description: fight_report.flatten.join('\n'), card: attacking_creature, action:Attack.new , target:Attack.new )
+      world.log Log.new(description: fight_report.flatten.join('\n'), card: attacking_creature, action:Attack.new  )
 
     end
 

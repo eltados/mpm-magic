@@ -125,6 +125,11 @@ class Card < Hook
     ObjectSpace._id2ref(id.to_i)
   end
 
+
+  def js_id
+    "#{object_id}"
+  end
+
   def actionable_actions
     actions.select(&:can_be_activated).sort_by(&:priority)
   end
@@ -215,7 +220,7 @@ class Card < Hook
 
   def when_destroyed(*args)
     super
-    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: :die)
+    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: HitAction.new)
     player.permanents.delete self
     player.graveyard << self
   end

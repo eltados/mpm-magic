@@ -1,5 +1,5 @@
 <% log = locals[:log] %>
-<div class="log" title="<%log.description.split('\n').each do |line| %>
+<div data-json="<%= h log.to_json %>" id="<%= log.js_id %>" class="log" title="<%log.description.split('\n').each do |line| %>
   <%= line %><% end %>" style="background-image: url('<%= log.card == me ? 'me.png' :  log.card.img %>')">
   <% if log.action %>
     <% if log.action.is_a? Action %>

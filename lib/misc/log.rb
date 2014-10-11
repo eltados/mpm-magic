@@ -10,4 +10,20 @@ class Log
     @target =  target
   end
 
+  def js_id
+    "#{object_id}"
+  end
+
+  def to_json
+    {
+      js_id: object_id,
+      time: @time.to_i,
+      card: @card.nil? ? nil : @card.js_id ,
+      card_name: @card.nil? ? nil : @card.name ,
+      action: @action.nil? ? nil : @action.name.underscore,
+      target: @target.nil? ? nil : @target.js_id,
+      target_name: @target.nil? ? nil : @target.name ,
+    }.to_json
+  end
+
 end

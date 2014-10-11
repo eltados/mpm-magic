@@ -9,6 +9,7 @@ class Action
     "#{object_id}-#{name}-#{owner.to_param}"
   end
 
+
   def self.find(id)
     ObjectSpace._id2ref(id.to_i)
   end
