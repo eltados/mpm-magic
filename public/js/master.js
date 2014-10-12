@@ -78,6 +78,12 @@ $( document ).keypress(function( event ) {
       url: keymap[key],
       success: function( data ) {
         $('body').html(data);
+        $( '.log' ).each( function(){
+            json = JSON.parse($( this ).attr("data-json"));
+            if(json.time > c ){
+              renderEvent(json);
+            }
+        }) ;
       },
       error: function( data ) {
         $('body').html(data);
