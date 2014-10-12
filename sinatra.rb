@@ -122,8 +122,15 @@ class App <  Sinatra::Application
 
     me.world.turn.next!
 
-    while(me.world.active_player.ai == true) do
-      me.world.active_player.auto_play!
+    if me.world.active_player.ai
+      Thread.new do
+        while(me.world.active_player.ai == true) do
+          sleep 1
+          me.world.active_player.auto_play!
+          notify!(me)
+          sleep 1
+        end
+      end
     end
     notify!
     redirect "/game"
@@ -138,7 +145,7 @@ class App <  Sinatra::Application
     me.world = nil if me && me.world
     @players.delete me
     session.clear
-    notify!
+    # notify!
     redirect "/"
   end
 
@@ -239,6 +246,8 @@ class App <  Sinatra::Application
     me.auto_play! if me.active?
     while(me.world.active_player.ai == true) do
       me.world.active_player.auto_play!
+      notify!(me)
+      sleep 1
     end
     notify!
     redirect "/game"
@@ -266,21 +275,23 @@ class App <  Sinatra::Application
   @@connections = {}
   @@notifications = []
 
-  def notify!(msg='')
+  def notify!(player = nil)
 
     notification = '' # msg.to_json
+
+    player = player == nil ? opponent : player
 
     # @@notifications << notification
 
     # @@notifications.shift if @@notifications.length > 10
-    if me!=nil && me.world !=nil && opponent != nil && @@connections[opponent] != nil
+    puts "=> #{player}"
+    if me!=nil && me.world !=nil && player != nil && @@connections[player] != nil
       msg = me.world.logs[-1].to_json
       # msg = '{"time":"2014-10-10T22:57:37.740+01:00","card":"18623600-mpm","action":"hit","target":"me"}'
-      puts "notify #{opponent} : #{msg}"
-      @@connections[opponent] << "data: #{msg}\n\n"
+      puts "notify #{player} : #{msg}"
+      @@connections[player] << "data: #{msg}\n\n"
     else
-      # puts "no body to notify"
-
+      puts "no body to notify"
     end
   end
 

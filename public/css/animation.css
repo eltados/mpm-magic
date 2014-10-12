@@ -107,6 +107,17 @@
     -webkit-animation-iteration-count: infinite;
   }
 
+  #win{
+    -webkit-animation-duration:3s;
+    -webkit-animation-name:win;
+    -webkit-animation-iteration-count: 1;
+  }
+  #lose{
+    -webkit-animation-duration:3s;
+    -webkit-animation-name:win;
+    -webkit-animation-iteration-count: 1;
+  }
+
   .animate.die{
     -webkit-animation-duration:1s;
     -webkit-animation-name:die;
@@ -273,4 +284,10 @@
   40% { box-shadow: 0px 0px 20px 5px rgba(231,166,26,1);}
   60% { box-shadow: 0px 0px 20px 5px rgba(231,166,26,1);}
   100% { }
+}
+
+@-webkit-keyframes win {
+  0% { transform:  scale(0.01) translate(0px,0px) rotate(180deg);   }
+  50% { transform:   scale(3) rotate(0deg);}
+  100% {}
 }

@@ -283,28 +283,43 @@ border: 0px;
 }
 
 #lose{
-  top:10px;
-  left:0px;
-  width :100%;
-  text-align :center;
-  /*height :100%;*/
-  position:absolute;
-  z-index:1000;
-  font-size:500%;
-  background-color:red;
+top:200px;
+left:0px;
+width : 100%;
+  padding:20px;
+text-align :center;
+/*height :100%;*/
+position:absolute;
+z-index:1000;
+font-size:250px;
+font-weight:bold;
+/*background-color:lightgreen;*/
+z-index:50000!important;
+text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 }
 
 
 #win{
-  top:10px;
+  top:200px;
   left:0px;
-  width :100%;
+  width : 100%;
+    padding:20px;
   text-align :center;
   /*height :100%;*/
   position:absolute;
   z-index:1000;
-  font-size:500%;
-  background-color:lightgreen;
+  font-size:250px;
+  font-weight:bold;
+  /*background-color:lightgreen;*/
+  z-index:50000!important;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
+#win a{
+  color:lightgreen;
+}
+#lose a{
+  color:red;
 }
 .hp {
   font-size:200%;
@@ -408,10 +423,10 @@ border: 0px;
 
 
 .tapped{
-  transform: rotate(90deg) !important  ;
-  -moz-transform:rotate(90deg) !important  ;
-  -o-transform:rotate(90deg) !important  ;
-  -webkit-transform:rotate(90deg) !important  ;
+  transform: rotate(90deg)   ;
+  -moz-transform:rotate(90deg)   ;
+  -o-transform:rotate(90deg)   ;
+  -webkit-transform:rotate(90deg)   ;
   margin-right:16px !important  ;
   margin-left:16px !important  ;
 }

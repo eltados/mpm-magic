@@ -80,7 +80,7 @@ $( document ).keypress(function( event ) {
         $('body').html(data);
         $( '.log' ).each( function(){
             json = JSON.parse($( this ).attr("data-json"));
-            if(json.time > c ){
+            if(json.time > lastUpdate ){
               renderEvent(json);
             }
         }) ;
@@ -91,6 +91,7 @@ $( document ).keypress(function( event ) {
     });
   }
 });
+
 var es = new EventSource('/comet');
 es.onmessage = function(e) {
   var c = lastUpdate;
@@ -101,7 +102,7 @@ es.onmessage = function(e) {
 
       $( '.log' ).each( function(){
           json = JSON.parse($( this ).attr("data-json"));
-          if(json.time > c ){
+          if(json.time > lastUpdate ){
             renderEvent(json);
           }
       }) ;

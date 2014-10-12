@@ -104,6 +104,7 @@ class World
 
       [p1, p2].each do |p|
 
+        p.world = self
         p.hand = []
         p.permanents = []
         p.graveyard = []
