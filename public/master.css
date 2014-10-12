@@ -125,18 +125,26 @@ z-index:100;
 }
 
 #opponent_playground .attacking.tapped{
-  transform:  rotate(-90deg) translate(-25px,0px)!important;
+  transform:  rotate(270deg) translate(-25px,0px)!important;
+}
+
+#opponent_graveyard .card{
+  display:none;
+}
+
+#my_graveyard .card{
+  display:none;
 }
 
 
 #my_playground .blocking{
-  transform:  translate(0px,-15px)!important;
+  transform:  translate(0px,-15px);
 }
 
 #opponent_playground .blocking{
-  transform: rotate(180deg)  translate(0px,-15px)!important;
+  transform: rotate(180deg)  translate(0px,15px);
 }
-
+/*
 .me.hit-action{
   background: rgba(255, 0, 0, 1) !important;
   transform: scale(1.3) translate(-20px,-20px)!important;
@@ -190,7 +198,7 @@ z-index:100;
 
   transform: rotate(180deg) scale(3)  translate(0px,50px)!important;
   z-index:50000!important;
-}
+}*/
 
 
 #spells{
@@ -381,10 +389,10 @@ border: 0px;
 
 
 #opponent_playground .card.tapped{
-  transform: rotate(270deg);
-  -moz-transform:rotate(270deg);
+  transform: rotate(270deg) ;
+  -moz-transform:rotate(270deg) ;
   -o-transform:rotate(270deg);
-  -webkit-transform:rotate(270deg);
+  -webkit-transform:rotate(270deg) ;
 }
 
 
@@ -610,8 +618,8 @@ body{
   margin:0;
   padding:0;
   /*background-image:url('star.jpg');*/
-  perspective: 1500px;
-  perspective-origin: top;
+  perspective: 3000px;
+  perspective-origin: center;
   overflow:hidden;
 /*background-image: url('battleground.jpg');*/
 /*background-color:green;*/

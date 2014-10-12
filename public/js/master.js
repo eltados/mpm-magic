@@ -47,12 +47,14 @@ $(document ).on( "click", "#test" , function() {
 });
 
 function renderEvent(json){
-  $( '#' + json.card ).addClass(json.action+"-action") ;
-    $( '#' + json.card ).removeClass("transition05") ;
-  setTimeout(function(){
-    $( '#' + json.card ).removeClass(json.action+"-action");
-    $( '#' + json.card ).addClass("transition05") ;
-  }, 300);
+  $( '#' + json.card ).toggleClass('animate') ;
+  $( '#' + json.card ).toggleClass(json.action) ;
+  // $( '#' + json.card ).removeClass(json.action) ;
+    // $( '#' + json.card ).removeClass("transition05") ;
+  // setTimeout(function(){
+    // $( '#' + json.card ).removeClass(json.action+"-action");
+    // $( '#' + json.card ).addClass("transition05") ;
+  // }, 300);
 
 }
 
@@ -90,8 +92,6 @@ es.onmessage = function(e) {
     url: window.location.href,
     success: function( data ) {
       $('body').html(data);
-      // json = JSON.parse(e.data);
-      // renderEvent(json);
 
       $( '.log' ).each( function(){
           json = JSON.parse($( this ).attr("data-json"));

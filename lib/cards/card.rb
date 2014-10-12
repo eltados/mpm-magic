@@ -220,7 +220,7 @@ class Card < Hook
 
   def when_destroyed(*args)
     super
-    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: HitAction.new)
+    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: "die")
     player.permanents.delete self
     player.graveyard << self
   end

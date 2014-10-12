@@ -47,8 +47,8 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-<a id="test" >test</a>
 <% if  false%>
+<a id="test" >test</a>
 <br/>
 Stack :
 
@@ -126,7 +126,6 @@ $(document).ready(function(){
   <tr id="opponent_playground_tr" height="40%" ><td >
 
   <div id="opponent_playground" >
-    <% if opponent %>
       <% opponent.lands.sort_by(&:name).each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
@@ -134,14 +133,17 @@ $(document).ready(function(){
       <% opponent.creatures.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <% if opponent.spells %>
       <% opponent.spells.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <% end %>
 
+    <span id="opponent_graveyard">
+    <% opponent.graveyard.each  do |card| %>
+      <%= erb :_card, locals: {card: card   }%>
     <% end %>
+    </span>
   </div>
+
 
 
 </td></tr>
@@ -150,25 +152,37 @@ $(document).ready(function(){
 
 <div id="my_playground">
   <div style="padding-bottom:130px;">
+
+
   <% me.creatures.sort_by(&:cost).reverse.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
-  <% if me.spells %>
-    <% me.spells.each  do |card| %>
-      <%= erb :_card, locals: {card: card   }%>
-    <% end %>
-  <% end %>
 
+  <% me.spells.each  do |card| %>
+      <%= erb :_card, locals: {card: card   }%>
+  <% end %>
+  <span id="my_graveyard">
+  <% me.graveyard.each  do |card| %>
+    <%= erb :_card, locals: {card: card   }%>
+  <% end %>
+  </span>
   <br/>
   <% me.lands.sort_by(&:name).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
+
   </div>
 </div>
+
+
 
 </td></tr>
  </table>
 
+
+
+
+
 <script>
-var lastUpdate = <%= "#{Time.new.to_i}" %>;
+var lastUpdate = <%= "#{DateTime.now.strftime('%Q')}" %>;
 </script>

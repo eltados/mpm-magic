@@ -8,6 +8,9 @@ class Action
   def to_param
     "#{object_id}-#{name}-#{owner.to_param}"
   end
+  def to_s
+    @name
+  end
 
 
   def self.find(id)
