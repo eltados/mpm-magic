@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags
 
   def initialize(world=nil)
     @permanents = []
@@ -7,7 +7,6 @@ class Player <Hook
     @hand = []
     @graveyard = []
     @mana_pool =  ManaPool.new(self)
-    @played =  false
     @ai =  false
     @flags =  {}
     @health = 20
@@ -126,6 +125,11 @@ class Player <Hook
 
   def active?
     ( playing? &&  !world.turn.phase.is_a?(BlockPhase) ) || ( !playing? &&  world.turn.phase.is_a?(BlockPhase) )
+  end
+
+
+  def actionable?
+    self == world.actionable_player
   end
 
   def playing?

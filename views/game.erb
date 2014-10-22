@@ -47,16 +47,19 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-<% if  false%>
+<% if  true%>
 <a id="test" >test</a>
 <br/>
 Stack :
-
+<%= h @world.actionable_player %>
   <ol>
   <% @world.stack.reverse.each do |item| %>
     <li><%=h item.inspect %></li>
   <% end %>
   </ol>
+  <% if me.actionable? %>
+    <a href="/resolve">Resolve</a>
+  <% end %>
 <% end %>
 </div>
 

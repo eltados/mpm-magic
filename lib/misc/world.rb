@@ -1,11 +1,12 @@
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player,  :logs, :stack
+    attr_accessor :p1, :p2, :turn, :playing_player, :logs, :stack, :active_player , :actionable_player
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
       @turn = Turn.new(self)
       @playing_player = @p1
+      @actionable_player = @p1
       @logs =[]
       @stack =[]
       @p1.world = self if(@p1 != nil)
@@ -15,6 +16,13 @@ class World
 
     def enchantments
       permanents.select{ |p| p.is_a?(Enchantment) &&  p.respond_to?(:affects) }
+    end
+
+    def resolve_stack!
+      while @stack.size > 0
+         action = @stack.pop
+         action.execute!
+      end
     end
 
 
@@ -54,6 +62,10 @@ class World
 
     def switch_playing_player!
       @playing_player  = defending_player
+    end
+
+    def switch_actionable_player!
+      @actionable_player = p1.actionable?   ? p2 : p1
     end
 
     def active_player
@@ -135,10 +147,13 @@ class World
 
 
     if dev? && true
+      @playing_player = p1
+      p1.hand = []
+      p2.hand = []
       # p1.hand = []
     #    p1.hand << AuraBlast.new(p1)
     #    p1.permanents << FerventCharge.new(p1)
-    #    p1.hand << Terror.new(p1)
+       p2.hand << RevivingDose.new(p2)
     #    p1.permanents << JandorsSaddlebags.new(p1)
     #    p1.permanents << Wolf.new(p1)
       # 10.times { p1.hand << WarAxe.new(p1) }
@@ -160,9 +175,9 @@ class World
     # #     # p1.hand << KrenkoCommand.new(p1)
     # #     # p1.hand << UnholyStrength.new(p1)
     #     # p1.permanents << TeferisImp.new(p1)
-    # #     # p1.permanents << God.new(p1)
+        p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
-    #   #  p2.permanents << Mob.new(p2)
+       p1.hand << Mob.new(p1)
     #   #  p2.permanents << Spider.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }
     #   #  p2.permanents << ConcordantCrossroads.new(p2)
@@ -171,7 +186,8 @@ class World
     # #   #  p2.permanents << StormtideLeviathan.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
       #  30.times {  p1.permanents << Mountain.new(p1) }
-      #  20.times {  p1.hand << Mountain.new(p1) }
+       8.times {  p2.permanents << Mountain.new(p2) }
+       8.times {  p1.permanents << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end
     end

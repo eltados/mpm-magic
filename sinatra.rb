@@ -141,6 +141,13 @@ class App <  Sinatra::Application
     redirect "/clear"
   end
 
+  get "/resolve" do
+    me.world.resolve_stack!
+    me.world.switch_actionable_player!
+    notify!
+    redirect "/game"
+  end
+
   get "/clear" do
     me.world = nil if me && me.world
     @players.delete me
@@ -209,8 +216,10 @@ class App <  Sinatra::Application
     if !params[:target_id]
       if !action.respond_to?(:execute_with_target!)
         me.target_action = nil
-        # me.world.stack.push action
-        action.execute!
+        action.pay!
+        me.world.stack.push action
+        me.world.switch_actionable_player!
+        # action.execute!
         notify!
       else
         me.target_action = TargetAction.new(action.owner, action)

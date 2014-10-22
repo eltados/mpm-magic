@@ -18,11 +18,15 @@ class Action
   end
 
   def can_be_activated
-      card.in_play?
+      card.in_play? && player.actionable? && !already_played?
   end
 
   def card
     @owner
+  end
+
+  def already_played?
+    world.stack.include? self
   end
 
 

@@ -14,6 +14,7 @@ class DrawAction < Action
    )  &&  card.can_be_activated
   end
 
+
   def execute!
     super
     card.tap!

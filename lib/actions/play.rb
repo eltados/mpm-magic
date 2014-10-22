@@ -9,7 +9,12 @@ class Play < Action
   end
 
   def can_be_activated
-    card.in_hand? && card.can_be_played
+     player.actionable? && card.in_hand? && card.can_be_played && !already_played?
+  end
+
+
+  def pay!
+    card.pay_cost!
   end
 
   def execute!

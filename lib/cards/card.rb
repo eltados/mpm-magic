@@ -29,7 +29,6 @@ class Card < Hook
   end
 
   def play!
-    pay_cost!
     event :played
   end
 

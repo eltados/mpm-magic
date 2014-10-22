@@ -9,7 +9,7 @@ class Produce < Action
   end
 
   def can_be_activated
-    super && card.in_play? &&  card.can_be_activated
+    card.in_play?  && !already_played? &&  card.can_be_activated
   end
 
   def execute!

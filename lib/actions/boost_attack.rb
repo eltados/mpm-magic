@@ -13,9 +13,12 @@ class BoostAttackAction < Action
     super && card.in_play? && card.player.mana_pool.can_pay?(@cost)
   end
 
+  def pay!
+    card.player.mana_pool.pay! @cost
+  end
+
   def execute!
     super
-    card.player.mana_pool.pay! @cost
     card.attack_bonus += 1
   end
 
