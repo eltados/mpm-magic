@@ -22,6 +22,7 @@ class World
       while @stack.size > 0
          action = @stack.pop
          action.execute!
+         action.targets = []
       end
     end
 
@@ -164,7 +165,8 @@ class World
     #    p1.permanents << Rhino.new(p1)
       #  p1.permanents << PhyrexianArena.new(p1)
     #    p1.hand << RevivingDose.new(p1)
-    #    p1.hand << Undo.new(p1)
+       p1.hand << Undo.new(p1)
+       p1.hand << UnholyStrength.new(p1)
     # #    p1.hand << VampiricFeast.new(p1)
     # #    p1.hand << Mob.new(p1)
     #    p1.hand << Lighting.new(p1)
@@ -177,7 +179,7 @@ class World
     #     # p1.permanents << TeferisImp.new(p1)
         p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
-       p1.hand << Mob.new(p1)
+       p1.hand << Spider.new(p1)
     #   #  p2.permanents << Spider.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }
     #   #  p2.permanents << ConcordantCrossroads.new(p2)

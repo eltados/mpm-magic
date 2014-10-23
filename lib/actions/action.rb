@@ -1,8 +1,9 @@
 class Action
-  attr_accessor :name, :owner, :img, :description, :priority
+  attr_accessor :name, :owner, :img, :description, :priority , :targets
 
   def initialize(owner=nil)
     @owner = owner
+    @targets = []
   end
 
   def to_param
@@ -53,11 +54,19 @@ class Action
   end
 
   def can_target(target)
-    true
+    card.can_target(target)
   end
 
   def positive?
     false
+  end
+
+  def required_targets
+    0
+  end
+
+  def all_targets_selected?
+    targets.size >= required_targets
   end
 
   def log

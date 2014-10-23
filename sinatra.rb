@@ -141,12 +141,7 @@ class App <  Sinatra::Application
     redirect "/clear"
   end
 
-  get "/resolve" do
-    me.world.resolve_stack!
-    me.world.switch_actionable_player!
-    notify!
-    redirect "/game"
-  end
+
 
   get "/clear" do
     me.world = nil if me && me.world
@@ -213,23 +208,30 @@ class App <  Sinatra::Application
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
-    if !params[:target_id]
-      if !action.respond_to?(:execute_with_target!)
-        me.target_action = nil
-        action.pay!
-        me.world.stack.push action
-        me.world.switch_actionable_player!
-        # action.execute!
-        notify!
-      else
-        me.target_action = TargetAction.new(action.owner, action)
-      end
-    else
-      action.execute_with_target! Card.find(params[:target_id])
-      me.target_action =nil
+    if params[:target_id]
+      puts "selected action #{params[:target_id]}"
+      action.targets << Card.find(params[:target_id])
+    end
+    if action.all_targets_selected?
+      puts "All action selected"
+      me.target_action = nil
+      action.pay!
+      me.world.stack.push action
+      me.world.switch_actionable_player!
+      # action.execute!
       notify!
+    else
+      puts "Selecting actions"
+      me.target_action = TargetAction.new(action.owner, action)
     end
 
+    redirect "/game"
+  end
+
+  get "/resolve" do
+    me.world.resolve_stack!
+    me.world.switch_actionable_player!
+    notify!
     redirect "/game"
   end
 

@@ -768,6 +768,46 @@ a{
 }
 
 
+#stack .card.my_card{
+transform : translate(0px,91px) scale(0.7) rotate(0deg) !important;
+}
+#stack .card.opponent_card {
+transform : translate(25px,91px) scale(0.7) rotate(0deg) perspective(500px)  !important;
+}
+#stack .card{
+box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
+margin-top:-90px;
+margin-left:-5px;
+}
+#stack .card .actions{
+display:none;
+}
+
+#stack .card:hover{
+z-index:500;
+}
+#stack .card.my_card:hover{
+transform : translate(0px,98px) scale(0.8) rotate(0deg)  !important ;
+}
+#stack .card.opponent_card:hover {
+transform : translate(25px,91px) scale(0.8) rotate(0deg) !important;
+}
+
+#stack{
+  position: absolute;
+  /*overflow-x: hidden;*/
+  overflow-x: hidden;
+  top: 0;
+  left: 53px;
+  z-index: 62;
+  /*padding-left: 5px;*/
+  width: 125px;
+  height: 100%;
+   /*background-color: aliceblue;*/
+  margin-top: 148px;
+  height: calc(100% - 150px);
+}
+
 #spinner{
   display:none;
 }

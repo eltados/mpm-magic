@@ -47,7 +47,7 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-<% if  true%>
+<% if  false%>
 <a id="test" >test</a>
 <br/>
 Stack :
@@ -55,12 +55,27 @@ Stack :
   <ol>
   <% @world.stack.reverse.each do |item| %>
     <li><%=h item.inspect %></li>
+
+
   <% end %>
+
   </ol>
+
   <% if me.actionable? %>
     <a href="/resolve">Resolve</a>
   <% end %>
 <% end %>
+</div>
+
+<div id="stack">
+
+<% @world.stack.map(&:card).each  do |card| %>
+  <%= erb :_card, locals: {card: card   }%>
+<% end %>
+
+  <% if me.actionable? %>
+    <a href="/resolve">Resolve</a>
+  <% end %>
 </div>
 
 

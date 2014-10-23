@@ -2,7 +2,9 @@
 <div id="<%= card.js_id %>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
 <%= ' source ' if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
 <%= ' possible_target ' if me && me.target_action && me.target_action.can_target(card) %>
-<%= ' tapped ' if card.tapped? %> ">
+<%= ' tapped ' if card.tapped? %>
+<%= ' my_card ' if card.player == me %>
+<%= ' opponent_card ' if card.player == me.opponent %> ">
   <div class="header">
     <% if card.cost != 0 %>
       <div class="cost"><%= card.cost %></div>
@@ -57,8 +59,12 @@
 </div>
 
 
-<% if card.flags[:target] || card.flags[:target_by] %>
+<% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0%>
 <div class="targets">
+<% card.targets.each do |t|%>
+  <div ><%= t.name %></div>
+<% end %>
+
 <% if card.flags[:target] %>
     <% card.flags[:target].each do |t|%>
       <div  title="<%= t[:description] %>"><img src="<%= t[:action].img %>"  height="14" /> <%= t[:target].name %></div>

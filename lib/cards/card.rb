@@ -13,6 +13,13 @@ class Card < Hook
    [ ]
   end
 
+  def targets
+   actions.map(&:targets).flatten
+  end
+  def target
+   targets.size > 0 ? targets[0] : nil
+  end
+
   def initialize (owner = nil)
     @actions = []
     @abilities = []
@@ -20,7 +27,8 @@ class Card < Hook
     if !requires_target?
       add_action Play.new(self)
     else
-      add_action PlayWithTarget.new(self)
+      puts "#{self.class} =>  PlayWith1Target"
+      add_action PlayWith1Target.new(self)
     end
     @cost = 0
     @tapped = false
@@ -34,12 +42,6 @@ class Card < Hook
 
   def requires_target?
     respond_to?(:can_target)
-  end
-
-  def play_with_target!(target)
-    pay_cost!
- # TODO
-    event :played
   end
 
   def pay_cost!
