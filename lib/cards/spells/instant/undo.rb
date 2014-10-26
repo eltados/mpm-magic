@@ -14,8 +14,8 @@ class Undo < Instant
 
 
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.player.return_in_hand! target
   end
 

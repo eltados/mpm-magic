@@ -1,6 +1,6 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description, :targeted_by_actions
   # attr_reader :abilities
 
   @@all = {}
@@ -16,6 +16,7 @@ class Card < Hook
   def targets
    actions.map(&:targets).flatten
   end
+
   def target
    targets.size > 0 ? targets[0] : nil
   end
@@ -27,13 +28,17 @@ class Card < Hook
     if !requires_target?
       add_action Play.new(self)
     else
-      puts "#{self.class} =>  PlayWith1Target"
       add_action PlayWith1Target.new(self)
     end
     @cost = 0
     @tapped = false
     @flags = {}
     @owner = owner
+    @targeted_by_actions = []
+  end
+
+  def targeted_by
+   targeted_by_actions.map(&:card)
   end
 
   def play!
@@ -188,6 +193,7 @@ class Card < Hook
   def when_turn_ends(*args)
     super
     @flags = {}
+    @targeted_by_actions = {}
   end
 
 

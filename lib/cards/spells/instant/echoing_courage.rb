@@ -19,8 +19,8 @@ class EchoingCourage < Instant
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     world.creatures.select{ |c| target.name == c.name }.each do |creature|
       creature.attack_bonus += 2
       creature.dmg -=2

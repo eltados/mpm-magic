@@ -136,6 +136,8 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
+
+
   get "/clear_all" do
     @players = []
     redirect "/clear"
@@ -208,20 +210,31 @@ class App <  Sinatra::Application
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
+
     if params[:target_id]
-      puts "selected action #{params[:target_id]}"
-      action.targets << Card.find(params[:target_id])
+      target = Card.find(params[:target_id])
+      action.targets << target
+      target.targeted_by_actions << action
     end
+
     if action.all_targets_selected?
-      puts "All action selected"
       me.target_action = nil
       action.pay!
       me.world.stack.push action
       me.world.switch_actionable_player!
-      # action.execute!
+
       notify!
+
+      if me.opponent.ai
+        Thread.new do
+            sleep 1
+            me.world.resolve_stack!
+            me.world.switch_actionable_player!
+            notify!(me)
+        end
+      end
+
     else
-      puts "Selecting actions"
       me.target_action = TargetAction.new(action.owner, action)
     end
 

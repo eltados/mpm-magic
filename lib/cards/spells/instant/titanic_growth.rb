@@ -17,8 +17,8 @@ class  TitanicGrowth < Instant
     owner.mana_pool.can_pay?(self.cost) && [player.opponent.creatures, player.creatures ].flatten.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.attack_bonus += 4
     target.dmg -= 4 # a bit hacky
   end

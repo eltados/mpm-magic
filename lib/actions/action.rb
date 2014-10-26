@@ -18,6 +18,9 @@ class Action
     ObjectSpace._id2ref(id.to_i)
   end
 
+  def pay!
+  end
+
   def can_be_activated
       card.in_play? && player.actionable? && !already_played?
   end
@@ -33,6 +36,10 @@ class Action
 
   def player
     card.owner
+  end
+
+  def target
+    targets.first
   end
 
   def opponent

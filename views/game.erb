@@ -51,7 +51,6 @@
 <a id="test" >test</a>
 <br/>
 Stack :
-<%= h @world.actionable_player %>
   <ol>
   <% @world.stack.reverse.each do |item| %>
     <li><%=h item.inspect %></li>
@@ -61,9 +60,6 @@ Stack :
 
   </ol>
 
-  <% if me.actionable? %>
-    <a href="/resolve">Resolve</a>
-  <% end %>
 <% end %>
 </div>
 
@@ -72,18 +68,21 @@ Stack :
 <% @world.stack.map(&:card).each  do |card| %>
   <%= erb :_card, locals: {card: card   }%>
 <% end %>
-
-  <% if me.actionable? %>
-    <a href="/resolve">Resolve</a>
-  <% end %>
 </div>
 
 
 
 <div id="next" class="<%='waiting' if !me.active? %>">
 
-  <% if me.active? && @world.turn.phase.can_pass_to_next? %>
-    <a href="/next?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
+  <% if !me.world.stack.empty? && me.actionable? %>
+    <a href="/resolve" accesskey="n" class="ajax">Do nothing</a>
+
+  <% if true %>
+    <progress id="progressbar" value="0" max="30000"></progress><a href="#"><img src="pause.png" id="pause"/></a>
+  <% end %>
+
+  <% elsif me.active? &&  @world.turn.phase.can_pass_to_next? %>
+    <a href="/next?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax" id="next_link">
         <% if @world.turn.phase.is_a?(Draw) %>
         Start
         <% elsif @world.turn.phase.is_a?(Post) %>
@@ -106,27 +105,15 @@ Stack :
         <% end %>
         <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif" id="spinner"/>
     </a>
-  <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
+
+<% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
     <a href="/game">Opponent is <br/> playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 
-<% if false %>
-<script>
-function progress(percent, $element , speed) {
-    var progressBarWidth = percent * $element.width() / 100;
-    $element.find('div').animate({ width: progressBarWidth }, speed).html( "&nbsp;");
-}
-$(document).ready(function(){
-  progress(100, $('#progressBar'),3000);
-});
 
 
-</script>
-  <div id="progressBar"><div></div></div>
-
-<% end %>
 
 </div>
 

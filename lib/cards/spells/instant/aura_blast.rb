@@ -20,7 +20,7 @@ class AuraBlast < Instant
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
+  def play!
     super(target)
     target.destroy!
     player.draw!

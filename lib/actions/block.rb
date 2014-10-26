@@ -1,4 +1,4 @@
-class Block2 < ActionWithTarget
+class Block < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -7,6 +7,8 @@ class Block2 < ActionWithTarget
     @description ="Block"
     @priority = 1
   end
+
+
 
   def can_be_activated
     card.in_play? \
@@ -20,9 +22,16 @@ class Block2 < ActionWithTarget
     target.flags[:attacking] && card.can_block_creature(target)
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.block! target
+  end
+
+  def required_targets
+    1
+  end
+
+  def execute!
+    super
   end
 
 end

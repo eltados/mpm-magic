@@ -9,6 +9,7 @@ var keymap = {
 showSpinner = false;
 $( document ).ajaxStart(function() {
   showSpinner = true;
+  clearInterval(timer);
   setTimeout( function(){
      if(showSpinner){
       $( "#spinner" ).show();
@@ -77,13 +78,7 @@ $( document ).keypress(function( event ) {
     $.ajax({
       url: keymap[key],
       success: function( data ) {
-        $('body').html(data);
-        $( '.log' ).each( function(){
-            json = JSON.parse($( this ).attr("data-json"));
-            if(json.time > lastUpdate ){
-              renderEvent(json);
-            }
-        }) ;
+        pageReloaded(data);
       },
       error: function( data ) {
         $('body').html(data);
@@ -94,25 +89,11 @@ $( document ).keypress(function( event ) {
 
 var es = new EventSource('/comet');
 es.onmessage = function(e) {
-  var c = lastUpdate;
   $.ajax({
     url: window.location.href,
     success: function( data ) {
-      $('body').html(data);
+      pageReloaded(data);
 
-      $( '.log' ).each( function(){
-          json = JSON.parse($( this ).attr("data-json"));
-          if(json.time > lastUpdate ){
-            renderEvent(json);
-          }
-      }) ;
-
-
-      // dump(e.data);
-      // alert(json.target)
-      // e.data
-      // $( "#box1" ).toggleClass('slideright') ;
-      // alert(json.card_name + " => " + json.action);
     },
     error: function( data ) {
       $('body').html(data);
@@ -127,7 +108,72 @@ function dump(object){
 }
 
 
+var loading = function() {
+   var progressbar = $('#progressbar');
+   progressbar.val(progressbar.val()+ 75 );
+   if ( progressbar.val() >= progressbar.attr('max')) {
+        clearInterval(timer);
+        progressDone();
+    }
+};
 
+
+var timer ;
+
+
+function progressDone(){
+  //  window.location = $("#next_link").attr("href") ;
+
+  var c = lastUpdate;
+  $.ajax({
+    url: "/resolve",
+    success: function( data ) {
+      pageReloaded(data);
+    },
+    error: function( data ) {
+      $('body').html(data);
+    }
+  });
+}
+
+// var animate = setInterval(function() { loading(); }, 75);
+
+
+
+
+$(document ).on( "click", "#pause" , function() {
+  clearInterval(timer);
+  $('#progressbar').hide();
+  $('#pause').hide();
+
+});
+
+$(document).ready(function(){setupProgressbar()});
+
+function setupProgressbar(){
+    if($('#progressbar').length){
+      var progressbar = $('#progressbar');
+      progressbar.val(0);
+      timer = setInterval(function() { loading(); }, 75);
+  }
+}
+
+
+
+
+function pageReloaded(data , lastUpdate){
+  $('body').html(data);
+
+  $( '.log' ).each( function(){
+      json = JSON.parse($( this ).attr("data-json"));
+      if(json.time > lastUpdate ){
+        renderEvent(json);
+      }
+  }) ;
+
+  setupProgressbar();
+
+}
 
 
 $.fn.arrow = function( target , options) {

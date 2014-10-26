@@ -59,9 +59,12 @@
 </div>
 
 
-<% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0%>
+<% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0 || card.targeted_by.size > 0 %>
 <div class="targets">
 <% card.targets.each do |t|%>
+  <div ><%= t.name %></div>
+<% end %>
+<% card.targeted_by.each do |t|%>
   <div ><%= t.name %></div>
 <% end %>
 

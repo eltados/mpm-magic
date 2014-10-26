@@ -10,8 +10,8 @@ class  Lighting < Instant
   end
 
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.hit! 3
   end
 
