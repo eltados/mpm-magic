@@ -810,7 +810,7 @@ margin-left:-5px;
   font-size:140%;
   text-align:center;
   margin:2px;
-  border-radius: 5px;
+  border-radius: 5px; 
   z-index: 60;
 }
 #stack .end_phase:hover{
