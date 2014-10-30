@@ -12,7 +12,7 @@ class AuraBlast < Instant
 
 
   def can_target(target)
-    target.is_a?(Enchantment)
+    target.is_a?(Enchantment) && target.in_play?
   end
 
 

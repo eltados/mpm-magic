@@ -12,8 +12,7 @@ class Block < Action
 
   def can_be_activated
     card.in_play? \
-    && !player.playing? \
-    && phase.is_a?(BlockPhase) \
+    && player.active? \
     && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0 \
     && card.can_block_any(player.opponent.creatures.select { |c| c.flags[:attacking] })
   end
@@ -29,6 +28,11 @@ class Block < Action
   def required_targets
     1
   end
+
+  def react_time
+    0
+  end
+
 
   def execute!
     super

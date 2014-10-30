@@ -19,6 +19,10 @@ class UndoAttack < Action
     card.undo_attack!
   end
 
+  def react_time
+    0
+  end
+
   def log
     "#{player.name} #{name.downcase}s of #{card.name}"
   end

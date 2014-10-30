@@ -28,6 +28,4 @@ class  Lighting < Instant
     false
   end
 
-
-
 end

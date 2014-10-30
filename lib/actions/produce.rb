@@ -22,5 +22,9 @@ class Produce < Action
     player.mana_pool.mana += mana
   end
 
+  def react_time
+    0
+  end
+
 
 end

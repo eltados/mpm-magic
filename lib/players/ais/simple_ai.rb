@@ -2,6 +2,34 @@ class SimpleAi < Ai
 
   def play!
 
+      land = hand.find {|c| c.is_a?(Land) && c.action(Play) != nil && c.action(Play).can_be_activated }
+      if land
+        puts "Ai decides to play a land"
+        return SinApp.action(@player, land.action(Play) )
+      end
+
+
+      creature = hand.sort_by(&:cost).reverse.find {|c|  c.is_a?(Creature) && c.action(Play).can_be_activated }
+      if creature
+        puts "Ai decides to play a creature"
+        return SinApp.action(@player, creature.action(Play) )
+      end
+
+      if ! world.stack.empty?
+        puts "Ai resolve stack #{world}"
+        return world.resolve_stack!
+      end
+
+
+
+
+      puts "Ai clicks next!"
+      return SinApp.action(@player, @player.actions.first )
+  end
+
+
+
+  def play2!
 
     if @player.target_action != nil
         target_action = @player.target_action
@@ -15,9 +43,10 @@ class SimpleAi < Ai
       end
     end
 
-    land = hand.find {|c| c.is_a?(Land) && c.can?(Play) }
+    land = hand.find {|c| c.is_a?(Land) && c.action(Play) != nil && c.action(Play).can_be_activated }
     if land
-      return land.execute!(Play)
+      return SinApp.action(@player, land.action(Play) )
+      # return land.execute!(Play)
     end
 
     creature = hand.sort_by(&:cost).reverse.find {|c|  c.is_a?(Creature) && c.can?(Play) }

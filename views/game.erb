@@ -47,77 +47,69 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-<% if  false%>
-<a id="test" >test</a>
-<br/>
-Stack :
-  <ol>
-  <% @world.stack.reverse.each do |item| %>
-    <li><%=h item.inspect %></li>
 
-
-  <% end %>
-
-  </ol>
-
-<% end %>
 </div>
 
 <div id="stack">
 
-<% @world.stack.map(&:card).each  do |card| %>
-  <%= erb :_card, locals: {card: card   }%>
-<% end %>
+  <% @world.stack.each  do |action| %>
+    <% if action.is_a? Next %>
+      <div class="end_phase">
+      <br>
+      <% if action.phase.is_a?(Post) %>
+      END TURN
+      <% elsif action.phase.is_a?(Untap)%>
+      START GAME
+      <% elsif action.phase.is_a?(Pre) %>
+      Combat Phase
+      <% elsif action.phase.is_a?(BlockPhase)
+          if me.world.playing_player.opponent.creatures.find{ |c| c.flags[:blocking] } %>
+      Blocked
+      <%  else %>
+      Skip Block
+      <%  end %>
+      <% elsif action.phase.is_a?(Combat)
+          if me.world.playing_player.creatures.find{ |c| c.flags[:attacking] } %>
+      Attacked
+      <%  else %>
+      Skip Combat
+      <%  end %>
+      <% else %>
+      End <%= action.phase.name %>
+      <% end %>
+      </div>
+    <% else %>
+      <%= erb :_card, locals: {card: action.card   }%>
+    <% end %>
+  <% end %>
+  <% if !@world.stack.empty?  && me.active? && me.target_action == nil %>
+  <div id="react_div">
+    <progress id="progressbar" value="0" max="<%= @world.stack.size == 1 ?  @world.stack.last.react_time : 15000 %>"></progress>
+    <a href="#"  id="react">Play in response</a>
+  </div>
+  <% end %>
 </div>
-
 
 
 <div id="next" class="<%='waiting' if !me.active? %>">
 
-  <% if !me.world.stack.empty? && me.actionable? %>
-    <a href="/resolve" accesskey="n" class="ajax">Do nothing</a>
-
-  <% if true %>
-    <progress id="progressbar" value="0" max="30000"></progress><a href="#"><img src="pause.png" id="pause"/></a>
-  <% end %>
-
-  <% elsif me.active? &&  @world.turn.phase.can_pass_to_next? %>
-    <a href="/next?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax" id="next_link">
-        <% if @world.turn.phase.is_a?(Draw) %>
-        Start
-        <% elsif @world.turn.phase.is_a?(Post) %>
-        End Turn
-        <% elsif @world.turn.phase.is_a?(BlockPhase) %>
-          <% if me.creatures.find{ |c| c.flags[:blocking] } %>
-            Finished Blocking
-          <% else %>
-            Skip Block
-          <% end %>
-
-        <% elsif @world.turn.phase.is_a?(Combat) %>
-          <% if me.creatures.find{ |c| c.flags[:attacking] } %>
-            Attack
-          <% else %>
-            Skip Combat
-          <% end %>
-        <% else %>
-        Next
-        <% end %>
+  <% # if me.active? && @world.turn.phase.can_pass_to_next? %>
+  <% if !@world.stack.empty? && me.active? %>
+    <a href="/resolve"  >Next</a>
+  <% elsif me.actions.first.can_be_activated  %>
+    <a href="/action/<%= me.actions.first.to_param%>?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
+        <%= me.actions.first.display_name %>
         <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif" id="spinner"/>
     </a>
-
-<% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
+  <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
     <a href="/game">Opponent is <br/> playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
 
-
-
-
 </div>
 
-<% if @world.turn.phase.is_a?(Combat) &&  me.active? && me.creatures.find{ |c| c.flags[:attacking] } ==nil  %>
+<% if @world.turn.phase.is_a?(Combat) &&  me.playing? && me.creatures.find{ |c| c.flags[:attacking] } ==nil  %>
 <div id="additional_action">
 
     <a href="/attack_all"  class="ajax">
@@ -125,6 +117,8 @@ Stack :
     </a>
 </div>
 <% end %>
+
+
 
 
 <table id="playground" border="0" padding="0" spacing="0">
@@ -138,7 +132,7 @@ Stack :
       <% opponent.creatures.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <% opponent.spells.each  do |card| %>
+      <% opponent.enchantments.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
 
@@ -163,7 +157,7 @@ Stack :
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
 
-  <% me.spells.each  do |card| %>
+  <% me.enchantments.each  do |card| %>
       <%= erb :_card, locals: {card: card   }%>
   <% end %>
   <span id="my_graveyard">

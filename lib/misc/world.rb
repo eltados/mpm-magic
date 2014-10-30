@@ -1,12 +1,11 @@
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player, :logs, :stack, :active_player , :actionable_player
+    attr_accessor :p1, :p2, :turn,  :logs, :stack, :playing_player
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
       @turn = Turn.new(self)
       @playing_player = @p1
-      @actionable_player = @p1
       @logs =[]
       @stack =[]
       @p1.world = self if(@p1 != nil)
@@ -65,9 +64,23 @@ class World
       @playing_player  = defending_player
     end
 
-    def switch_actionable_player!
-      @actionable_player = p1.actionable?   ? p2 : p1
+
+# playing_player  = >Player for which it is the turn.
+
+
+# the player with hand for a phase
+    def phase_playing_player
+      turn.phase.is_a?(BlockPhase) ? defending_player :  playing_player
     end
+
+#  Player that can play in the context of the stack
+    def stack_playing_player
+      return phase_playing_player if stack.empty?
+      stack.last.player.opponent
+    end
+
+
+# should be removed eventually and replaced but playing_player
 
     def active_player
       @playing_player.active? ?  @playing_player : opponent
@@ -96,7 +109,6 @@ class World
 
     def dev?
       $ENV && $ENV['RACK_ENV'] == "development"
-      # true
     end
 
     def self.find(id)
@@ -181,6 +193,7 @@ class World
         p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
        p1.hand << Spider.new(p1)
+       p1.hand << Mountain.new(p1)
        p2.permanents << Spider.new(p2)
        p2.permanents << Mob.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }

@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :actions
 
   def initialize(world=nil)
     @permanents = []
@@ -11,6 +11,7 @@ class Player <Hook
     @flags =  {}
     @health = 20
     @brain = SimpleAi.new(self)
+    @actions = [ Next.new(self) ]
   end
 
   def img
@@ -105,6 +106,10 @@ class Player <Hook
     permanents.select do |card| card.is_a? Spell end
   end
 
+  def enchantments
+    permanents.select do |card| card.is_a? Enchantment end
+  end
+
 
 
   def attack_all!
@@ -115,19 +120,26 @@ class Player <Hook
 
 
 
-
   def active?
-    ( playing? &&  !world.turn.phase.is_a?(BlockPhase) ) || ( !playing? &&  world.turn.phase.is_a?(BlockPhase) )
+    stack_playing?
   end
 
-
-  def actionable?
-    self == world.actionable_player
+  def my_turn?
+    playing?
   end
 
   def playing?
     self == world.playing_player
   end
+
+  def phase_playing?
+    self == world.phase_playing_player
+  end
+
+  def stack_playing?
+    self == world.stack_playing_player
+  end
+
 
   def opponent
     world.p1 == self ? world.p2 : world.p1
@@ -135,7 +147,15 @@ class Player <Hook
 
   def auto_play!
     return nil if !active?
-    brain.play!
+    begin
+      brain.play!
+    rescue Exception => e
+      puts "\n\n@@@@@@@@@@@@@@@@@@@"
+      puts e.message
+      puts e.backtrace.inspect
+      puts "@@@@@@@@@@@@@@@@@@@\n\n"
+    end
+
   end
 
 

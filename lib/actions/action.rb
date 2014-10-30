@@ -22,7 +22,7 @@ class Action
   end
 
   def can_be_activated
-      card.in_play? && player.actionable? && !already_played?
+      card.in_play? && player.active? && !already_played?
   end
 
   def card
@@ -47,11 +47,11 @@ class Action
   end
 
   def world
-    card.owner.world
+    player.world
   end
 
   def phase
-    card.owner.world.turn.phase
+    player.world.turn.phase
   end
 
 
@@ -70,6 +70,10 @@ class Action
 
   def required_targets
     0
+  end
+
+  def react_time
+    3000
   end
 
   def all_targets_selected?

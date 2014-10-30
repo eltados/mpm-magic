@@ -141,11 +141,11 @@ function progressDone(){
 
 
 
-$(document ).on( "click", "#pause" , function() {
+
+$(document ).on( "click", "#react" , function() {
   clearInterval(timer);
   $('#progressbar').hide();
-  $('#pause').hide();
-
+  $('#react').hide();
 });
 
 $(document).ready(function(){setupProgressbar()});

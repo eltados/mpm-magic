@@ -10,7 +10,7 @@ class  TitanicGrowth < Instant
   end
 
   def can_target(target)
-    target.is_a? Creature
+    target.is_a?(Creature) && target.in_play?
   end
 
   def can_be_played

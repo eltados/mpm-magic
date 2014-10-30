@@ -17,6 +17,11 @@ class Attack < Action
     card.attack!
   end
 
+
+  def react_time
+    0
+  end
+
   def pay!
   end
 

@@ -19,6 +19,7 @@ z-index:100;
 }
 
 
+
 #next{
   z-index: 500;
   position: absolute;
@@ -769,12 +770,12 @@ a{
 
 
 #stack .card.my_card{
-transform : translate(-30px,0px) scale(2) rotate(-7deg) !important;
--webkit-transform : translate(-30px,0px) scale(2) rotate(-7deg)  !important;
+transform : translate(-30px,0px) scale(2) rotate(0deg) !important;
+-webkit-transform : translate(-30px,0px) scale(2) rotate(0deg)  !important;
 }
 #stack .card.opponent_card {
-transform : translate(30x,0px) scale(2) rotate(-7deg)  !important;
--webkit-transform : translate(30px,0px) scale(2) rotate(-7deg)  !important;
+transform : translate(30x,0px) scale(2) rotate(0deg)  !important;
+-webkit-transform : translate(30px,0px) scale(2) rotate(0deg)  !important;
 }
 #stack .card{
 box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
@@ -787,8 +788,37 @@ margin-left:-5px;
 display:none;
 }
 
+#stack .end_phase{
+transform : translate(30x,0px) scale(2) rotate(0deg)  !important;
+-webkit-transform : translate(30px,0px) scale(2) rotate(0deg)  !important;
+margin-top:-90px;
+margin-left:-5px;
+  margin-right:0px !important  ;
+  margin-left:0px !important  ;
+}
+.end_phase{
+
+  height:139px;
+  width:110px;
+  color:white;
+  /*border-radius: 10px;*/
+  display:inline-block;
+  /*padding:3px;*/
+  position:relative;
+  background: rgba(0, 0, 0, 0.7) ;
+  border:2px solid black;
+  font-size:140%;
+  text-align:center;
+  margin:2px;
+  border-radius: 5px;
+  z-index: 60;
+}
+#stack .end_phase:hover{
+z-index:5000;
+background: rgba(0, 0, 0, 0.9) ;
+}
 #stack .card:hover{
-z-index:500;
+z-index:5000;
 }
 /*#stack .card.my_card:hover{
 transform : translate(0px,98px) scale(0.8) rotate(0deg)  !important ;
@@ -828,17 +858,6 @@ left:0px;
 /*background:blue;*/
 }
 
-#progressbar {
-  width: 100%;
-  color: #0063a6;
-  font-size: .6em;
-  line-height: 1.5em;
-  text-indent: .5em;
-  height: 15px;
-  border: 3px solid black;
-  background: #000;
-  border-radius: 15px;
-}
 
 progress::-webkit-progress-bar { background: #000;    }
 progress::-webkit-progress-value { background: blue;   border-radius: 15px; }
@@ -854,4 +873,23 @@ progress::-webkit-progress-value { background: blue;   border-radius: 15px; }
   border: 3px solid black;
   background: #000;
   border-radius: 15px;
+}
+
+#react_div a{
+  z-index:5000;
+  background: rgba( 255, 0, 0, 1);
+  color:white;
+  border:1px solid black;
+  padding:5px;
+  margin:2px;
+  margin-top:10px;
+}
+
+#react_div{
+  z-index:5000;
+  margin-top: 80;
+  margin-left: 10;
+  text-align:center;
+  transform : scale(1.4)  !important;
+  -webkit-transform :  scale(1.4)  !important;
 }

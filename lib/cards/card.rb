@@ -193,7 +193,7 @@ class Card < Hook
   def when_turn_ends(*args)
     super
     @flags = {}
-    @targeted_by_actions = {}
+    @targeted_by_actions = []
   end
 
 

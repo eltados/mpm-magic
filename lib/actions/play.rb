@@ -9,12 +9,16 @@ class Play < Action
   end
 
   def can_be_activated
-     player.actionable? && card.in_hand? && card.can_be_played && !already_played?
+     card.in_hand? && card.can_be_played && !already_played? && ( player.active? || world.stack.empty? )
   end
-
 
   def pay!
     card.pay_cost!
+  end
+
+  def react_time
+    return 3000 if card.is_a?(Land)
+    5000
   end
 
   def execute!

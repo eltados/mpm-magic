@@ -7,7 +7,7 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
-require 'newrelic_rpm'
+require 'newrelic_rpm' if !development?
 require 'date'
 
 
@@ -113,6 +113,8 @@ class App <  Sinatra::Application
   get "/game" do
     redirect "/clear" if me == nil || me.world == nil || !me.world.ready?
     @world = me.world
+
+
     erb :game , layout: !request.xhr?
   end
 
@@ -196,6 +198,22 @@ class App <  Sinatra::Application
     world.p2.ai= true
     world.p2.world = world
     world.start!
+
+    if world.p2.ai == true
+      id = me.to_param
+      Thread.new do
+        while(world.ready?) do
+          if world.p2.active?
+            sleep 1
+            world.p2.auto_play!
+            RestClient.get("http://127.0.0.1:3000/notify/#{id}")
+            sleep 1
+          end
+          sleep 1
+        end
+      end
+    end
+
     redirect "/game"
   end
 
@@ -210,40 +228,17 @@ class App <  Sinatra::Application
 
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
+    target = Card.find(params[:target_id]) if params[:target_id]
 
-    if params[:target_id]
-      target = Card.find(params[:target_id])
-      action.targets << target
-      target.targeted_by_actions << action
-    end
-
-    if action.all_targets_selected?
-      me.target_action = nil
-      action.pay!
-      me.world.stack.push action
-      me.world.switch_actionable_player!
-
-      notify!
-
-      if me.opponent.ai
-        Thread.new do
-            sleep 1
-            me.world.resolve_stack!
-            me.world.switch_actionable_player!
-            notify!(me)
-        end
-      end
-
-    else
-      me.target_action = TargetAction.new(action.owner, action)
-    end
+    notify = SinApp.action( me, action, target )
+    notify! if notify
 
     redirect "/game"
+
   end
 
   get "/resolve" do
     me.world.resolve_stack!
-    me.world.switch_actionable_player!
     notify!
     redirect "/game"
   end
@@ -254,10 +249,10 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
-  get "/notify" do
-    world.log Log.new(description:"WHattttt" , card: opponent , action: HitAction.new)
-    notify!
-    redirect "/game"
+  get "/notify/?:player_id?" do
+    player = Player.find(params[:player_id])
+    puts "Tell #{player}"
+    notify!(player)
   end
 
   get "/cancel_target_action" do
@@ -303,32 +298,43 @@ class App <  Sinatra::Application
 
     notification = '' # msg.to_json
 
-    player = player == nil ? opponent : player
+    player = player == nil  ? opponent : player
 
     # @@notifications << notification
-
+      puts "@@connections  = #{@@connections.object_id}"
     # @@notifications.shift if @@notifications.length > 10
-    puts "=> #{player}"
-    if me!=nil && me.world !=nil && player != nil && @@connections[player] != nil
-      msg = me.world.logs[-1].to_json
+    if  player != nil && player.world !=nil && @@connections[player.to_param] != nil
+      # msg = player.world.logs[-1].to_json
+      msg = ""
       # msg = '{"time":"2014-10-10T22:57:37.740+01:00","card":"18623600-mpm","action":"hit","target":"me"}'
       puts "notify #{player} : #{msg}"
-      @@connections[player] << "data: #{msg}\n\n"
+      @@connections[player.to_param] << "data: #{msg}\n\n"
     else
       puts "no body to notify"
+      if player!=nil &&  player.name == "Mathieu"
+        Thread.new do
+          RestClient.get("http://127.0.0.1:3000/notify/#{player.to_param}")
+        end
+        puts "\n\n\n\n"
+        puts "player = #{player.to_param}"
+        puts "@@connections  = #{@@connections.object_id}"
+        puts "@@connections[player.to_param]  = #{@@connections[player.to_param].nil?}"
+        puts "@@connections.keys  = #{@@connections.keys.inspect}"
+        puts "player.world  = #{player.world}"
+      end
     end
   end
 
 
   get '/comet', provides: 'text/event-stream' do
-    # puts me
+
     stream :keep_open do |out|
-      @@connections[me] = out
+      @@connections[me.to_param] = out
 
       #out.callback on stream close evt.
       out.callback {
         #delete the connection
-        @@connections.delete me
+        @@connections.delete me.to_param
       }
     end
   end
