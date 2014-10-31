@@ -134,15 +134,11 @@ class Creature < Card
     @dmg = 0
     @attack_bonus = 0
     @toughness_bonus = 0
+    @flags = {}
   end
-
-
 
   def when_receive_dmg(*args)
     event :destroyed if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
-
-
-
 
 end
