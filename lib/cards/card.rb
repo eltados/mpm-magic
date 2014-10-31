@@ -194,6 +194,9 @@ class Card < Hook
     super
     @flags = {}
     @targeted_by_actions = []
+    actions.each do |action|
+        action.targets = [] 
+    end
   end
 
 
