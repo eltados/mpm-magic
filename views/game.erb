@@ -5,42 +5,50 @@
 </div>
 
 
+
+
 <% if me.health <= 0 %>
 <div id="lose" >
-  <a href="/">YOU LOSE !</a>
+  <a href="/clear">YOU LOSE !</a>
 </div>
 <% elsif  opponent.health <= 0 %>
 <div id="win" >
-  <a href="/">YOU WIN !</a>
+  <a href="/clear">YOU WIN !</a>
 </div>
 <% end %>
 
 <div id="hand" >
-  <% me.hand.sort_by(&:type).sort_by(&:cost).each  do |card| %>
-    <%= erb :_card, locals: {card: card   }%>
+  <% me.hand.sort do |a, b| [a.is_a?(Land)? 0: 1, a.cost, a.type  ] <=> [b.is_a?(Land)? 0: 1, b.cost , b.type]  end.each  do |card| %>
+    <%= erb :_card, locals: {card: card }%>
   <% end %>
 </div>
 
 
 
-<div id="turn" class="<%= me.active? ? " playing" : " not_playing"%>">
+<div id="turn" class="<%= me == @world.playing_player ? " playing" : " not_playing"%>">
   <%= erb :_turn, locals: {turn: @world.turn }%>
 </div>
 
-<div id="me">
+<div class="me" id="<%= me.js_id %>" >
   <span class="hp <%= hp_color me.health %>"><%= me.health %> HP </span>
   <br/>
+  <img src="me.png" /><br/>
+  <%= me.name %>
+<br/>
   Cards : <%= me.hand.size %>
 </div>
 
-<div id="opponent">
+<div class="opponent" id="<%= opponent.js_id %>">
+
   <span class="hp <%= hp_color opponent.health %>"><%= opponent.health %> HP </span><br>
+  <img src="<%= opponent.img %>" />
+
+  <br/>
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
-  <br/>
-  AI : <%= opponent.ai %>
-<% if false %>
+<% if  false%>
+<a id="test" >test</a>
 <br/>
 Stack :
 
@@ -54,10 +62,10 @@ Stack :
 
 
 
-<div id="next">
+<div id="next" class="<%='waiting' if !me.active? %>">
 
-  <% if me.active? & @world.turn.phase.can_pass_to_next? %>
-    <a href="/next" accesskey="n" class="ajax">
+  <% if me.active? && @world.turn.phase.can_pass_to_next? %>
+    <a href="/next?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
         <% if @world.turn.phase.is_a?(Draw) %>
         Start
         <% elsif @world.turn.phase.is_a?(Post) %>
@@ -83,8 +91,24 @@ Stack :
   <% elsif me.active? && !@world.turn.phase.can_pass_to_next? %>
     <%= @world.turn.phase.cannot_pass_to_next_because %>
   <% else %>
-    <a href="/game">Opponent is playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
+    <a href="/game">Opponent is <br/> playing</a> ... <img src="http://www.fastforms.failteireland.ie/OnlineForms/images/IndicatorGreen.gif"/>
   <% end %>
+
+<% if false %>
+<script>
+function progress(percent, $element , speed) {
+    var progressBarWidth = percent * $element.width() / 100;
+    $element.find('div').animate({ width: progressBarWidth }, speed).html( "&nbsp;");
+}
+$(document).ready(function(){
+  progress(100, $('#progressBar'),3000);
+});
+
+
+</script>
+  <div id="progressBar"><div></div></div>
+
+<% end %>
 
 </div>
 
@@ -102,7 +126,6 @@ Stack :
   <tr id="opponent_playground_tr" height="40%" ><td >
 
   <div id="opponent_playground" >
-    <% if opponent %>
       <% opponent.lands.sort_by(&:name).each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
@@ -110,14 +133,17 @@ Stack :
       <% opponent.creatures.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <% if opponent.spells %>
       <% opponent.spells.each  do |card| %>
         <%= erb :_card, locals: {card: card   }%>
       <% end %>
-      <% end %>
 
+    <span id="opponent_graveyard">
+    <% opponent.graveyard.each  do |card| %>
+      <%= erb :_card, locals: {card: card   }%>
     <% end %>
+    </span>
   </div>
+
 
 
 </td></tr>
@@ -125,22 +151,38 @@ Stack :
   <tr id="my_playground_tr" height="60%" ><td>
 
 <div id="my_playground">
-  <div style="padding-bottom:125px;">
+  <div style="padding-bottom:130px;">
+
+
   <% me.creatures.sort_by(&:cost).reverse.each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
-  <% if me.spells %>
-    <% me.spells.each  do |card| %>
-      <%= erb :_card, locals: {card: card   }%>
-    <% end %>
-  <% end %>
 
+  <% me.spells.each  do |card| %>
+      <%= erb :_card, locals: {card: card   }%>
+  <% end %>
+  <span id="my_graveyard">
+  <% me.graveyard.each  do |card| %>
+    <%= erb :_card, locals: {card: card   }%>
+  <% end %>
+  </span>
   <br/>
   <% me.lands.sort_by(&:name).each  do |card| %>
     <%= erb :_card, locals: {card: card   }%>
   <% end %>
+
   </div>
 </div>
 
+
+
 </td></tr>
  </table>
+
+
+
+
+
+<script>
+var lastUpdate = <%= "#{DateTime.now.strftime('%Q')}" %>;
+</script>

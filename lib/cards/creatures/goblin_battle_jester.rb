@@ -12,4 +12,8 @@ class GoblinBattleJester < Creature
     @mtg_id = 278070
   end
 
+  def self.disabled?
+    true
+  end
+
 end

@@ -1,4 +1,4 @@
-class  ManaRing  < Instant
+class  ManaRing  < Sorcery
 
 
   def initialize(owner=nil)

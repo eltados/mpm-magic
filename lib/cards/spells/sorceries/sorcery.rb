@@ -5,8 +5,7 @@ class Sorcery < Spell
   end
 
   def can_be_played
-    super && ( phase.is_a?(Pre) ||
-        phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost)
+    super && owner.playing? && ( phase.is_a?(Pre) || phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost)
   end
 
 end

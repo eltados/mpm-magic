@@ -1,8 +1,9 @@
 class Ability
 
-  attr_accessor :card , :permanent
+  attr_accessor :card , :permanent , :value
   def initialize(card, permanent:true)
     @card = card
+    @value = 2
     @permanent = permanent
   end
 
@@ -14,6 +15,9 @@ class Ability
     card.player
   end
 
+  def world
+    card.player.world
+  end
 
   def opponent
     card.player.opponent
@@ -26,16 +30,11 @@ class Ability
 
 
   def name
-     self.class.name.underscore.gsub('_', ' ').gsub(' ability', '').humanize
+     self.class.name.underscore.gsub('_', ' ').gsub(' ability', '').gsub(' inner/ability', '').humanize
   end
 
   def img
-    "#{id}.png"
-  end
-
-
-  def description
-    ""
+    "#{id.to_s.split('/')[-1]}.png"
   end
 
   def to_sym
@@ -52,6 +51,10 @@ class Ability
 
   def inspect
     "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
+  end
+
+  def description
+    card.description
   end
 
 

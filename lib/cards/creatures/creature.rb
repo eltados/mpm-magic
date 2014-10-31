@@ -30,6 +30,10 @@ class Creature < Card
     strength + attack_bonus
   end
 
+  def value
+    toughness + strength +  attack + dmg + [0,abilities.map(&:value)].flatten.inject{|sum,x| sum + x }
+  end
+
   def hit!(hit_points)
     @dmg += hit_points
     event :receive_dmg
@@ -105,6 +109,9 @@ class Creature < Card
       true
   end
 
+  def to_s
+    "#<#{self.class.name}:#{object_id} #{attack}/#{health}>"
+  end
 
 
   def play!
@@ -138,14 +145,6 @@ class Creature < Card
   end
 
 
-  def event(event, *args)
-    super(event , args)
-    method = "when_#{event}".to_sym
-    @abilities.select do |ability|
-        ability.respond_to? method
-    end.each  do |ability|
-      ability.send method, args
-    end
-  end
+
 
 end

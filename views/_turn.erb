@@ -1,5 +1,6 @@
 <% turn = locals[:turn] %>
-  <%= me.world.playing_player.name %>
+  <img src="<%= me.world.playing_player ==  me ? 'me.png' : me.world.playing_player.img %>" height="30"/>
+  <%= me.world.playing_player.name %>'s turn
   <hr>
   <ul class="phase">
   <% @world.turn.phases.each do |phase| %>

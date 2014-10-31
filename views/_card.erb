@@ -1,5 +1,5 @@
 <% card = locals[:card] %>
-<div id="card-<%= card.to_param%>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
+<div id="<%= card.js_id %>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
 <%= ' source ' if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
 <%= ' possible_target ' if me && me.target_action && me.target_action.can_target(card) %>
 <%= ' tapped ' if card.tapped? %> ">
@@ -14,7 +14,7 @@
     <% if card.flags[:blocking] %>
       <img src="block.png" title="Blocking" height="18" style="margin-left:-3px;"/>
     <% end %>
-      <span><%= card.name %></span>
+      <span><%= "* " if card.class.disabled? %><%= card.name %></span>
     </div>
   </div>
 <% close = false %>
@@ -33,7 +33,7 @@
 <% end %>
 
 
-  <div class="image" style="background-image: url('<%= card.img %>');">&nbsp;</div>
+  <div class="image" style="background-image: url('<%= card.img %>');" title="<%= card.name %><%= "\n#{card.description}" if card.description%>">&nbsp;</div>
 <% if close %>
   </a>
 <% end %>
@@ -46,6 +46,11 @@
   </div>
 <% end %>
 <div class="abilities">
+  <% if card.is_a? Spell %>
+    <%= erb :_ability, locals: {
+      ability: Struct.new(:name, :img, :description , :permanent?).new(card.name , "#{card.type}.png" , card.description, true)
+    }%>
+  <% end %>
   <% card.abilities.each do |ability| %>
     <%= erb :_ability, locals: {ability: ability }%>
   <% end %>

@@ -12,9 +12,9 @@ class PhaseTest < Minitest::Unit::TestCase
   end
 
   def test_phase
+    assert_equal  Untap , @world.turn.phase.class
+    @world.turn.phase= Draw
     assert_equal  Draw , @world.turn.phase.class
-    @world.turn.phase= Unkeep
-    assert_equal  Unkeep , @world.turn.phase.class
 
   end
 

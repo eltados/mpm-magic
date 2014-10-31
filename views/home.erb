@@ -1,7 +1,7 @@
 <% if !me %>
 <br/>
 <form action="/login" method="GET">
-  <input style="margin: 15px; font-size:250%;" type="text" value="" placeholder="Login as" name="name" autofocus required />
+  <input style="margin: 15px; font-size:250%;" type="text" value="<%= 'mpm' if dev? %>" placeholder="Login as" name="name" autofocus required />
   <input type="submit" value="Login" style="margin: 15px; width:19% ;font-size:250%;  " />
 </form>
 
@@ -54,6 +54,7 @@
 
 <ul>
   <li><a href="/clear">Clear</a></li>
+  <li><a href="/clear_all">Clear All</a></li>
   <li><a href="/cards">View all cards</a></li>
   <li><a href="/card_importer">Create a new Card</a></li>
 </ul>

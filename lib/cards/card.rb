@@ -125,6 +125,11 @@ class Card < Hook
     ObjectSpace._id2ref(id.to_i)
   end
 
+
+  def js_id
+    "#{object_id}"
+  end
+
   def actionable_actions
     actions.select(&:can_be_activated).sort_by(&:priority)
   end
@@ -190,10 +195,15 @@ class Card < Hook
     untap!
   end
 
-
-  def event(event , *args)
+  def event(event, *args)
     method = "when_#{event}".to_sym
     send(method, args) if self.respond_to? method.to_sym
+    method = "when_#{event}".to_sym
+    @abilities.select do |ability|
+        ability.respond_to? method
+    end.each  do |ability|
+      ability.send method, args
+    end
   end
 
   def destroy!
@@ -210,7 +220,7 @@ class Card < Hook
 
   def when_destroyed(*args)
     super
-    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: :die)
+    player.world.log Log.new( description: "#{self.name} was destroyed", card:self , action: "die")
     player.permanents.delete self
     player.graveyard << self
   end

@@ -1,6 +1,6 @@
 var keymap = {
   'a' : "/attack_all",
-  'n' : "/next",
+  'n' : "/notify",
   'q' : "/auto",
   ']' : "/clear",
   ' ' : "/next",
@@ -25,11 +25,49 @@ $(document ).on( "click", ".abilities img" , function() {
   alert($( this ).attr("title"));
 });
 
-$(document ).on( "click", ".log" , function() {
+$(document ).on( "click", ".card .name" , function() {
   alert($( this ).attr("title"));
 });
 
+$(document ).on( "click", "div.log" , function() {
+  json = JSON.parse($( this ).attr("data-json"));
+  renderEvent(json);
+});
 
+
+$(document ).on( "click", "#test" , function() {
+  alert(lastUpdate);
+  $( '.log' ).each( function(){
+      json = JSON.parse($( this ).attr("data-json"));
+      if(json.time > lastUpdate ){
+      alert(json);
+        renderEvent(json);
+      }
+  }) ;
+});
+
+function renderEvent(json){
+  $( '#' + json.card ).toggleClass('animate') ;
+  $( '#' + json.card ).toggleClass(json.action) ;
+  // $( '#' + json.card ).removeClass(json.action) ;
+    // $( '#' + json.card ).removeClass("transition05") ;
+  // setTimeout(function(){
+    // $( '#' + json.card ).removeClass(json.action+"-action");
+    // $( '#' + json.card ).addClass("transition05") ;
+  // }, 300);
+
+}
+
+//
+// function renderEvent(json){
+//   $( '#' + json.card ).hide() ;
+//   $( '#' + json.card ).addClass(json.action+"-action") ;
+//   $( '#' + json.card ).show() ;
+//   setTimeout(function(){
+//     $( '#' + json.card ).removeClass(json.action+"-action")
+//   }, 500);
+//
+// }
 
 if(window.location.pathname  == "/game"){
 
@@ -40,6 +78,12 @@ $( document ).keypress(function( event ) {
       url: keymap[key],
       success: function( data ) {
         $('body').html(data);
+        $( '.log' ).each( function(){
+            json = JSON.parse($( this ).attr("data-json"));
+            if(json.time > lastUpdate ){
+              renderEvent(json);
+            }
+        }) ;
       },
       error: function( data ) {
         $('body').html(data);
@@ -47,23 +91,41 @@ $( document ).keypress(function( event ) {
     });
   }
 });
+
 var es = new EventSource('/comet');
 es.onmessage = function(e) {
-  // $("#logs").prepend(</br>');
+  var c = lastUpdate;
   $.ajax({
     url: window.location.href,
     success: function( data ) {
       $('body').html(data);
+
+      $( '.log' ).each( function(){
+          json = JSON.parse($( this ).attr("data-json"));
+          if(json.time > lastUpdate ){
+            renderEvent(json);
+          }
+      }) ;
+
+
+      // dump(e.data);
+      // alert(json.target)
+      // e.data
+      // $( "#box1" ).toggleClass('slideright') ;
+      // alert(json.card_name + " => " + json.action);
     },
     error: function( data ) {
       $('body').html(data);
     }
   });
 };
-
-
-
 }
+
+
+function dump(object){
+  alert(JSON.stringify(object));
+}
+
 
 
 

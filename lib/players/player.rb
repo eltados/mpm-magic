@@ -15,7 +15,7 @@ class Player <Hook
   end
 
   def img
-    "player.png"
+    @ai ? "ai.png" : "player.png"
   end
 
   def alive?
@@ -31,13 +31,15 @@ class Player <Hook
   end
 
 
-  def draw!
+  def draw!(target=nil)
     if deck.size == 0
       health = 0
       return
     end
-    hand << deck.shift
-    # when_draw
+    card = deck.shift
+    card.flags[:new] = true
+    hand << card
+    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: DrawAction.new , target:target)
   end
 
   def play!(card)
@@ -45,6 +47,12 @@ class Player <Hook
     hand.delete card
     permanents << card
     card.play!
+  end
+
+  def return_in_hand!(card)
+    return if ! card.in_play?
+    permanents.delete card
+    hand << card
   end
 
 
@@ -61,11 +69,18 @@ class Player <Hook
     card.play!
   end
 
-  def hits_player!(damage , card)
+  def hits_player!(damage , card=nil)
     @health -= damage
     card.flags[:hits_player] = damage
     card.event :hits_player
-    world.log Log.new(description:"#{card.name} hits #{name} :  - #{damage} HP", card: self ,target:card, action: "-#{damage}")
+    world.log Log.new(description:"#{name} : - #{damage} HP #{"( #{card.name} )" if card!= nil}", card: self ,target:card, action: HitAction.new)
+  end
+
+  def heal_player!(gain , card)
+    @health += gain
+    card.flags[:gain_hp] = gain
+    card.event :gain_hp
+    world.log Log.new(description:"#{name} : + #{gain} HP ( #{card.name} )", card: self ,target:card, action: HitAction.new)
   end
 
   def discard!(card)
@@ -131,6 +146,12 @@ class Player <Hook
     "#{object_id}-#{name}"
   end
 
+
+  def js_id
+    "#{object_id}"
+  end
+
+
   def self.find(id)
     ObjectSpace._id2ref(id.to_i)
   end
@@ -148,6 +169,10 @@ class Player <Hook
 
   def when_phase_draw
     draw!
+  end
+
+  def to_s
+    "#<Player:#{object_id} name=#{name}>"
   end
 
 end
