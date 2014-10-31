@@ -39,14 +39,18 @@ class Next < Action
   def pay!
   end
 
+  def stackable?
+      !phase.is_a?(Untap)
+  end
+
   def react_time
-    return  3000 if phase.is_a?(Untap)
+    # return  3000 if phase.is_a?(Untap)
     # return  0 if phase.is_a?(Unkeep)
     # return  3000 if phase.is_a?(Post)
     return  3000 if phase.is_a?(Combat)
     return  4000 if phase.is_a?(Block)
     return  4000 if phase.is_a?(Post)
-    2000
+    3000
   end
 
   def execute!

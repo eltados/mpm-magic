@@ -1,4 +1,4 @@
-class SacrificeHitAction < ActionWithTarget
+class SacrificeHitAction < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -8,8 +8,13 @@ class SacrificeHitAction < ActionWithTarget
     @priority =2
   end
 
+
+  def required_targets
+    1
+  end
+
   def can_be_activated
-    card.in_play?  && card.can_be_activated
+    super && card.in_play?  && card.can_be_activated
   end
 
 
@@ -17,12 +22,14 @@ class SacrificeHitAction < ActionWithTarget
       target.is_a?(Creature) && target.in_play?
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.sacrify!
-    target.hit! 4
-    player.target_action =nil
   end
+
+  def execute!
+    target.hit! 4
+  end
+
 
 
 end

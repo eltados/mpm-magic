@@ -777,16 +777,17 @@ transform : translate(-30px,0px) scale(2) rotate(0deg) !important;
 transform : translate(30x,0px) scale(2) rotate(0deg)  !important;
 -webkit-transform : translate(30px,0px) scale(2) rotate(0deg)  !important;
 }
+
 #stack .card{
-box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
-margin-top:-90px;
-margin-left:-5px;
-  margin-right:0px !important  ;
-  margin-left:0px !important  ;
+  box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
+  margin-top:-90px;
+  margin-left:-5px;
+  margin-right:0px !important ;
+  margin-left:0px !important ;
 }
-#stack .card .actions{
+/*#stack .card .actions{
 display:none;
-}
+}*/
 
 #stack .end_phase{
 transform : translate(30x,0px) scale(2) rotate(0deg)  !important;
@@ -795,6 +796,21 @@ margin-top:-90px;
 margin-left:-5px;
   margin-right:0px !important  ;
   margin-left:0px !important  ;
+}
+
+.end_phase .header{
+  font-size:20px;
+}
+.end_phase ul {
+  margin:3px;
+  padding:0px;
+  text-align:left;
+}
+.end_phase li {
+  margin:0px;
+  padding:0px;
+list-style-position: inside;
+  /*list-style-type: none;*/
 }
 .end_phase{
 
@@ -807,10 +823,10 @@ margin-left:-5px;
   position:relative;
   background: rgba(0, 0, 0, 0.7) ;
   border:2px solid black;
-  font-size:140%;
+font-size:9px;
   text-align:center;
   margin:2px;
-  border-radius: 5px; 
+  border-radius: 5px;
   z-index: 60;
 }
 #stack .end_phase:hover{
@@ -835,7 +851,7 @@ transform : translate(25px,91px) scale(0.8) rotate(0deg) !important;
     margin-left: 0px;
     width: 150px;
     height: 100px;
-  z-index:1000;
+    z-index:1000;
 
 }
 

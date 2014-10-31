@@ -1,6 +1,9 @@
 class SinApp
 
     def self.action( me=nil, action=nil, target=nil )
+        # reject when the same action is played multiple times
+        return false if me.world.stack.include? action && action.can_be_played_multiple_times?
+
         notify = false
         if target
           action.targets << target
@@ -11,8 +14,11 @@ class SinApp
           me.target_action = nil
           action.pay!
           notify = true
-          me.world.stack.push action
-
+          if action.stackable?
+            me.world.stack.push action
+          else
+            action.execute!
+          end
         else
           me.target_action = TargetAction.new(action.owner, action)
         end

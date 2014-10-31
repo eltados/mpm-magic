@@ -21,7 +21,7 @@ class AuraBlast < Instant
   end
 
   def play!
-    super(target)
+    super
     target.destroy!
     player.draw!
   end

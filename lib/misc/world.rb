@@ -20,7 +20,13 @@ class World
     def resolve_stack!
       while @stack.size > 0
          action = @stack.pop
-         action.execute!
+         skip = action.skip?
+        #  puts "#{action.name} #{action.card.name} => skip? : #{skip}"
+         if skip
+          log Log.new(description: "#{action.owner.name} [ #{action.name} ] #{"on" if !action.targets.empty? }#{action.targets.map(&:name).join ',' } was not resolved because it is no longer valid!" , card: action.card, action:"X"  )
+         else
+          action.execute!
+         end
          action.targets = []
       end
     end
@@ -160,14 +166,17 @@ class World
 
 
     if dev? && true
+
       @playing_player = p1
-      p1.hand = []
+      # p1.hand = []
       p2.hand = []
       # p1.hand = []
     #    p1.hand << AuraBlast.new(p1)
     #    p1.permanents << FerventCharge.new(p1)
-       p2.hand << RevivingDose.new(p2)
-       p1.permanents << DarkMonk.new(p1)
+      #  p2.hand << RevivingDose.new(p2)
+       p1.permanents << ArmsDealer.new(p1)
+       p1.permanents << BenalishTrapper.new(p1)
+       p2.permanents << Mob.new(p2)
     #    p1.permanents << Wolf.new(p1)
       # 10.times { p1.hand << WarAxe.new(p1) }
     #    p1.permanents << Mob.new(p1)
@@ -177,25 +186,28 @@ class World
     #    p1.permanents << Rhino.new(p1)
       #  p1.permanents << PhyrexianArena.new(p1)
     #    p1.hand << RevivingDose.new(p1)
-       p1.hand << Terror.new(p1)
-       p1.hand << Undo.new(p1)
-       p1.hand << UnholyStrength.new(p1)
+      #  p1.hand << Terror.new(p1)
+      #  p1.hand << Undo.new(p1)
+      #  p1.hand << UnholyStrength.new(p1)
     # #    p1.hand << VampiricFeast.new(p1)
     # #    p1.hand << Mob.new(p1)
        p1.hand << Lighting.new(p1)
     #    p1.hand << AwakentheBear.new(p1)
     # #   #  p1.hand << SeismicShudder.new(p1)
-        p2.hand << TitanicGrowth.new(p2)
+        p1.hand << TitanicGrowth.new(p1)
+        # p2.hand << TitanicGrowth.new(p2)
     # #     # p1.hand << SerpentGift.new(p1)
     # #     # p1.hand << KrenkoCommand.new(p1)
     # #     # p1.hand << UnholyStrength.new(p1)
-    #     # p1.permanents << TeferisImp.new(p1)
-        p1.permanents << Mob.new(p1)
+        p2.permanents << TeferisImp.new(p2)
+        p2.permanents << DarkMonk.new(p2)
+        p1.permanents << DarkMonk.new(p1)
+        # p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
-       p1.hand << Spider.new(p1)
-       p1.hand << Mountain.new(p1)
-       p2.permanents << Spider.new(p2)
-       p2.permanents << Mob.new(p2)
+      #  p1.hand << Spider.new(p1)
+      #  p1.hand << Mountain.new(p1)
+      #  p2.permanents << Spider.new(p2)
+      #  p2.permanents << Mob.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }
     #   #  p2.permanents << ConcordantCrossroads.new(p2)
     #    p2.permanents << WolverinePack.new(p2)

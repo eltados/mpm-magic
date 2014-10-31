@@ -16,9 +16,14 @@ class Play < Action
     card.pay_cost!
   end
 
+  def positive?
+    card.positive?
+  end
+
   def react_time
-    return 3000 if card.is_a?(Land)
-    5000
+    return 2000 if card.is_a?(Land)
+    return 5000 if card.is_a?(Spell)
+    4000
   end
 
   def execute!

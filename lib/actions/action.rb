@@ -13,6 +13,24 @@ class Action
     @name
   end
 
+  def stackable?
+    true
+  end
+
+  def can_be_played_multiple_times?
+    false
+  end
+
+  def skip?
+    return true if !is_a?(Play) && card.is_a?(Creature) && ( !card.in_play? && !card.flags[:sacrified] )
+    return true if is_a?(Play) && ( !card.in_hand? )
+    targets.each do |t|
+      if !can_target(t)
+        return true
+      end
+    end
+    false
+  end
 
   def self.find(id)
     ObjectSpace._id2ref(id.to_i)

@@ -17,7 +17,7 @@ class  SerpentGift < Instant
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play!(target)
+  def play!
     super
     target.add_temp_abilities  [ DeathTouch ]
   end

@@ -17,6 +17,10 @@ class Ai
     @player
   end
 
+  def phase
+    world.turn.phase
+  end
+
   def world
     @player.world
   end

@@ -1,4 +1,5 @@
 <% card = locals[:card] %>
+<% action = locals[:action] %>
 <div id="<%= card.js_id %>" class="card  <%= card.type %> <%= card.flags.keys.join(' ') %>
 <%= ' source ' if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
 <%= ' possible_target ' if me && me.target_action && me.target_action.can_target(card) %>
@@ -61,34 +62,45 @@
 
 <% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0 || card.targeted_by.size > 0 %>
 <div class="targets">
-<% card.targets.each do |t|%>
-  <div ><%= t.name %></div>
-<% end %>
-<% card.targeted_by.each do |t|%>
-  <div ><%= t.name %></div>
-<% end %>
+<% if action %>
+  <% action.targets.each do |t|%>
+    <div ><%= t.name %></div>
+  <% end %>
+<% else %>
+  <% card.targets.each do |t|%>
+    <div ><%= t.name %></div>
+  <% end %>
+  <% card.targeted_by.each do |t|%>
+    <div ><%= t.name %></div>
+  <% end %>
 
-<% if card.flags[:target] %>
-    <% card.flags[:target].each do |t|%>
-      <div  title="<%= t[:description] %>"><img src="<%= t[:action].img %>"  height="14" /> <%= t[:target].name %></div>
-    <% end %>
-<% end %>
-<% if card.flags[:target_by] %>
-    <% card.flags[:target_by].each do |t|%>
-      <div title="<%= t[:description] %>" ><img src="<%= t[:action].img %>" height="14" /> <%= t[:target].name %></div>
-    <% end %>
+  <% if card.flags[:target] %>
+      <% card.flags[:target].each do |t|%>
+        <div  title="<%= t[:description] %>"><img src="<%= t[:action].img %>"  height="14" /> <%= t[:target].name %></div>
+      <% end %>
+  <% end %>
+  <% if card.flags[:target_by] %>
+      <% card.flags[:target_by].each do |t|%>
+        <div title="<%= t[:description] %>" ><img src="<%= t[:action].img %>" height="14" /> <%= t[:target].name %></div>
+      <% end %>
+  <% end %>
+
 <% end %>
 </div>
 <% end %>
 
-<% if card.owner == me && me %>
+<% if me && ( card.owner == me || action )   %>
 <div class="actions">
-  <% card.actionable_actions.each do |action| %>
-    <%= erb :_action, locals: {action: action }%>
+  <% if action %>
+    <%= erb :_action, locals: {action: action , disabled: true }%>
+  <% else %>
+    <% card.actionable_actions.each do |action| %>
+      <%= erb :_action, locals: {action: action }%>
+    <% end %>
+    <% if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
+      <a href="/cancel_target_action" class="action ajax"><img src="undo.png" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.description %>"></a>
+      </a>
   <% end %>
-  <% if me && me.target_action && me.target_action.action && me.target_action.action.card  == card %>
-    <a href="/cancel_target_action" class="action ajax"><img src="undo.png" title="Cancel <%= me.target_action.action.name %> : <%= me.target_action.action.description %>"></a>
-    </a>
   <% end %>
 </div>
 <% end %>

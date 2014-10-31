@@ -17,6 +17,9 @@ class Attack < Action
     card.attack!
   end
 
+  def stackable?
+    false;
+  end
 
   def react_time
     0

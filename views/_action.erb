@@ -1,6 +1,9 @@
 <% action = locals[:action] %>
-<% if action.can_be_activated %>
+<% if action.can_be_activated && action.player == me %>
   <a href="/action/<%= "#{action.to_param}" %>" class="action ajax">
   <img src="<%= action.img %>" title="<%= action.name %> : <%= action.description %>" class="<%= ' selected ' if me && me.target_action && me.target_action.action == action %>">
   </a>
+<% end %>
+<% if action && locals[:disabled] && !action.is_a?(Play)%>
+  <img src="<%= action.img %>" style="height:30px;margin:2px" title="<%= action.name %> : <%= action.description %>" class=" disabled selected">
 <% end %>

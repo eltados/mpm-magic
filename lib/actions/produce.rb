@@ -22,6 +22,10 @@ class Produce < Action
     player.mana_pool.mana += mana
   end
 
+  def stackable?
+    false
+  end
+
   def react_time
     0
   end

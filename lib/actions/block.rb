@@ -8,7 +8,9 @@ class Block < Action
     @priority = 1
   end
 
-
+  def stackable?
+    false
+  end
 
   def can_be_activated
     card.in_play? \

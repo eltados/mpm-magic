@@ -17,6 +17,11 @@ class BoostAttackAction < Action
     card.player.mana_pool.pay! @cost
   end
 
+
+  def can_be_played_multiple_times?
+    true
+  end
+
   def execute!
     super
     card.attack_bonus += 1

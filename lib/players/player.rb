@@ -30,6 +30,9 @@ class Player <Hook
     !alive?
   end
 
+  def in_play?
+    true
+  end
 
   def draw!(target=nil)
     if deck.size == 0
@@ -113,8 +116,8 @@ class Player <Hook
 
 
   def attack_all!
-    creatures.select { |c| c.can? Attack}.each do |creature|
-      creature.execute! Attack
+    creatures.select { |c| c.action(Attack).can_be_activated }.each do |creature|
+      SinApp.action(self, creature.action(Attack) )
     end
   end
 
@@ -147,15 +150,7 @@ class Player <Hook
 
   def auto_play!
     return nil if !active?
-    begin
-      brain.play!
-    rescue Exception => e
-      puts "\n\n@@@@@@@@@@@@@@@@@@@"
-      puts e.message
-      puts e.backtrace.inspect
-      puts "@@@@@@@@@@@@@@@@@@@\n\n"
-    end
-
+    brain.play!
   end
 
 

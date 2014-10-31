@@ -55,31 +55,40 @@
   <% @world.stack.each  do |action| %>
     <% if action.is_a? Next %>
       <div class="end_phase">
-      <br>
       <% if action.phase.is_a?(Post) %>
-      END TURN
+      <span class="header"><%= action.owner.name %> <br><br> END TURN</span>
       <% elsif action.phase.is_a?(Untap)%>
-      START GAME
+      <span class="header">START GAME</span>
       <% elsif action.phase.is_a?(Pre) %>
-      Combat Phase
+      <span class="header"><%= action.owner.name %> ends Pre Combat Phase</span>
       <% elsif action.phase.is_a?(BlockPhase)
           if me.world.playing_player.opponent.creatures.find{ |c| c.flags[:blocking] } %>
-      Blocked
+      <span class="header"><%= action.owner.name %> blocks:</span>
+      <ul>
+      <% me.world.playing_player.opponent.creatures.select{ |c| c.flags[:blocking] }.each do |c| %>
+        <li><%= "#{c.name} => #{c.flags[:blocked_creature].name} " %></li>
+      <% end %>
+      </ul>
       <%  else %>
-      Skip Block
+      <span class="header"><%= action.owner.name %> skips blocking</span>
       <%  end %>
       <% elsif action.phase.is_a?(Combat)
           if me.world.playing_player.creatures.find{ |c| c.flags[:attacking] } %>
-      Attacked
+      <span class="header"><%= action.owner.name %> attacks with:</span>
+      <ul>
+      <% me.world.playing_player.creatures.select{ |c| c.flags[:attacking] }.each do |c| %>
+        <li><%= "#{c.name} " %></li>
+      <% end %>
+      </ul>
       <%  else %>
-      Skip Combat
+      <span class="header"><%= action.owner.name %> skip Combat</span>
       <%  end %>
       <% else %>
-      End <%= action.phase.name %>
+      <span class="header"><%= action.owner.name %> ends <%= action.phase.name %></span>
       <% end %>
       </div>
     <% else %>
-      <%= erb :_card, locals: {card: action.card   }%>
+      <%= erb :_card, locals: {card: action.card, action:action  }%>
     <% end %>
   <% end %>
   <% if !@world.stack.empty?  && me.active? && me.target_action == nil %>
@@ -95,7 +104,7 @@
 
   <% # if me.active? && @world.turn.phase.can_pass_to_next? %>
   <% if !@world.stack.empty? && me.active? %>
-    <a href="/resolve"  >Next</a>
+    <a href="/resolve">Do not react</a>
   <% elsif me.actions.first.can_be_activated  %>
     <a href="/action/<%= me.actions.first.to_param%>?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
         <%= me.actions.first.display_name %>

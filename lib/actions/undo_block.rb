@@ -23,6 +23,10 @@ class UndoBlock < Action
     0
   end
 
+  def stackable?
+    false
+  end
+
   def log
     "#{player.name} #{name.downcase}s of #{card.name}"
   end

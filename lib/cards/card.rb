@@ -218,6 +218,7 @@ class Card < Hook
   end
 
   def sacrify!
+    flags[:sacrified] = true
     event :destroyed
   end
 

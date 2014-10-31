@@ -18,8 +18,8 @@ class AutoFight < Minitest::Unit::TestCase
   #  profiler_card = MethodProfiler.observe(Card)
   #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 5  
-   max_game_length = 3
+   timeout = 15
+   max_game_length = 5
    winner = {}
    winner[:p1] = 0
    winner[:p2] = 0
@@ -38,6 +38,7 @@ class AutoFight < Minitest::Unit::TestCase
           Timeout::timeout(max_game_length  , FightTooLong) do
             while(! p1.dead? && ! p2.dead? ) do
               world.active_player.auto_play!
+              # sleep 1
             end
           end
           if p1.alive?
