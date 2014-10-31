@@ -17,4 +17,8 @@ class Discard < Action
     player.discard! card
   end
 
+  def skip?
+    false
+  end
+
 end

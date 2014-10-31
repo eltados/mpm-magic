@@ -9,7 +9,7 @@ class DiscardPhase < Phase
   end
 
   def cannot_pass_to_next_because
-    "You have too many cards.<br/> Please discard a card." if world.active_player.hand.reject{ |c| c.is_a?(ManaRing)}.size >= 100 
+    "You have too many cards.<br/> Please discard a card." if world.active_player.hand.reject{ |c| c.is_a?(ManaRing)}.size >= 8 
   end
 
 end
