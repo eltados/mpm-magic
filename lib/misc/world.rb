@@ -165,7 +165,7 @@ class World
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
 
-    if dev? && true
+    if dev? && false
 
       @playing_player = p1
       # p1.hand = []

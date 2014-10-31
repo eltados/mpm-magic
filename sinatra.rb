@@ -175,28 +175,28 @@ class App <  Sinatra::Application
     world.p2.world = world
     world.start!
 
-    if world.p2.ai == true
-      id = me.to_param
-      Thread.new do
-        while(world.ready?) do
-          if world.p2.active?
-            # sleep 1
-            print "+"
-            begin
-              world.p2.auto_play!
-            rescue Exception => e
-              puts e.message
-              puts e.backtrace.join "\n" 
-            end
-
-            RestClient.get("http://127.0.0.1:3000/notify/#{id}")
-            # sleep 1
-          end
-          print "."
-          sleep 1
-        end
-      end
-    end
+    # if world.p2.ai == true
+    #   id = me.to_param
+    #   Thread.new do
+    #     while(world.ready?) do
+    #       if world.p2.active?
+    #         # sleep 1
+    #         print "+"
+    #         begin
+    #           world.p2.auto_play!
+    #         rescue Exception => e
+    #           puts e.message
+    #           puts e.backtrace.join "\n"
+    #         end
+    #
+    #         RestClient.get("http://127.0.0.1:3000/notify/#{id}")
+    #         # sleep 1
+    #       end
+    #       print "."
+    #       sleep 1
+    #     end
+    #   end
+    # end
     redirect "/game"
   end
 
@@ -214,6 +214,13 @@ class App <  Sinatra::Application
     target = Card.find(params[:target_id]) if params[:target_id]
 
     notify = SinApp.action( me, action, target )
+
+    if world.p2.ai == true
+      while world.p2.active?
+         world.p2.auto_play!
+      end
+    end
+
     notify! if notify
 
     redirect "/game"
@@ -222,6 +229,11 @@ class App <  Sinatra::Application
 
   get "/resolve" do
     me.world.resolve_stack! if me.active?
+    if world.p2.ai == true
+      while world.p2.active?
+         world.p2.auto_play!
+      end
+    end
     notify!
     redirect "/game"
   end
