@@ -63,8 +63,12 @@ class SimpleAi < Ai
         return world.resolve_stack!
       end
 
+      
+      if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
+        card = hand.sort_by(&:cost).reverse.first
+        return SinApp.action(@player, card.action(Discard) )
+      end
 
-      # puts "Ai clicks next!"
       next_action = @player.actions.first
       return SinApp.action(@player, next_action)
   end
