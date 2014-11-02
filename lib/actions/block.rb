@@ -15,6 +15,7 @@ class Block < Action
   def can_be_activated
     card.in_play? \
     && player.active? \
+    && phase.is_a?( BlockPhase ) \
     && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0 \
     && card.can_block_any(player.opponent.creatures.select { |c| c.flags[:attacking] })
   end
