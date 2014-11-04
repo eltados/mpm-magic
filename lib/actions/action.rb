@@ -107,7 +107,7 @@ class Action
   end
 
   def to_ability
-    ActionAbility.new(self.class, card)
+    ActionAbility.new( card, self.class)
   end
 
 end
