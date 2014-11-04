@@ -1,4 +1,4 @@
-class HitAction < Action
+class Hit < Action
 
   def initialize(owner=nil)
     super(owner)

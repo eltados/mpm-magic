@@ -1,4 +1,4 @@
-class OrcHitAction < Action
+class OrcHit < Action
 
   def initialize(owner=nil)
     super(owner)

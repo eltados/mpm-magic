@@ -1,4 +1,4 @@
-class TransformAction < Action
+class Transform < Action
 
   def initialize(owner=nil)
     super(owner)

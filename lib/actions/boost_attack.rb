@@ -1,4 +1,4 @@
-class BoostAttackAction < Action
+class BoostAttack < Action
 
   def initialize(owner=nil)
     super(owner)
