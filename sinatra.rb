@@ -236,6 +236,14 @@ class App <  Sinatra::Application
     notify!(player)
   end
 
+
+  get "/pulse" do
+    return "" if ! me
+    md5 = me.world.md5
+    puts md5
+    erb md5,  layout: false
+  end
+
   get "/cancel_target_action" do
     me.target_action = nil
     notify!
@@ -272,7 +280,6 @@ class App <  Sinatra::Application
   @@notifications = []
 
   def notify!(player = nil)
-
     notification = '' # msg.to_json
 
     player = player == nil  ? opponent : player

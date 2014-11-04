@@ -12,8 +12,12 @@ class Produce < Action
     card.in_play?  && !already_played? &&  card.can_be_activated
   end
 
-  def execute!
+
+  def pay!
     owner.tap!
+  end
+
+  def execute!
     if card.respond_to? :mana_produced
      mana = card.mana_produced
     else
