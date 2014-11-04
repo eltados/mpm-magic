@@ -42,7 +42,7 @@ class Player <Hook
     card = deck.shift
     card.flags[:new] = true
     hand << card
-    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: DrawAction.new , target:target)
+    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: Draw.new , target:target)
   end
 
   def play!(card)
@@ -69,14 +69,14 @@ class Player <Hook
     @health -= damage
     card.flags[:hits_player] = damage
     card.event :hits_player
-    world.log Log.new(description:"#{name} : - #{damage} HP #{"( #{card.name} )" if card!= nil}", card: self ,target:card, action: HitAction.new)
+    world.log Log.new(description:"#{name} : - #{damage} HP #{"( #{card.name} )" if card!= nil}", card: self ,target:card, action: Hit.new)
   end
 
   def heal_player!(gain , card)
     @health += gain
     card.flags[:gain_hp] = gain
     card.event :gain_hp
-    world.log Log.new(description:"#{name} : + #{gain} HP ( #{card.name} )", card: self ,target:card, action: HitAction.new)
+    world.log Log.new(description:"#{name} : + #{gain} HP ( #{card.name} )", card: self ,target:card, action: Hit.new)
   end
 
   def discard!(card)

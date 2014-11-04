@@ -1,4 +1,4 @@
-class SacrificeHitAction < Action
+class SacrificeHit < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -29,7 +29,5 @@ class SacrificeHitAction < Action
   def execute!
     target.hit! 4
   end
-
-
 
 end

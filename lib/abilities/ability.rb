@@ -57,5 +57,8 @@ class Ability
     card.description
   end
 
+  def to_ability
+    self
+  end
 
 end

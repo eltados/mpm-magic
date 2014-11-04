@@ -106,4 +106,8 @@ class Action
     "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
   end
 
+  def to_ability
+    ActionAbility.new( card, self.class)
+  end
+
 end

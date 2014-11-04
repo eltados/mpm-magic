@@ -1,4 +1,4 @@
-class DrawAction < Action
+class Draw < Action
 
   def initialize(owner=nil)
     super(owner)
