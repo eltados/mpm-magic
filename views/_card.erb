@@ -5,7 +5,7 @@
 <%= ' possible_target ' if me && me.target_action && me.target_action.can_target(card) %>
 <%= ' tapped ' if card.tapped? %>
 <%= ' my_card ' if card.player == me %>
-<%= ' opponent_card ' if card.player == me.opponent %> ">
+<%= ' opponent_card ' if me && card.player == me.opponent %> ">
   <div class="header">
     <% if card.cost != 0 %>
       <div class="cost"><%= card.cost %></div>

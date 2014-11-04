@@ -7,7 +7,7 @@ class God < Creature
     @toughness = 1
     @cost = 0
     @img = "http://cache.desktopnexus.com/thumbnails/488920-bigthumbnail.jpg"
-    add_abilities  [ LifeLink, Trample, Boost, Flying, Haste, Nightmare, Vigilance  ]
+    add_abilities  [ LifeLink, Trample, Boost, Flying, Haste, NightmareAbility, Vigilance  ]
   end
 
   def self.disabled?
