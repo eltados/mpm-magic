@@ -161,7 +161,7 @@ class App <  Sinatra::Application
     r = RestClient.post("http://hastebin.com/documents", me.world.to_yaml.to_s)
     key = JSON.parse(r)['key']
     "<h1><a href='http://#{request.host_with_port}/game/load/#{key}'>
-        Load Game ##{JSON.parse(r)['key']}:#{me.world.p1.name} (#{me.world.p1.health} HP) vs #{me.world.p2.name} (#{me.world.p1.health} HP) : turn #{me.world.turn.number}
+        Load Game [#{JSON.parse(r)['key']}] : #{me.world.p1.name} (#{me.world.p1.health} HP) vs #{me.world.p2.name} (#{me.world.p2.health} HP) : turn #{me.world.turn.number}
         </a>
       </h1><br> <a href='http://hastebin.com/#{key}'>Edit</a>
             <br> <a href='http://#{request.host_with_port}/game'>Back to the Game</a> "
