@@ -1,7 +1,7 @@
 class SacrificeHitAbility < ActionAbility
 
   def initialize(card)
-    super(card , SacrificeHitAction )
+    super(card , SacrificeHit )
   end
 
 end
