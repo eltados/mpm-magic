@@ -73,9 +73,7 @@ class Creature < Card
   end
 
   def can_be_played
-    owner.playing? &&  ( phase.is_a?(Pre) ||
-        phase.is_a?(Post) ||
-        phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
+    player.playing? &&  ( phase.is_a?(Pre) ||  phase.is_a?(Post) || phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
   end
 
   def can_be_activated
@@ -136,15 +134,11 @@ class Creature < Card
     @dmg = 0
     @attack_bonus = 0
     @toughness_bonus = 0
+    @flags = {}
   end
-
-
 
   def when_receive_dmg(*args)
     event :destroyed if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
-
-
-
 
 end

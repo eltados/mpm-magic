@@ -2,7 +2,7 @@ class Pre < Phase
 
   def initialize(turn=nil)
     super(turn)
-    @name = "Pre combat"
+    @name = "Before Combat"
   end
 
   def execute

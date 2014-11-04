@@ -10,14 +10,14 @@ class  Lighting < Instant
   end
 
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.hit! 3
   end
 
 
   def can_target(target)
-    target.is_a? Creature
+    target.is_a?(Creature) && target.in_play?
   end
 
   def can_be_played
@@ -27,7 +27,5 @@ class  Lighting < Instant
   def positive?
     false
   end
-
-
 
 end

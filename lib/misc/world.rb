@@ -1,6 +1,6 @@
 class World
 
-    attr_accessor :p1, :p2, :turn, :playing_player,  :logs, :stack
+    attr_accessor :p1, :p2, :turn,  :logs, :stack, :playing_player
     def initialize(p1=nil , p2=nil)
       @p1 = p1
       @p2 = p2
@@ -15,6 +15,20 @@ class World
 
     def enchantments
       permanents.select{ |p| p.is_a?(Enchantment) &&  p.respond_to?(:affects) }
+    end
+
+    def resolve_stack!
+      while @stack.size > 0
+         action = @stack.pop
+         skip = action.skip?
+        #  puts "#{action.name} #{action.card.name} => skip? : #{skip}"
+         if skip
+          log Log.new(description: "#{action.owner.name} [ #{action.name} ] #{"on" if !action.targets.empty? }#{action.targets.map(&:name).join ',' } was not resolved because it is no longer valid!" , card: action.card, action:"X"  )
+         else
+          action.execute!
+         end
+         action.targets = []
+      end
     end
 
 
@@ -56,6 +70,24 @@ class World
       @playing_player  = defending_player
     end
 
+
+# playing_player  = >Player for which it is the turn.
+
+
+# the player with hand for a phase
+    def phase_playing_player
+      turn.phase.is_a?(BlockPhase) ? defending_player :  playing_player
+    end
+
+#  Player that can play in the context of the stack
+    def stack_playing_player
+      return phase_playing_player if stack.empty?
+      stack.last.player.opponent
+    end
+
+
+# should be removed eventually and replaced but playing_player
+
     def active_player
       @playing_player.active? ?  @playing_player : opponent
     end
@@ -83,7 +115,6 @@ class World
 
     def dev?
       $ENV && $ENV['RACK_ENV'] == "development"
-      # true
     end
 
     def self.find(id)
@@ -134,12 +165,18 @@ class World
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
 
-    if dev? && true
+    if dev? && false
+
+      @playing_player = p1
+      # p1.hand = []
+      p2.hand = []
       # p1.hand = []
     #    p1.hand << AuraBlast.new(p1)
     #    p1.permanents << FerventCharge.new(p1)
-    #    p1.hand << Terror.new(p1)
-    #    p1.permanents << JandorsSaddlebags.new(p1)
+      #  p2.hand << RevivingDose.new(p2)
+       p1.permanents << ArmsDealer.new(p1)
+       p1.permanents << BenalishTrapper.new(p1)
+       p2.permanents << Mob.new(p2)
     #    p1.permanents << Wolf.new(p1)
       # 10.times { p1.hand << WarAxe.new(p1) }
     #    p1.permanents << Mob.new(p1)
@@ -149,21 +186,28 @@ class World
     #    p1.permanents << Rhino.new(p1)
       #  p1.permanents << PhyrexianArena.new(p1)
     #    p1.hand << RevivingDose.new(p1)
-    #    p1.hand << Undo.new(p1)
+      #  p1.hand << Terror.new(p1)
+      #  p1.hand << Undo.new(p1)
+      #  p1.hand << UnholyStrength.new(p1)
     # #    p1.hand << VampiricFeast.new(p1)
     # #    p1.hand << Mob.new(p1)
-    #    p1.hand << Lighting.new(p1)
+       p1.hand << Lighting.new(p1)
     #    p1.hand << AwakentheBear.new(p1)
     # #   #  p1.hand << SeismicShudder.new(p1)
-    # #     # p1.hand << TitanicGrowth.new(p1)
+        p1.hand << TitanicGrowth.new(p1)
+        # p2.hand << TitanicGrowth.new(p2)
     # #     # p1.hand << SerpentGift.new(p1)
     # #     # p1.hand << KrenkoCommand.new(p1)
     # #     # p1.hand << UnholyStrength.new(p1)
-    #     # p1.permanents << TeferisImp.new(p1)
-    # #     # p1.permanents << God.new(p1)
+        p2.permanents << TeferisImp.new(p2)
+        p2.permanents << DarkMonk.new(p2)
+        p1.permanents << DarkMonk.new(p1)
+        # p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
-    #   #  p2.permanents << Mob.new(p2)
-    #   #  p2.permanents << Spider.new(p2)
+      #  p1.hand << Spider.new(p1)
+      #  p1.hand << Mountain.new(p1)
+      #  p2.permanents << Spider.new(p2)
+      #  p2.permanents << Mob.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }
     #   #  p2.permanents << ConcordantCrossroads.new(p2)
     #    p2.permanents << WolverinePack.new(p2)
@@ -171,7 +215,8 @@ class World
     # #   #  p2.permanents << StormtideLeviathan.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
       #  30.times {  p1.permanents << Mountain.new(p1) }
-      #  20.times {  p1.hand << Mountain.new(p1) }
+       8.times {  p2.permanents << Mountain.new(p2) }
+       8.times {  p1.permanents << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end
     end

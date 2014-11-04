@@ -8,6 +8,19 @@ class Ai
     @player.hand
   end
 
+
+  def player
+    @player
+  end
+
+  def me
+    @player
+  end
+
+  def phase
+    world.turn.phase
+  end
+
   def world
     @player.world
   end

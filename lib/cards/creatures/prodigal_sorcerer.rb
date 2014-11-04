@@ -11,7 +11,7 @@ class ProdigalSorcerer < Creature
     @description =  "{Tap}: Prodigal Sorcerer deals 1 damage to target creature or player."
     @img = "cards/1217.png"
     @mtg_id = 1217
-    add_abilities [HitAbility]
+    add_abilities [Hit]
   end
 
 

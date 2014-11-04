@@ -10,15 +10,15 @@ class  Terror < Instant
   end
 
   def can_target(target)
-    target.is_a? Creature
+    target.is_a?(Creature) && target.in_play?
   end
 
   def can_be_played
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.destroy!
   end
 

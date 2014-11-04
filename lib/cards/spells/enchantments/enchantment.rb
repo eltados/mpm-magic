@@ -10,7 +10,7 @@ class Enchantment < Spell
 
   def can_be_played
     super && ( phase.is_a?(Pre) ||
-        phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost)
+        phase.is_a?(Post) ) && owner.mana_pool.can_pay?(self.cost) && player.playing?
   end
 
   def positive?

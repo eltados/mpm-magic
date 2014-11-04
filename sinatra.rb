@@ -7,7 +7,7 @@ require 'rest_client'
 require 'json'
 require 'open-uri'
 require 'active_support/all'
-require 'newrelic_rpm'
+require 'newrelic_rpm' if !development?
 require 'date'
 
 
@@ -116,30 +116,12 @@ class App <  Sinatra::Application
     erb :game , layout: !request.xhr?
   end
 
-  get "/next" do
-    redirect "/game" if params[:current_phase] != nil &&  params[:current_phase] != me.world.turn.phase.name
-    redirect "/game" if !me.active?
-
-    me.world.turn.next!
-
-    if me.world.active_player.ai
-      Thread.new do
-        while(me.world.active_player.ai == true) do
-          sleep 1
-          me.world.active_player.auto_play!
-          notify!(me)
-          sleep 1
-        end
-      end
-    end
-    notify!
-    redirect "/game"
-  end
-
   get "/clear_all" do
     @players = []
     redirect "/clear"
   end
+
+
 
   get "/clear" do
     me.world = nil if me && me.world
@@ -192,6 +174,7 @@ class App <  Sinatra::Application
     world.p2.ai= true
     world.p2.world = world
     world.start!
+
     redirect "/game"
   end
 
@@ -204,23 +187,40 @@ class App <  Sinatra::Application
     redirect "/game/ai"
   end
 
+  get "/next" do
+    notify = SinApp.action( me, me.actions.first )
+
+    notify! if notify
+    ai!
+
+    redirect "/game"
+  end
+
+  def ai!
+    if world.p2.ai == true
+      while world.p2.active?
+         world.p2.auto_play!
+      end
+    end
+  end
+
   get "/action/:action_id/?:target_id?" do
     action  = Action.find(params[:action_id])
-    if !params[:target_id]
-      if !action.respond_to?(:execute_with_target!)
-        me.target_action = nil
-        # me.world.stack.push action
-        action.execute!
-        notify!
-      else
-        me.target_action = TargetAction.new(action.owner, action)
-      end
-    else
-      action.execute_with_target! Card.find(params[:target_id])
-      me.target_action =nil
-      notify!
-    end
+    target = Card.find(params[:target_id]) if params[:target_id]
 
+    notify = SinApp.action( me, action, target )
+
+    notify! if notify
+    ai!
+
+    redirect "/game"
+
+  end
+
+  get "/resolve" do
+    me.world.resolve_stack! if me.active?
+    ai!
+    notify!
     redirect "/game"
   end
 
@@ -230,10 +230,10 @@ class App <  Sinatra::Application
     redirect "/game"
   end
 
-  get "/notify" do
-    world.log Log.new(description:"WHattttt" , card: opponent , action: HitAction.new)
-    notify!
-    redirect "/game"
+  get "/notify/?:player_id?" do
+    player = Player.find(params[:player_id])
+    puts "Tell #{player}"
+    notify!(player)
   end
 
   get "/cancel_target_action" do
@@ -244,11 +244,7 @@ class App <  Sinatra::Application
 
   get '/auto' do
     me.auto_play! if me.active?
-    while(me.world.active_player.ai == true) do
-      me.world.active_player.auto_play!
-      notify!(me)
-      sleep 1
-    end
+    ai!
     notify!
     redirect "/game"
   end
@@ -279,32 +275,40 @@ class App <  Sinatra::Application
 
     notification = '' # msg.to_json
 
-    player = player == nil ? opponent : player
+    player = player == nil  ? opponent : player
 
     # @@notifications << notification
-
+      puts "@@connections  = #{@@connections.object_id}"
     # @@notifications.shift if @@notifications.length > 10
-    puts "=> #{player}"
-    if me!=nil && me.world !=nil && player != nil && @@connections[player] != nil
-      msg = me.world.logs[-1].to_json
+    if  player != nil && player.world !=nil && @@connections[player.to_param] != nil
+      # msg = player.world.logs[-1].to_json
+      msg = ""
       # msg = '{"time":"2014-10-10T22:57:37.740+01:00","card":"18623600-mpm","action":"hit","target":"me"}'
       puts "notify #{player} : #{msg}"
-      @@connections[player] << "data: #{msg}\n\n"
+      @@connections[player.to_param] << "data: #{msg}\n\n"
     else
       puts "no body to notify"
+      if player!=nil &&  player.name == "Mathieu"
+        puts "\n\n\n\n"
+        puts "player = #{player.to_param}"
+        puts "@@connections  = #{@@connections.object_id}"
+        puts "@@connections[player.to_param]  = #{@@connections[player.to_param].nil?}"
+        puts "@@connections.keys  = #{@@connections.keys.inspect}"
+        puts "player.world  = #{player.world}"
+      end
     end
   end
 
 
   get '/comet', provides: 'text/event-stream' do
-    # puts me
+
     stream :keep_open do |out|
-      @@connections[me] = out
+      @@connections[me.to_param] = out
 
       #out.callback on stream close evt.
       out.callback {
         #delete the connection
-        @@connections.delete me
+        @@connections.delete me.to_param
       }
     end
   end

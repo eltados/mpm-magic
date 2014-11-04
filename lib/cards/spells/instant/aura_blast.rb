@@ -12,7 +12,7 @@ class AuraBlast < Instant
 
 
   def can_target(target)
-    target.is_a?(Enchantment)
+    target.is_a?(Enchantment) && target.in_play?
   end
 
 
@@ -20,8 +20,8 @@ class AuraBlast < Instant
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.destroy!
     player.draw!
   end

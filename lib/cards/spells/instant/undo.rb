@@ -14,14 +14,14 @@ class Undo < Instant
 
 
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.player.return_in_hand! target
   end
 
 
   def can_target(target)
-    target.is_a? Creature
+    target.is_a?(Creature) && target.in_play?
   end
 
   def can_be_played

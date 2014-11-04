@@ -112,6 +112,7 @@
     -webkit-animation-name:win;
     -webkit-animation-iteration-count: 1;
   }
+
   #lose{
     -webkit-animation-duration:3s;
     -webkit-animation-name:win;

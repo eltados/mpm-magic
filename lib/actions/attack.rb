@@ -17,6 +17,16 @@ class Attack < Action
     card.attack!
   end
 
+  def stackable?
+    false;
+  end
+
+  def react_time
+    0
+  end
+
+  def pay!
+  end
 
   def log
     "#{player.name} #{name.downcase}s with #{card.name}"

@@ -1,4 +1,4 @@
-class TransformAction < ActionWithTarget
+class Transform < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -17,12 +17,20 @@ class TransformAction < ActionWithTarget
       target.is_a?(Creature) && target.in_play?
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.tap!
-    target.attack_bonus += target.attack
-    player.target_action =nil
   end
+
+  def required_targets
+    1
+  end
+
+  def execute!
+    super
+    target.attack_bonus += target.attack
+  end
+
+
 
   def positive?
     true

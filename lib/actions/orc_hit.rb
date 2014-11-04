@@ -1,4 +1,4 @@
-class OrcHitAction < ActionWithTarget
+class OrcHit < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -8,21 +8,27 @@ class OrcHitAction < ActionWithTarget
     @priority =2
   end
 
+  def required_targets
+    1
+  end
+
   def can_be_activated
-    card.in_play? && card.can_be_activated
+    super && card.in_play?  && card.can_be_activated
   end
 
 
   def can_target(target)
-      target.is_a?(Creature) && target.in_play?
+     target.is_a?(Creature) && target.in_play?
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.tap!
+  end
+
+  def execute!
+    super
     target.hit! 2
     player.hits_player!(3, card)
-    player.target_action =nil
   end
 
 

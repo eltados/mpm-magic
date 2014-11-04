@@ -1,4 +1,4 @@
-class Block < ActionWithTarget
+class Block < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -8,10 +8,14 @@ class Block < ActionWithTarget
     @priority = 1
   end
 
+  def stackable?
+    false
+  end
+
   def can_be_activated
     card.in_play? \
-    && !player.playing? \
-    && phase.is_a?(BlockPhase) \
+    && player.active? \
+    && phase.is_a?( BlockPhase ) \
     && player.opponent.creatures.select { |c| c.flags[:attacking] }.size > 0 \
     && card.can_block_any(player.opponent.creatures.select { |c| c.flags[:attacking] })
   end
@@ -20,9 +24,21 @@ class Block < ActionWithTarget
     target.flags[:attacking] && card.can_block_creature(target)
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.block! target
+  end
+
+  def required_targets
+    1
+  end
+
+  def react_time
+    0
+  end
+
+
+  def execute!
+    super
   end
 
 end

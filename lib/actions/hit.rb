@@ -1,4 +1,4 @@
-class HitAction < ActionWithTarget
+class Hit < Action
 
   def initialize(owner=nil)
     super(owner)
@@ -8,21 +8,26 @@ class HitAction < ActionWithTarget
     @priority =2
   end
 
-  def can_be_activated
-    card.in_play? && card.can_be_activated
-  end
 
+  def can_be_activated
+    super && card.can_be_activated
+  end
 
   def can_target(target)
       target.is_a?(Creature) && target.in_play?
   end
 
-  def execute_with_target!(target)
-    super(target)
+  def pay!
     card.tap!
-    target.hit! 1
-    player.target_action =nil
   end
 
+  def required_targets
+    1
+  end
+
+  def execute!
+    super
+    target.hit! 1
+  end
 
 end
