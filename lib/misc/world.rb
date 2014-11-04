@@ -129,6 +129,9 @@ class World
       "#<#{self.class.name}:#{object_id} p1=#<#{p1.class.name}:#{p1.object_id}> p2=#<#{p2.class.name}:#{p2.object_id}>>"
     end
 
+    def md5
+      Digest::MD5.hexdigest(self.to_yaml)
+    end
 
     def start!
       @playing_player =  ( Random.new.rand(2) == 0 || ( @p2.ai && !@p1.ai ) ) ? @p1 : @p2
