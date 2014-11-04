@@ -30,6 +30,4 @@ class SacrificeHitAction < Action
     target.hit! 4
   end
 
-
-
 end

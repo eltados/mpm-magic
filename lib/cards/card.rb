@@ -88,7 +88,7 @@ class Card < Hook
 
   def add_abilities(abilities)
     @abilities += abilities.map { |a|
-      a.new(self)
+       a.new(self).to_ability
      }
   end
 
@@ -195,7 +195,7 @@ class Card < Hook
     @flags = {}
     @targeted_by_actions = []
     actions.each do |action|
-        action.targets = [] 
+        action.targets = []
     end
   end
 
