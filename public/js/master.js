@@ -3,6 +3,7 @@ var keymap = {
   'n' : "/notify",
   'q' : "/auto",
   ' ' : "/next",
+  's' : "/game/save",
   'r' : function(){ react(); },
 };
 

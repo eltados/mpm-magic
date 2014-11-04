@@ -57,13 +57,42 @@ class SimpleAi < Ai
         return SinApp.action(@player, creature.action(Attack) )
       end
 
+      if world.turn.phase.is_a?(BlockPhase)
+        attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  !c.flags[:blocked] }
+        attacking_creatures.sort_by(&:value).reverse.each do |attacking_creature|
+          defending_creatures = creatures.select{ |c| c.action(Block).can_be_activated  && c.can?( Block, attacking_creature) }.sort_by(&:value)
+          defending_creatures.each do |defending_creature|
+            if defending_creature.attack >= attacking_creature.health
+              # I can kill it
+              if defending_creature.health > attacking_creature.attack
+                # and not die
+                return SinApp.action(@player, defending_creature.action(Block) ,  attacking_creature)
+              end
+
+              if defending_creature.value < attacking_creature.value
+                # and the other card is better
+                return SinApp.action(@player, defending_creature.action(Block) ,  attacking_creature)
+              end
+            end
+
+            total_dmg = attacking_creatures.map(&:attack).inject{|sum,x| sum + x }
+
+            if total_dmg / 2  >= @player.health
+              # It is going to kill more than half my HP let's block
+              return SinApp.action(@player, defending_creature.action(Block) ,  attacking_creature)
+            end
+          end
+        end
+
+      end
+
 
       if ! world.stack.empty?
         # puts "Ai resolve stack #{world}"
         return world.resolve_stack!
       end
 
-      
+
       if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
         card = hand.sort_by(&:cost).reverse.first
         return SinApp.action(@player, card.action(Discard) )

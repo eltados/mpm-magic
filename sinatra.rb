@@ -50,7 +50,6 @@ class App <  Sinatra::Application
       session[:current_user]
     end
 
-
     def hp_color(hp)
        return "hp_5" if hp <= 5
        return "hp_10" if hp <= 10
@@ -116,6 +115,7 @@ class App <  Sinatra::Application
     erb :game , layout: !request.xhr?
   end
 
+
   get "/clear_all" do
     @players = []
     redirect "/clear"
@@ -147,6 +147,24 @@ class App <  Sinatra::Application
       me.world = world
       notify!
       redirect "/"
+  end
+
+  get "/game/load/:world" do
+      game =  RestClient.get("http://hastebin.com/raw/#{params[:world]}" )
+      world  = YAML.load(game)
+      session[:current_user] = world.p1
+      redirect "/game"
+  end
+
+
+  get "/game/save" do
+    r = RestClient.post("http://hastebin.com/documents", me.world.to_yaml.to_s)
+    key = JSON.parse(r)['key']
+    "<h1><a href='http://#{request.host_with_port}/game/load/#{key}'>
+        Load Game ##{JSON.parse(r)['key']}:#{me.world.p1.name} (#{me.world.p1.health} HP) vs #{me.world.p2.name} (#{me.world.p1.health} HP) : turn #{me.world.turn.number}
+        </a>
+      </h1><br> <a href='http://hastebin.com/#{key}'>Edit</a>
+            <br> <a href='http://#{request.host_with_port}/game'>Back to the Game</a> "
   end
 
 
@@ -353,6 +371,7 @@ end
     create_card(params[:id])
     "Imported !"
   end
+
 
   get '/card_importer' do
     params[:name] ||= "random"
