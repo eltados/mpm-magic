@@ -1,4 +1,4 @@
-class NightmareAbility < Ability
+class Nightmare < Ability
 
   def description
     "The nightmare as a strenght and toughness equals to the number of Land you possess"

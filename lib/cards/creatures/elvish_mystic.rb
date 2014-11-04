@@ -10,7 +10,7 @@ class ElvishMystic < Creature
     @description =  "{Tap}: Add {Green} to your mana pool."
     @img = "http://media.wizards.com/images/magic/daily/wallpapers/da1288_thumb.jpg"
     @mtg_id = 370744
-    add_abilities [ProduceAbility]
+    add_abilities [Produce]
   end
 
 end

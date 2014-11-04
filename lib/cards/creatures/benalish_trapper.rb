@@ -10,7 +10,7 @@ class BenalishTrapper < Creature
     @description =  "{1}, {Tap}: Tap target creature."
     @img = "cards/22937.png"
     @mtg_id = 22937
-    add_abilities [Pay1TapCreatureAbility]
+    add_abilities [Pay1TapCreature]
   end
 
 end
