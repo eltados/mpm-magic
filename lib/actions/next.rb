@@ -17,7 +17,7 @@ class Next < Action
   end
 
   def display_name
-    return "Start" if phase.is_a?(Draw)
+    return "Start" if phase.is_a?(DrawPhase)
     return "End Turn" if phase.is_a?(Post)
     if phase.is_a?(BlockPhase)
       if player.creatures.find{ |c| c.flags[:blocking] }

@@ -42,7 +42,7 @@ class Player <Hook
     card = deck.shift
     card.flags[:new] = true
     hand << card
-    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: DrawAction.new , target:target)
+    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: Draw.new , target:target)
   end
 
   def play!(card)
