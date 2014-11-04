@@ -18,16 +18,16 @@ class ManaPool
   def pay! cost
     @mana -= cost
     while (@mana < 0)
-      @player.lands.find { |land|  land.can?(Produce) }.execute! Produce
+      action  = @player.lands.find { |land| land.action(Produce).can_be_activated }.action( Produce )
+      SinApp.action(@player,  action)
     end
   end
 
   def reserve
     r = @player.lands.select do  |land|
-      land.can? Produce
+      land.action(Produce).can_be_activated
     end.map(&:mana_produced).inject{|sum,x| sum + x }
     r || 0
   end
-
 
 end

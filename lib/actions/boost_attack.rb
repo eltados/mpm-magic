@@ -14,7 +14,7 @@ class BoostAttack < Action
   end
 
   def pay!
-    card.player.mana_pool.pay! @cost
+    player.mana_pool.pay! @cost
   end
 
 
