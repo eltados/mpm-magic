@@ -14,7 +14,7 @@ group :development do
   gem 'shotgun'
   gem "better_errors"
   gem "binding_of_caller"
-  gem "method_profiler"
+  gem "hub"
 end
 
 ruby '2.0.0'
