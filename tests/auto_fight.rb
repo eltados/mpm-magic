@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'require_all'
 require "minitest/autorun"
-require "method_profiler"
+# require "method_profiler" 
 require_all '.'
 
 
