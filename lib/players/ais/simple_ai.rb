@@ -93,9 +93,9 @@ class SimpleAi < Ai
       end
 
 
-      if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
-        card = hand.sort_by(&:cost).reverse.first
-        return SinApp.action(@player, card.action(Discard) )
+      if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8 && me.playing? &&
+        card = hand.select{ |c| c.action(Discard).can_be_activated }.sort_by(&:cost).reverse.first
+        return SinApp.action(@player, card.action(Discard) ) if card
       end
 
       next_action = @player.actions.first

@@ -23,12 +23,12 @@ class OrcHit < Action
 
   def pay!
     card.tap!
+    player.hits_player!(3, card)
   end
 
   def execute!
     super
     target.hit! 2
-    player.hits_player!(3, card)
   end
 
 
