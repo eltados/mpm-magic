@@ -1,5 +1,5 @@
 
-class SoulNet < Artifact
+class SoulNet < Enchantment # Artifact
 
   def initialize(owner=nil)
     super(owner)

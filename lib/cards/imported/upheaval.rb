@@ -17,5 +17,6 @@ class Upheaval < Sorcery
       player.return_in_hand! p
     end
   end
+  def self.disabled?; true end
 
 end
