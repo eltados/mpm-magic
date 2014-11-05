@@ -4,7 +4,7 @@ class Pay1TapCreature < Action
     super(owner)
     @name = "Tap"
     @img ="tap.png"
-    @description = "{1}, {Tap}: Untap target creature."
+    @description = "{1}, {Tap}: Tap target creature."
     @priority =2
     @cost = 1
   end
@@ -19,7 +19,7 @@ class Pay1TapCreature < Action
 
 
   def can_target(target)
-     target.is_a?(Creature) && target.in_play?
+     target.is_a?(Creature) && target.in_play? &&  !target.tapped? 
   end
 
   def pay!
