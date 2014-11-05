@@ -11,7 +11,11 @@ class Upheaval < Sorcery
     @mtg_id = 383143
   end
 
-  def self.disabled?; true end
+  def play!
+    super
+    world.permanents.each do |p|
+      player.return_in_hand! p
+    end
+  end
 
 end
-    

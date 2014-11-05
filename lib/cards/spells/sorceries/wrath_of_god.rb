@@ -1,5 +1,5 @@
 
-class WrathofGod < Sorcery
+class WrathOfGod < Sorcery
 
   def initialize(owner=nil)
     super(owner)
@@ -11,7 +11,11 @@ class WrathofGod < Sorcery
     @mtg_id = 874
   end
 
-  def self.disabled?; true end
+  def play!
+    super
+    world.permanents.select{ |c| c.is_a?(Creature)}.each do |creatures|
+      creatures.destroy!
+    end
+  end
 
 end
-    
