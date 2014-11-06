@@ -165,7 +165,7 @@ class World
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
 
-    if dev? && false
+    if dev? && true
 
       @playing_player = p1
       # p1.hand = []
@@ -176,7 +176,8 @@ class World
       #  p2.hand << RevivingDose.new(p2)
        p1.permanents << ArmsDealer.new(p1)
        p1.permanents << BenalishTrapper.new(p1)
-       p2.permanents << Mob.new(p2)
+       p1.hand << Mob.new(p1)
+       p1.hand << ConcordantCrossroads.new(p1)
     #    p1.permanents << Wolf.new(p1)
       # 10.times { p1.hand << WarAxe.new(p1) }
     #    p1.permanents << Mob.new(p1)
@@ -199,9 +200,9 @@ class World
     # #     # p1.hand << SerpentGift.new(p1)
     # #     # p1.hand << KrenkoCommand.new(p1)
     # #     # p1.hand << UnholyStrength.new(p1)
-        p2.permanents << TeferisImp.new(p2)
-        p2.permanents << DarkMonk.new(p2)
-        p1.permanents << DarkMonk.new(p1)
+        # p2.permanents << TeferisImp.new(p2)
+        # p2.permanents << DarkMonk.new(p2)
+        # p1.permanents << DarkMonk.new(p1)
         # p1.permanents << Mob.new(p1)
     # #     # p2.hand = []
       #  p1.hand << Spider.new(p1)
@@ -215,7 +216,7 @@ class World
     # #   #  p2.permanents << StormtideLeviathan.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
       #  30.times {  p1.permanents << Mountain.new(p1) }
-       8.times {  p2.permanents << Mountain.new(p2) }
+       0.times {  p2.permanents << Mountain.new(p2) }
        8.times {  p1.permanents << Mountain.new(p1) }
       #  2.times {  p2.permanents << Mountain.new(p2) }
     end
