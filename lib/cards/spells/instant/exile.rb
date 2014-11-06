@@ -14,7 +14,7 @@ class Exile < Instant
 
   def play!
     super
-    target.player.heal_player!(3 , self)
+    target.player.heal_player!(target.toughness, self)
     target.destroy!
   end
 

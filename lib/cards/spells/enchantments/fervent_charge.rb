@@ -5,7 +5,7 @@ class FerventCharge < Enchantment
     super(owner)
     @name = "Fervent Charge"
 
-    @cost = 4 # 1WBR
+    @cost = 6 # 1WBR
     @description =  "Whenever a creature you control attacks, it gets +2/+2 until end of turn."
     @img = "cards/28011.png"
     @mtg_id = 28011
