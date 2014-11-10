@@ -51,7 +51,8 @@ class SimpleAi < Ai
         return SinApp.action(@player, action )
       end
 
-      creature = creatures.find { |c| c.action(Attack).can_be_activated }
+      creature = creatures.find { |c| c.action(Attack).can_be_activated  && should_attack_with?(c) }
+      # puts "should_attack_with?(creature) => #{creature.name} : #{should_attack_with?(creature)}" if creature
       if creature
         # puts "Ai decides to attack with #{creature.name}"
         return SinApp.action(@player, creature.action(Attack) )
@@ -102,73 +103,22 @@ class SimpleAi < Ai
       return SinApp.action(@player, next_action)
   end
 
-
-
-  def play2!
-
-    if @player.target_action != nil
-        target_action = @player.target_action
-        if target_action.action.positive?
-          target  = permanents.select{ |card| target_action.can_target(card) }.shuffle.first
-        else
-          target  = opponent.permanents.select{ |card| target_action.can_target(card) }.shuffle.first
-        end
-      if target
-        return target_action.action.execute_with_target!(target)
-      end
-    end
-
-    land = hand.find {|c| c.is_a?(Land) && c.action(Play) != nil && c.action(Play).can_be_activated }
-    if land
-      return SinApp.action(@player, land.action(Play) )
-      # return land.execute!(Play)
-    end
-
-    creature = hand.sort_by(&:cost).reverse.find {|c|  c.is_a?(Creature) && c.can?(Play) }
-    if creature
-      return creature.execute!(Play)
-    end
-
-    spell = hand.sort_by(&:cost).reverse.find { |s| s.can?(Play)   }
-    if spell
-      return spell.execute!(Play)
-    end
-
-    action = permanents.map(&:actions).flatten.find { |a|  a.can_be_activated &&
-          !a.is_a?(UndoAttack) &&
-          !a.is_a?(UndoBlock) &&
-          !a.is_a?(Produce) &&
-          !a.is_a?(Block) &&
-          !a.is_a?(Attack) }
-    if action &&  @player.target_action  == nil
-      return action.execute!
-    end
-
-
-    if world.turn.phase.is_a?(Combat) && creatures.find { |c| c.can?(Attack) } != nil
-
-      return attack_all!
-    end
-
-    if world.turn.phase.is_a?(BlockPhase)
-      attacking_creatures = opponent.creatures.select{ |c| c.flags[:attacking] &&  !c.flags[:blocked] }
-      attacking_creatures.sort_by(&:attack).each do |attacking_creature|
-        creatures.select{ |c| c.can? Block, attacking_creature }.sort_by(&:attack).each do |defending_creature|
-          block = defending_creature.action(Block)
-          if attacking_creature.attack <  defending_creature.health
-            return block.execute_with_target!( attacking_creature )
-          end
+  def should_attack_with?(attacking_creature)
+    # puts "opponent.creatures => #{opponent.creatures.size}"
+    opponent.creatures.each do |defending_creature|
+      # puts defending_creature
+      if defending_creature.attack >= attacking_creature.health
+        # my card can get killed
+        if attacking_creature.attack < defending_creature.health
+          puts "Don't attack with #{attacking_creature} because #{defending_creature} would block and kill without dying"
+          return false
+        elsif defending_creature.value > attacking_creature.value
+          puts "Don't attack with #{attacking_creature} because #{defending_creature} would kill and die but #{attacking_creature} is better"
+          return false
         end
       end
-
     end
-
-    if world.turn.phase.is_a?(DiscardPhase) && hand.size >= 8
-      return hand.sort_by(&:cost).reverse.first.execute! Discard
-    end
-
-    return world.turn.next!
-
+    return true
   end
 
 end

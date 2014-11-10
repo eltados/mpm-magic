@@ -14,7 +14,7 @@ class SinApp
           me.target_action = nil
           action.pay!
           notify = true
-          if action.stackable?  && me.opponent.react?
+          if action.stackable?  && ( me.opponent.react? || !me.world.stack.empty? )
             me.world.stack.push action
           else
             action.execute!

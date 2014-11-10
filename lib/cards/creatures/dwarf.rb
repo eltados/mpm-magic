@@ -1,4 +1,4 @@
-class Dwarf < Creature
+class WhiteDwarf < Creature
 
   def initialize(owner=nil)
     super(owner)

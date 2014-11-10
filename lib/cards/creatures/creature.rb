@@ -27,7 +27,6 @@ class Creature < Card
   end
 
   def health=(h)
-  puts "called #{dmg} = #{health} - #{h}"
     @dmg = health - h
   end
 

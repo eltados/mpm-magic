@@ -156,7 +156,7 @@ class App <  Sinatra::Application
         game =  RestClient.get("http://hastebin.com/raw/#{params[:world]}" )
       end
       world  = YAML.load(game)
-      session[:current_user] = params[:player] == "2" ? world.p2 : world.p1 
+      session[:current_user] = params[:player] == "2" ? world.p2 : world.p1
       redirect "/game"
   end
 
@@ -210,6 +210,7 @@ class App <  Sinatra::Application
   end
 
   get "/next" do
+    redirect "/game" if !me.active?
     notify = SinApp.action( me, me.actions.first )
 
     notify! if notify
@@ -274,6 +275,7 @@ class App <  Sinatra::Application
 
   get '/react' do
     me.react = !me.react
+    me.world.resolve_stack! if !me.react?
     # notify!
     redirect "/game"
   end
