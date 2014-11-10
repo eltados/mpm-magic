@@ -268,6 +268,12 @@ class App <  Sinatra::Application
   end
 
 
+  get '/react' do
+    me.react = !me.react
+    # notify!
+    redirect "/game"
+  end
+
 
   get '/cards' do
     @cards= [Card.all].flatten.map(&:new).sort do |a, b|
