@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :actions
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :react , :actions
 
   def initialize(world=nil)
     @permanents = []
@@ -8,6 +8,7 @@ class Player <Hook
     @graveyard = []
     @mana_pool =  ManaPool.new(self)
     @ai =  false
+    @react = false
     @flags =  {}
     @health = 20
     @brain = SimpleAi.new(self)
@@ -33,6 +34,12 @@ class Player <Hook
   def in_play?
     true
   end
+
+
+  def react?
+    react
+  end
+
 
   def draw!(target=nil)
     if deck.size == 0

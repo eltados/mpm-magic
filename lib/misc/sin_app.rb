@@ -14,7 +14,7 @@ class SinApp
           me.target_action = nil
           action.pay!
           notify = true
-          if action.stackable? 
+          if action.stackable?  && me.opponent.react?
             me.world.stack.push action
           else
             action.execute!
@@ -24,6 +24,12 @@ class SinApp
         end
 
         return notify
+    end
+
+
+    def self.save( world )
+      r = RestClient.post("http://hastebin.com/documents", world.to_yaml.to_s)
+      JSON.parse(r)['key']
     end
 
 

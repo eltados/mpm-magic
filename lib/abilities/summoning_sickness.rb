@@ -9,11 +9,11 @@ class SummoningSickness < Ability
   end
 
   def can_attack(original)
-    false || card.abilities.any?{ |a| a.is_a?(Haste) }
+    false || ( card.abilities.any?{ |a| a.is_a?(Haste) } && original )
   end
 
   def can_be_activated(original)
-    false || card.abilities.any?{ |a| a.is_a?(Haste) }
+    false || ( card.abilities.any?{ |a| a.is_a?(Haste) } && original ) 
   end
 
 end

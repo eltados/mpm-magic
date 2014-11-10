@@ -1,5 +1,5 @@
 <div id="logs" >
-    <% @world.logs.reverse.each do |log| %>
+    <% @world.logs.reverse.slice(0,20).each do |log| %>
       <%= erb :_log, locals: { log: log }%>
     <% end %>
 </div>
@@ -36,6 +36,8 @@
   <%= me.name %>
 <br/>
   Cards : <%= me.hand.size %>
+<br/>
+React : <a href="/react"  class="ajax"><%= me.react?  %></a>
 </div>
 
 <div class="opponent" id="<%= opponent.js_id %>">
@@ -47,6 +49,8 @@
   <%= opponent.name %>
   <br/>
   Cards : <%= opponent.hand.size %>
+  <br/>
+  React : <a href="/react"  class="ajax"><%= opponent.react?  %></a>
 
 </div>
 
@@ -104,7 +108,7 @@
 
   <% # if me.active? && @world.turn.phase.can_pass_to_next? %>
   <% if !@world.stack.empty? && me.active? %>
-    <a href="/resolve">Do not react</a>
+    <a href="/resolve"  class="ajax">Do not react</a>
   <% elsif me.actions.first.can_be_activated  %>
     <a href="/action/<%= me.actions.first.to_param%>?current_phase=<%= @world.turn.phase.name %>" accesskey="n" class="ajax">
         <%= me.actions.first.display_name %>
