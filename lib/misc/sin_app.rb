@@ -27,4 +27,10 @@ class SinApp
     end
 
 
+    def self.save( world )
+      r = RestClient.post("http://hastebin.com/documents", world.to_yaml.to_s)
+      JSON.parse(r)['key']
+    end
+
+
 end

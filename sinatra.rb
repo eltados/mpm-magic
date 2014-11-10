@@ -150,18 +150,22 @@ class App <  Sinatra::Application
   end
 
   get "/game/load/:world" do
-      game =  RestClient.get("http://hastebin.com/raw/#{params[:world]}" )
+      if params[:world].starts_with? "world-"
+        game =  open("/tmp/#{params[:world]}")
+      else
+        game =  RestClient.get("http://hastebin.com/raw/#{params[:world]}" )
+      end
       world  = YAML.load(game)
-      session[:current_user] = world.p1
+      session[:current_user] = params[:player] == "2" ? world.p2 : world.p1 
       redirect "/game"
   end
 
 
   get "/game/save" do
-    r = RestClient.post("http://hastebin.com/documents", me.world.to_yaml.to_s)
-    key = JSON.parse(r)['key']
+
+    key = SinApp.save( me.world )
     "<h1><a href='http://#{request.host_with_port}/game/load/#{key}'>
-        Load Game [#{JSON.parse(r)['key']}] : #{me.world.p1.name} (#{me.world.p1.health} HP) vs #{me.world.p2.name} (#{me.world.p2.health} HP) : turn #{me.world.turn.number}
+        Load Game [#{key}] : #{me.world.p1.name} (#{me.world.p1.health} HP) vs #{me.world.p2.name} (#{me.world.p2.health} HP) : turn #{me.world.turn.number}
         </a>
       </h1><br> <a href='http://hastebin.com/#{key}'>Edit</a>
             <br> <a href='http://#{request.host_with_port}/game'>Back to the Game</a> "

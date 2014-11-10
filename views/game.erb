@@ -1,5 +1,5 @@
 <div id="logs" >
-    <% @world.logs.reverse.each do |log| %>
+    <% @world.logs.reverse.slice(0,20).each do |log| %>
       <%= erb :_log, locals: { log: log }%>
     <% end %>
 </div>
