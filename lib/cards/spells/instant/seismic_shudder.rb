@@ -6,7 +6,7 @@ class  SeismicShudder  < Instant
     @name = 'Seismic Shudder'
     @cost = 2 # 1R
     @description =  "Seismic Shudder deals 1 damage to each creature without flying."
-    @img = "http://ts1.mm.bing.net/th?id=HN.608010560169381544&w=198&h=153&c=7&rs=1&pid=1.7"
+    @img = "cards/180134.png"
   end
 
   def play!

@@ -5,7 +5,7 @@ class GloriousAnthem < Enchantment
     @name = 'Glorious Anthem'
     @cost = 3 # B
     @description =  "Creatures you control get +1/+1."
-    @img = "http://ts1.mm.bing.net/th?&id=HN.608047655796149263&w=300&h=300&c=0&pid=1.9&rs=0&p=0"
+    @img = "cards/5835.png"
   end
 
 
