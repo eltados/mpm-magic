@@ -176,6 +176,7 @@ class World
       #  p2.hand << RevivingDose.new(p2)
        p1.permanents << ArmsDealer.new(p1)
        p1.permanents << BenalishTrapper.new(p1)
+       p1.permanents << MoggFlunkies.new(p1)
        p1.hand << Mob.new(p1)
        p1.hand << ConcordantCrossroads.new(p1)
     #    p1.permanents << Wolf.new(p1)
@@ -211,7 +212,7 @@ class World
       #  p2.permanents << Mob.new(p2)
     # #    10.times { p2.permanents << Mountain.new(p2) }
     #   #  p2.permanents << ConcordantCrossroads.new(p2)
-    #    p2.permanents << WolverinePack.new(p2)
+       p2.permanents << WolverinePack.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
     # #   #  p2.permanents << StormtideLeviathan.new(p2)
     # #   #  p2.permanents << Rhino.new(p2)
