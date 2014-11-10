@@ -26,8 +26,18 @@ class Creature < Card
     toughness - dmg
   end
 
+  def health=(h)
+  puts "called #{dmg} = #{health} - #{h}"
+    @dmg = health - h
+  end
+
   def attack
     strength + attack_bonus
+  end
+
+
+  def attack=(a)
+    @attack_bonus = - attack + a
   end
 
   def value

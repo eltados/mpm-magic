@@ -177,6 +177,7 @@ class World
        p1.permanents << ArmsDealer.new(p1)
        p1.permanents << BenalishTrapper.new(p1)
        p1.permanents << MoggFlunkies.new(p1)
+       p1.permanents << SorceressQueen.new(p1)
        p1.hand << Mob.new(p1)
        p1.hand << ConcordantCrossroads.new(p1)
     #    p1.permanents << Wolf.new(p1)

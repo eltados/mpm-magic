@@ -1,4 +1,3 @@
-
 class SorceressQueen < Creature
 
   def initialize(owner=nil)
@@ -11,9 +10,8 @@ class SorceressQueen < Creature
     @description =  "{Tap}: Target creature other than Sorceress Queen becomes 0/2 until end of turn."
     @img = "cards/926.png"
     @mtg_id = 926
+    add_abilities  [ Curse ]
   end
 
-  def self.disabled?; true end
 
 end
-    
