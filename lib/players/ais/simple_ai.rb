@@ -70,8 +70,8 @@ class SimpleAi < Ai
                 return SinApp.action(@player, defending_creature.action(Block) ,  attacking_creature)
               end
 
-              if defending_creature.value < attacking_creature.value
-                # and the other card is better
+              if defending_creature.value <= attacking_creature.value
+                # and the other card is better or the same
                 return SinApp.action(@player, defending_creature.action(Block) ,  attacking_creature)
               end
             end
@@ -105,15 +105,17 @@ class SimpleAi < Ai
 
   def should_attack_with?(attacking_creature)
     # puts "opponent.creatures => #{opponent.creatures.size}"
-    opponent.creatures.each do |defending_creature|
-      # puts defending_creature
-      if defending_creature.attack >= attacking_creature.health
+
+    opponent.creatures.select{ |c| !c.tapped? &&  c.can_block_creature(attacking_creature) }.sort_by(&:value).each do |defending_creature|
+      if defending_creature.would_kill? attacking_creature
         # my card can get killed
-        if attacking_creature.attack < defending_creature.health
-          puts "Don't attack with #{attacking_creature} because #{defending_creature} would block and kill without dying"
+        if ! attacking_creature.would_kill?(defending_creature)
+          # puts "Don't attack with #{attacking_creature} because #{defending_creature} would block and kill without dying"
           return false
-        elsif defending_creature.value > attacking_creature.value
-          puts "Don't attack with #{attacking_creature} because #{defending_creature} would kill and die but #{attacking_creature} is better"
+        end
+        if attacking_creature.would_kill?( defending_creature ) &&
+          attacking_creature.value <= defending_creature.value
+          # puts "Don't attack with #{attacking_creature} because #{defending_creature} would kill and die but #{attacking_creature} is better"
           return false
         end
       end

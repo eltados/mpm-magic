@@ -1,5 +1,9 @@
 class Haste < Ability
 
+  def value
+    0
+  end
+
   def description
     "This creature is not affected by summoning sickness."
   end

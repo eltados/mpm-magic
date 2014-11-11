@@ -21,5 +21,9 @@ class Draw < Action
     player.draw!(card)
   end
 
+  def value
+    3
+  end
+
 
 end

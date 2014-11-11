@@ -6,6 +6,12 @@ class PlusOnePlusOne < Ability
   end
 
 
+  def value
+    return 3 if card.player.nil? 
+    card.player.lands.size / 2
+  end
+
+
   def toughness(original)
     original + 1
   end

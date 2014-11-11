@@ -19,7 +19,7 @@ class Pay1TapCreature < Action
 
 
   def can_target(target)
-     target.is_a?(Creature) && target.in_play? &&  !target.tapped? 
+     target.is_a?(Creature) && target.in_play? &&  !target.tapped?
   end
 
   def pay!
@@ -30,6 +30,10 @@ class Pay1TapCreature < Action
   def execute!
     super
     target.tap!
+  end
+
+  def value
+    2
   end
 
 end

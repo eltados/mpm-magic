@@ -32,4 +32,8 @@ class Pay2TapCreature < Action
     target.tap!
   end
 
+  def value
+    2
+  end
+
 end

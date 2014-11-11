@@ -8,4 +8,8 @@ class Vigilance < Ability
     false
   end
 
+  def value
+    1
+  end
+
 end

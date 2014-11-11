@@ -40,7 +40,7 @@ class Creature < Card
   end
 
   def value
-    toughness + strength +  attack + dmg + [0,abilities.map(&:value)].flatten.inject{|sum,x| sum + x }
+    toughness  + strength +  attack * 0.5 + dmg * 1.5 + [0,abilities.map(&:value)].flatten.inject{|sum,x| sum + x }
   end
 
   def hit!(hit_points)
@@ -118,6 +118,14 @@ class Creature < Card
 
   def to_s
     "#<#{self.class.name}:#{object_id} #{attack}/#{health}>"
+  end
+
+  def would_kill?(creature)
+    self.attack >= creature.health
+  end
+
+  def would_be_killed_by?(creature)
+    creature.would_kill? self
   end
 
 

@@ -18,6 +18,10 @@ class RuthlessCullblade < Creature
 
   class InnerAbility < Ability
 
+    def value
+      opponent_has_less_than_10_hp? ? 0 : 2
+    end
+
     def toughness(original)
       opponent_has_less_than_10_hp? ? original : original + 2
     end

@@ -31,5 +31,9 @@ class OrcHit < Action
     target.hit! 2
   end
 
+  def value
+    1
+  end
+
 
 end

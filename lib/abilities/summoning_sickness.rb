@@ -13,7 +13,12 @@ class SummoningSickness < Ability
   end
 
   def can_be_activated(original)
-    false || ( card.abilities.any?{ |a| a.is_a?(Haste) } && original ) 
+    false || ( card.abilities.any?{ |a| a.is_a?(Haste) } && original )
+  end
+
+
+  def value
+    0
   end
 
 end

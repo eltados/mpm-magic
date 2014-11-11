@@ -17,6 +17,10 @@ class MoggFlunkies < Creature
 
   class InnerAbility < Ability
 
+    def value
+      -3
+    end
+
     def can_attack(original)
       original && player.creatures.any?{ |c| c.flags[:attacking] }
     end

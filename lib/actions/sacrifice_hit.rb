@@ -30,4 +30,8 @@ class SacrificeHit < Action
     target.hit! 4
   end
 
+  def value
+    3
+  end
+
 end

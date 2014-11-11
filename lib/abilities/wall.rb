@@ -8,4 +8,8 @@ class Wall < Ability
     false
   end
 
+  def value
+    -2
+  end
+
 end

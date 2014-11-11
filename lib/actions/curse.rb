@@ -31,4 +31,8 @@ class Curse < Action
     target.attack = 0
   end
 
+  def value
+    4
+  end
+
 end

@@ -30,5 +30,9 @@ class Produce < Action
     0
   end
 
+  def value
+    1
+  end
+
 
 end

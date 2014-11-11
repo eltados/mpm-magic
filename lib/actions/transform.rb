@@ -30,7 +30,9 @@ class Transform < Action
     target.attack_bonus += target.attack
   end
 
-
+  def value
+    2
+  end
 
   def positive?
     true

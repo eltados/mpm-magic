@@ -10,4 +10,8 @@ class Boost < Ability
     card.strength += 1
   end
 
+  def value
+    3
+  end
+
 end

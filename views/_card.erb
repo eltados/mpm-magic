@@ -8,7 +8,7 @@
 <%= ' opponent_card ' if me && card.player == me.opponent %> ">
   <div class="header">
     <% if card.cost != 0 %>
-      <div class="cost"><%= card.cost %></div>
+      <div class="cost"><%= card.cost %><%= "/#{card.value} = #{(card.value / card.cost.to_f).round(1) }" if card.is_a?( Creature ) && false %></div>
     <% end %>
     <div class="name" title="<%= card.name %><%= "\n#{card.description}" if card.description%>">
     <% if card.flags[:attacking] %>
