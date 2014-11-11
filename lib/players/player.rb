@@ -152,6 +152,7 @@ class Player <Hook
 
 
   def opponent
+    return nil if world.nil?
     world.p1 == self ? world.p2 : world.p1
   end
 
