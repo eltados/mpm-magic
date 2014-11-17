@@ -9,6 +9,7 @@ require 'open-uri'
 require 'active_support/all'
 require 'newrelic_rpm' if !development?
 require 'date'
+require 'sinatra/activerecord'
 
 
 
@@ -20,6 +21,7 @@ if development?
 end
 
 require_all 'lib'
+# require_all 'config'
 
 
 class App <  Sinatra::Application
@@ -29,12 +31,14 @@ class App <  Sinatra::Application
     use Rack::Session::Pool
     set :session_secret, 'secret'
     set :views, Proc.new { File.join(root, "views") }
+    set :database, "sqlite3:db/database.db"
   end
 
   configure :development do
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__
   end
+
 
   helpers do
 
@@ -403,6 +407,12 @@ end
     # res = RestClient::Resource.new( "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27#{URI::encode(params[:img_query])}%27&$format=json&ImageFilters=%27Size%3AMedium%27", '', '7IU5fLJU28Y49NTV0zTLIuEQm+lS5So82uWaqpUIOF8' )
     # @images= JSON.parse(res.get)
     erb :card_importer , layout: false
+  end
+
+  after do
+    # Close the connection after the request is done so that we don't
+    # deplete the ActiveRecord connection pool.
+    ActiveRecord::Base.connection.close
   end
 
 end

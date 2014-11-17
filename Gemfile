@@ -7,6 +7,10 @@ gem 'require_all'
 gem 'rest-client'
 gem 'activesupport'
 gem 'newrelic_rpm'
+gem "activerecord"
+gem "sinatra-activerecord"
+# gem "pg"
+gem "sqlite3"
 
 group :development do
   gem 'chunky_png'
