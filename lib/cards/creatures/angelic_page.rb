@@ -11,9 +11,7 @@ class AngelicPage < Creature
     @description =  "Flying {Tap}: Target attacking or blocking creature gets +1/+1 until end of turn."
     @img = "cards/197009.png"
     @mtg_id = 197009
+
+    add_abilities [Flying , BoostAttackingOrBlockCreature]
   end
-
-  def self.disabled?; true end
-
 end
-    

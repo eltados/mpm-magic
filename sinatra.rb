@@ -285,7 +285,6 @@ class App <  Sinatra::Application
     @cards= [Card.all].flatten.map(&:new).sort do |a, b|
      [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]
     end
-
     erb :cards
   end
 

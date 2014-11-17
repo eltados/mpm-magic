@@ -176,6 +176,7 @@ class World
       #  p2.hand << RevivingDose.new(p2)
        p1.permanents << WhiteDwarf.new(p1)
        p1.permanents << WhiteDwarf.new(p1)
+       p1.permanents << AngelicPage.new(p1)
        p2.permanents << FlinthoofBoar.new(p2)
       #  p1.permanents << BenalishTrapper.new(p1)
       #  p1.permanents << MoggFlunkies.new(p1)
