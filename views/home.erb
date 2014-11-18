@@ -53,6 +53,11 @@
 <h3>Other actions</h3>
 
 <ul>
+  <% if me.selected_deck %>
+    <li><a href="/deck">Change Deck (<%= me.selected_deck.name %>)</a></li>
+  <% else %>
+    <li><a href="/deck">Select a Deck</a></li>
+  <% end %>
   <li><a href="/clear">Clear</a></li>
   <li><a href="/clear_all">Clear All</a></li>
   <li><a href="/cards">View all cards</a></li>

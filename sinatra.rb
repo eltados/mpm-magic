@@ -182,6 +182,21 @@ class App <  Sinatra::Application
     redirect "/"
   end
 
+  get "/deck" do
+    redirect "/" if me == nil
+
+    if !params[:url].blank?
+      url = params[:url]
+      begin
+        # url = HasteBinUrl.new(url)
+        me.selected_deck = Deck.new(url)
+      rescue Exception=>e
+        @error = e
+      end
+    end
+    erb :deck
+  end
+
   get "/game/join/:world_id" do
     me.world = World.find(params[:world_id])
     me.world.p2 = me
