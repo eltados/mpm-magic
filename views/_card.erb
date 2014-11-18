@@ -60,8 +60,11 @@
 </div>
 
 
-<% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0 || card.targeted_by.size > 0 %>
+<% if card.flags[:target] || card.flags[:target_by] || card.targets.size > 0 || card.targeted_by.size > 0 || locals[:display_class_name]%>
 <div class="targets">
+<% if locals[:display_class_name] %>
+  <div><%= card.class.name%></div>
+<% end %>
 <% if action %>
   <% action.targets.each do |t|%>
     <div ><%= t.name %></div>

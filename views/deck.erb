@@ -1,0 +1,37 @@
+<h1><form action="/deck" method="GET">
+  Deck URL (json) :<input type="text" size="150" value="<%= me.selected_deck.try(:url)%>" name="url"/>
+</form>
+</h1>
+
+  <% if @error%>
+    <h2><%="<a href='#{params["url"]}'> #{@error}</a>" %></h2>
+  <% end %>
+  <% if me.selected_deck %>
+    <h2><a href="<%= me.selected_deck.url%>" ><%= me.selected_deck.name%></a></h2>
+    <% me.selected_deck.cards.each do |card| %>
+      <%= erb :_card, locals: { card: card }%>
+    <% end %>
+  <% else%>
+    <h2>No deck has been selected</h2>
+    <p>Please path a valid json deck url for example https://gist.githubusercontent.com/eltados/0fd5fdbffa089f141b0a/raw/</p>
+  <% end %>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li>Create a new Deck:
+    <ul>
+    <li><a href="http://hastebin.com/ewiquxoqic" target="_blank">Open Deck template</a></li>
+    <li>Click on Duplicate and edit</li>
+    <li>Modify the deck as you want using name in <b>white on a black background</b> for <a href="cards?display_class_name=true">all the cards</a></li>
+    <li>Save the deck ( and bookmark the url for future use)</li>
+    <li><b>Click on Just text</b></li>
+    <li>Copy Url and paste it in the field Deck URL (json).</li>
+    <li>That's it</li>
+    </ul>
+  </li>
+ <li>Examples:
+  <ul>
+    <li><a href="/deck?url=http://hastebin.com/raw/owihoniyaq">second deck</a> ( <a href="http://hastebin.com/owihoniyaq">Edit</a> , <a href="http://hastebin.com/raw/owihoniyaq">raw source</a>)
+  </ul>
+ </li>
+</ul>
