@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :react , :actions
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :selected_deck, :react , :actions
 
   def initialize(world=nil)
     @permanents = []
@@ -11,6 +11,7 @@ class Player <Hook
     @react = false
     @flags =  {}
     @health = 20
+    @selected_deck = nil
     @brain = SimpleAi.new(self)
     @actions = [ Next.new(self) ]
   end

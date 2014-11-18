@@ -150,6 +150,11 @@ class World
           p.deck << (Card.all - Land.all).reject{ |c| c.disabled? }.shuffle[0].new(p)
         end
 
+        if p.selected_deck != nil
+          p.deck = p.selected_deck.cards
+          p.deck.map do |c| c.owner = p end
+        end
+
         p.deck.shuffle!
 
         # redraw if no land ...
@@ -165,7 +170,7 @@ class World
       @playing_player.opponent.hand << ManaRing.new(@playing_player.opponent)
 
 
-    if dev? && true
+    if dev? && false
 
       @playing_player = p1
       # p1.hand = []
