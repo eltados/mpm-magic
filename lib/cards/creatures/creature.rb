@@ -26,12 +26,21 @@ class Creature < Card
     toughness - dmg
   end
 
+  def health=(h)
+    @dmg = health - h
+  end
+
   def attack
     strength + attack_bonus
   end
 
+
+  def attack=(a)
+    @attack_bonus = - attack + a
+  end
+
   def value
-    toughness + strength +  attack + dmg + [0,abilities.map(&:value)].flatten.inject{|sum,x| sum + x }
+    toughness  + strength +  attack * 0.5 + dmg * 1.5 + [0,abilities.map(&:value)].flatten.inject{|sum,x| sum + x }
   end
 
   def hit!(hit_points)
@@ -73,9 +82,7 @@ class Creature < Card
   end
 
   def can_be_played
-    owner.playing? &&  ( phase.is_a?(Pre) ||
-        phase.is_a?(Post) ||
-        phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
+    player.playing? &&  ( phase.is_a?(Pre) ||  phase.is_a?(Post) || phase.is_a?(DiscardPhase)  ) && owner.mana_pool.can_pay?(self.cost)
   end
 
   def can_be_activated
@@ -113,6 +120,14 @@ class Creature < Card
     "#<#{self.class.name}:#{object_id} #{attack}/#{health}>"
   end
 
+  def would_kill?(creature)
+    self.attack >= creature.health
+  end
+
+  def would_be_killed_by?(creature)
+    creature.would_kill? self
+  end
+
 
   def play!
     add_abilities [SummoningSickness] if ! has_ability(Haste)
@@ -136,15 +151,11 @@ class Creature < Card
     @dmg = 0
     @attack_bonus = 0
     @toughness_bonus = 0
+    @flags = {}
   end
-
-
 
   def when_receive_dmg(*args)
     event :destroyed if dead? && !world.turn.phase.is_a?(ResolveCombat)
   end
-
-
-
 
 end

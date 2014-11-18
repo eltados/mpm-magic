@@ -1,5 +1,5 @@
 class Player <Hook
-  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags, :played
+  attr_accessor :name, :health ,:target_action, :permanents, :world, :deck, :hand, :ai, :brain, :graveyard, :mana_pool, :flags , :selected_deck, :react , :actions
 
   def initialize(world=nil)
     @permanents = []
@@ -7,11 +7,13 @@ class Player <Hook
     @hand = []
     @graveyard = []
     @mana_pool =  ManaPool.new(self)
-    @played =  false
     @ai =  false
+    @react = false
     @flags =  {}
     @health = 20
+    @selected_deck = nil
     @brain = SimpleAi.new(self)
+    @actions = [ Next.new(self) ]
   end
 
   def img
@@ -30,6 +32,15 @@ class Player <Hook
     !alive?
   end
 
+  def in_play?
+    true
+  end
+
+
+  def react?
+    react
+  end
+
 
   def draw!(target=nil)
     if deck.size == 0
@@ -39,7 +50,7 @@ class Player <Hook
     card = deck.shift
     card.flags[:new] = true
     hand << card
-    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: DrawAction.new , target:target)
+    world.log Log.new(description: "#{name} draws 1 card#{ "( #{target.name} )" if target}", card: self , action: Draw.new , target:target)
   end
 
   def play!(card)
@@ -56,13 +67,6 @@ class Player <Hook
   end
 
 
-  def play_with_target!(card, target)
-    return if ! hand.include? card
-    hand.delete card
-    permanents << card
-    card.play_with_target!(target)
-  end
-
   def create_token!(card)
     card.cost = 0
     permanents << card
@@ -73,14 +77,14 @@ class Player <Hook
     @health -= damage
     card.flags[:hits_player] = damage
     card.event :hits_player
-    world.log Log.new(description:"#{name} : - #{damage} HP #{"( #{card.name} )" if card!= nil}", card: self ,target:card, action: HitAction.new)
+    world.log Log.new(description:"#{name} : - #{damage} HP #{"( #{card.name} )" if card!= nil}", card: self ,target:card, action: Hit.new)
   end
 
   def heal_player!(gain , card)
     @health += gain
     card.flags[:gain_hp] = gain
     card.event :gain_hp
-    world.log Log.new(description:"#{name} : + #{gain} HP ( #{card.name} )", card: self ,target:card, action: HitAction.new)
+    world.log Log.new(description:"#{name} : + #{gain} HP ( #{card.name} )", card: self ,target:card, action: Hit.new)
   end
 
   def discard!(card)
@@ -113,26 +117,43 @@ class Player <Hook
     permanents.select do |card| card.is_a? Spell end
   end
 
+  def enchantments
+    permanents.select do |card| card.is_a? Enchantment end
+  end
+
 
 
   def attack_all!
-    creatures.select { |c| c.can? Attack}.each do |creature|
-      creature.execute! Attack
+    creatures.select { |c| c.action(Attack).can_be_activated }.each do |creature|
+      SinApp.action(self, creature.action(Attack) )
     end
   end
 
 
 
-
   def active?
-    ( playing? &&  !world.turn.phase.is_a?(BlockPhase) ) || ( !playing? &&  world.turn.phase.is_a?(BlockPhase) )
+    stack_playing?
+  end
+
+  def my_turn?
+    playing?
   end
 
   def playing?
     self == world.playing_player
   end
 
+  def phase_playing?
+    self == world.phase_playing_player
+  end
+
+  def stack_playing?
+    self == world.stack_playing_player
+  end
+
+
   def opponent
+    return nil if world.nil?
     world.p1 == self ? world.p2 : world.p1
   end
 

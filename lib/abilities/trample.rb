@@ -8,4 +8,9 @@ class Trample < Ability
     card.player.opponent.hits_player!( card.flags[:unassigned_blocking_damage] , card )
   end
 
+
+  def value
+    card.attack / 2
+  end
+
 end

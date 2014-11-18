@@ -19,8 +19,8 @@ class VampiricFeast < Sorcery
     super && world.permanents.any?{ |p| self.can_target(p) }
   end
 
-  def play_with_target!(target)
-    super(target)
+  def play!
+    super
     target.hit! 4
     @owner.health += 4
   end

@@ -9,7 +9,7 @@ class Produce < Action
   end
 
   def can_be_activated
-    super && card.in_play? &&  card.can_be_activated
+    card.in_play?  && !already_played? &&  card.can_be_activated
   end
 
   def execute!
@@ -20,6 +20,18 @@ class Produce < Action
      mana = 1
     end
     player.mana_pool.mana += mana
+  end
+
+  def stackable?
+    false
+  end
+
+  def react_time
+    0
+  end
+
+  def value
+    1
   end
 
 

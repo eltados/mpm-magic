@@ -20,5 +20,8 @@ class PayTwoManaAnTwoHpDraw < Action
     player.draw!
   end
 
+  def value
+    1
+  end
 
 end

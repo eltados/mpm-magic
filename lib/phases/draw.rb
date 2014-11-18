@@ -1,4 +1,4 @@
-class Draw < Phase
+class DrawPhase < Phase
 
   def initialize(turn=nil)
     super(turn)

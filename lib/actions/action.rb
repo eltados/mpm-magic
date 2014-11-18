@@ -1,8 +1,9 @@
 class Action
-  attr_accessor :name, :owner, :img, :description, :priority
+  attr_accessor :name, :owner, :img, :description, :priority , :targets
 
   def initialize(owner=nil)
     @owner = owner
+    @targets = []
   end
 
   def to_param
@@ -12,17 +13,42 @@ class Action
     @name
   end
 
+  def stackable?
+    true
+  end
+
+  def can_be_played_multiple_times?
+    false
+  end
+
+  def skip?
+    return true if !is_a?(Play) && card.is_a?(Creature) && ( !card.in_play? && !card.flags[:sacrified] )
+    return true if is_a?(Play) && ( !card.in_hand? )
+    targets.each do |t|
+      if !can_target(t)
+        return true
+      end
+    end
+    false
+  end
 
   def self.find(id)
     ObjectSpace._id2ref(id.to_i)
   end
 
+  def pay!
+  end
+
   def can_be_activated
-      card.in_play?
+      card.in_play? && player.active? && !already_played?
   end
 
   def card
     @owner
+  end
+
+  def already_played?
+    world.stack.include? self
   end
 
 
@@ -30,16 +56,20 @@ class Action
     card.owner
   end
 
+  def target
+    targets.first
+  end
+
   def opponent
     player.opponent
   end
 
   def world
-    card.owner.world
+    player.world
   end
 
   def phase
-    card.owner.world.turn.phase
+    player.world.turn.phase
   end
 
 
@@ -49,11 +79,23 @@ class Action
   end
 
   def can_target(target)
-    true
+    card.can_target(target)
   end
 
   def positive?
     false
+  end
+
+  def required_targets
+    0
+  end
+
+  def react_time
+    3000
+  end
+
+  def all_targets_selected?
+    targets.size >= required_targets
   end
 
   def log
@@ -62,6 +104,10 @@ class Action
 
   def inspect
     "#<#{self.class.name}:#{object_id} owner=#<#{card.class.name}:#{card.object_id}> >"
+  end
+
+  def to_ability
+    ActionAbility.new( card, self.class)
   end
 
 end

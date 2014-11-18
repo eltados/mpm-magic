@@ -9,5 +9,9 @@ class DeathTouch < Ability
     creature.destroy! if damage > 0
   end
 
+  def value
+    3
+  end
+
 
 end

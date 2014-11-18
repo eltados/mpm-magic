@@ -1,9 +1,17 @@
+
+
 <% @cards.each do |card| %>
-  <%= erb :_card, locals: { card: card }%>
+  <%= erb :_card, locals: { card: card , display_class_name: params[:display_class_name] }%>
 <% end %>
 <br/>
 
-
+<% if params[:display_class_name]%>
+<ul>
+  <% @cards.each do |card| %>
+    <li><%=card.class.name %></li>
+  <% end %>
+</ul>
+<% end %>
 
 
 <ul>

@@ -7,6 +7,8 @@ class Flying < Ability
   def can_be_blocked_by(original, creature)
     original  && creature.abilities.find{ |a| a.class == Flying || a.class == Reach } != nil
   end
-
+  def value
+    2
+  end
 
 end

@@ -18,8 +18,8 @@ class AutoFight < Minitest::Unit::TestCase
   #  profiler_card = MethodProfiler.observe(Card)
   #  profiler_mana = MethodProfiler.observe(ManaPool)
    world = nil
-   timeout = 5  
-   max_game_length = 3
+   timeout = 15
+   max_game_length = 5
    winner = {}
    winner[:p1] = 0
    winner[:p2] = 0
@@ -38,6 +38,7 @@ class AutoFight < Minitest::Unit::TestCase
           Timeout::timeout(max_game_length  , FightTooLong) do
             while(! p1.dead? && ! p2.dead? ) do
               world.active_player.auto_play!
+              # sleep 1
             end
           end
           if p1.alive?
@@ -53,6 +54,8 @@ class AutoFight < Minitest::Unit::TestCase
     rescue Timeout::Error
       puts "#{i} games ( #{ i * 60 / timeout.to_f } per min )"
     rescue Exception => e
+      filepath = "world-#{Time.now.to_i}.yaml"
+      File.open("/tmp/#{filepath}", 'w') {|f| f.write world.to_yaml }
       assert(false, """
 One of the game failed. Here are some details about the game :
 
@@ -69,9 +72,13 @@ One of the game failed. Here are some details about the game :
 #{e.message}
 #{e.backtrace.join("\n")}
 
+=== game ===
+http://127.0.0.1:3000/game/load/#{filepath}?player=1
+or
+http://127.0.0.1:3000/game/load/#{filepath}?player=2
+
 """)
     end
-
     puts "turns: #{world.turn.number}"
     puts "p1 winrate: #{winner[:p1] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"
     puts "p2 winrate: #{winner[:p2] * 100  / ( winner[:p1] + winner[:p2] ).to_f}"

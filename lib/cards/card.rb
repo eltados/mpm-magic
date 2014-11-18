@@ -1,6 +1,6 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description, :targeted_by_actions
   # attr_reader :abilities
 
   @@all = {}
@@ -13,6 +13,14 @@ class Card < Hook
    [ ]
   end
 
+  def targets
+   actions.map(&:targets).flatten
+  end
+
+  def target
+   targets.size > 0 ? targets[0] : nil
+  end
+
   def initialize (owner = nil)
     @actions = []
     @abilities = []
@@ -20,27 +28,25 @@ class Card < Hook
     if !requires_target?
       add_action Play.new(self)
     else
-      add_action PlayWithTarget.new(self)
+      add_action PlayWith1Target.new(self)
     end
     @cost = 0
     @tapped = false
     @flags = {}
     @owner = owner
+    @targeted_by_actions = []
+  end
+
+  def targeted_by
+   targeted_by_actions.map(&:card)
   end
 
   def play!
-    pay_cost!
     event :played
   end
 
   def requires_target?
     respond_to?(:can_target)
-  end
-
-  def play_with_target!(target)
-    pay_cost!
- # TODO
-    event :played
   end
 
   def pay_cost!
@@ -82,7 +88,7 @@ class Card < Hook
 
   def add_abilities(abilities)
     @abilities += abilities.map { |a|
-      a.new(self)
+       a.new(self).to_ability
      }
   end
 
@@ -187,6 +193,10 @@ class Card < Hook
   def when_turn_ends(*args)
     super
     @flags = {}
+    @targeted_by_actions = []
+    actions.each do |action|
+        action.targets = []
+    end
   end
 
 
@@ -211,6 +221,7 @@ class Card < Hook
   end
 
   def sacrify!
+    flags[:sacrified] = true
     event :destroyed
   end
 
