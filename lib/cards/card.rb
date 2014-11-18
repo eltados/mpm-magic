@@ -1,6 +1,6 @@
 class Card < Hook
 
-  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description, :targeted_by_actions
+  attr_accessor :name, :owner, :img, :tapped, :actions,  :cost, :flags, :description, :targeted_by_actions, :permanents_flags
   # attr_reader :abilities
 
   @@all = {}
@@ -10,7 +10,7 @@ class Card < Hook
   end
 
   def self.modified_methods_with_param
-   [ ]
+   [ :can_be_targeted_by ]
   end
 
   def targets
@@ -33,8 +33,13 @@ class Card < Hook
     @cost = 0
     @tapped = false
     @flags = {}
+    @permanents_flags = {}
     @owner = owner
     @targeted_by_actions = []
+  end
+
+  def can_be_targeted_by(action)
+    true
   end
 
   def targeted_by
@@ -68,6 +73,8 @@ class Card < Hook
     a.can_be_activated == true && \
     ( target ==nil || action(action_class).can_target(target) )
   end
+
+
 
   def execute! action_class
     action(action_class).execute!
