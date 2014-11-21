@@ -197,6 +197,15 @@ class App <  Sinatra::Application
     erb :deck
   end
 
+
+  get "/deck/new" do
+    redirect "/" if me == nil
+    @all_cards= Card.all.flatten.map(&:new).sort do |a, b|
+     [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]
+    end
+    erb :new_deck
+  end
+
   get "/game/join/:world_id" do
     me.world = World.find(params[:world_id])
     me.world.p2 = me
@@ -301,19 +310,12 @@ class App <  Sinatra::Application
 
 
   get '/cards' do
-    @cards= [Card.all].flatten.map(&:new).sort do |a, b|
+    @cards= Card.all.flatten.map(&:new).sort do |a, b|
      [a.is_a?(Land)? 0: 1, a.type, a.cost ] <=> [b.is_a?(Land)? 0: 1, b.type, b.cost]
     end
     erb :cards
   end
 
-
-  get '/decks/base' do
-      @cards= Deck.base.cards.map do |card_class|
-          card_class.new
-      end
-      erb :cards
-  end
 
 
   @@connections = {}

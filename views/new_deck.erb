@@ -1,0 +1,15 @@
+<h1><form action="/deck" method="GET">
+  Deck Name:<input type="text" size="50" value="#{me.name}'s deck'" name="name"/>
+</form>
+</h1>
+
+<% @deck.cards.each do |card| %>
+  <%= erb :_card, locals: { card: card }%>
+<% end %>
+<hr>
+<% @all_cards.each do |card| %>
+  <%= erb :_card, locals: { card: card }%>
+<% end %>
+<ul>
+  <li><a href="/">Home</a></li>
+</ul>

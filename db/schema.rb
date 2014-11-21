@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20141117215454) do
 
-  create_table "decks", id: false, force: true do |t|
+  create_table "decks" do |t|
     t.decimal "id"
     t.text    "name"
   end
